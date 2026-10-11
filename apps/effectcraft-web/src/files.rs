@@ -190,7 +190,13 @@ pub fn flush_downloads() {
     out.dedup_by(|a, b| a.0 == b.0);
     let r = match out.len() {
         0 => return,
-        1 => download(&out[0].0, &out[0].1),
+        1 => {
+            // Ardoise: a single rendered file goes to the embedding host.
+            if crate::ardoise_bridge::post_saved(&out[0].0, &out[0].1) {
+                return;
+            }
+            download(&out[0].0, &out[0].1)
+        }
         n => {
             let first = &out[0].0;
             let stem = first.rsplit_once('.').map_or(first.as_str(), |(s, _)| s).trim_end_matches(|c: char| c.is_ascii_digit() || c == '_');
