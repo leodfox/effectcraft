@@ -7,7 +7,7 @@
 //! [`TextDoc::paragraphs`] (one entry per `\n`-separated paragraph). Both lists are empty while the
 //! document is uniform, so single-style documents serialize exactly as before.
 //!
-//! Positions are **character** indices (Unicode scalar values), as in After Effects' expression
+//! Positions are **character** indices (Unicode scalar values), as in reference compositor' expression
 //! and scripting APIs.
 
 use std::ops::Range;

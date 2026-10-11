@@ -1086,7 +1086,7 @@ enum PwCamera {
     /// layer centre) along −z, the world turned by `rot` (`None` = not turned) about the origin,
     /// `focal` the scale at unit depth; particles nearer than `near` aren't drawn.
     Effect { rot: Option<[[f32; 3]; 3]>, dist: f32, focal: f32, near: f32 },
-    /// The comp's active camera layer, on buffer-world points (After Effects then ignores the
+    /// The comp's active camera layer, on buffer-world points (reference compositor then ignores the
     /// Effect Camera).
     Comp(crate::card3d::Proj),
 }

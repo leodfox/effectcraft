@@ -442,7 +442,7 @@ pub fn shape_stroke(ids: &mut Ids, color: [f64; 4], width: f64) -> PropGroup {
         .with(stroke_wave(ids))
 }
 
-/// Stroke ▸ Taper (After Effects 17.1+): width ramps at the start and end of each path.
+/// Stroke ▸ Taper (reference compositor 17.1+): width ramps at the start and end of each path.
 pub fn stroke_taper(ids: &mut Ids) -> PropGroup {
     ids.group("taper", "Taper")
         .with(ids.prop("units", "Length Units", Value::Enum(0)).with_ui(popup(&["Pixels", "Percent"])))
@@ -464,7 +464,7 @@ pub fn stroke_wave(ids: &mut Ids) -> PropGroup {
         .with(ids.prop("phase", "Phase", Value::Scalar(0.0)).with_ui(ParamUi::Angle))
 }
 
-/// Match ids of the optional Dash/Gap pairs After Effects adds with the Dashes "+" button.
+/// Match ids of the optional Dash/Gap pairs reference compositor adds with the Dashes "+" button.
 pub const EXTRA_DASHES: [(&str, &str); 2] = [("dash2", "gap2"), ("dash3", "gap3")];
 
 pub fn shape_gradient_fill(ids: &mut Ids, radial: bool, start: [f64; 2], end: [f64; 2], g: Gradient) -> PropGroup {
@@ -761,7 +761,7 @@ pub fn layer(project: &mut Project, comp: &Comp, name: &str, source: LayerSource
         _ => {}
     }
     if source.is_model() {
-        // Model layers have no masks or effects (as in After Effects).
+        // Model layers have no masks or effects (as in reference compositor).
     } else if source.is_av() {
         root.children.push(masks(&mut ids).into());
         root.children.push(effects(&mut ids).into());

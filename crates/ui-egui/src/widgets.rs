@@ -48,7 +48,7 @@ fn tab_stop(ui: &Ui, id: egui::Id) -> bool {
 }
 
 /// "Hot text": a blue number you drag horizontally to scrub, click to type. Tab / Shift+Tab
-/// while typing commits and types in the panel's next / previous one, as in After Effects.
+/// while typing commits and types in the panel's next / previous one, as in reference compositor.
 /// Returns (response, Some(new value) when changed, drag finished).
 pub fn hot_number_at(
     ui: &mut Ui,
@@ -211,7 +211,7 @@ pub use crate::color_picker::{color_popup, hex_rgb, hsv_to_rgb, rgb_to_hsv, srgb
 pub fn twirl(ui: &mut Ui, rect: Rect, open: bool, id: egui::Id, t: &Tokens) -> Response {
     let resp = ui.interact(rect, id, Sense::click());
     let col = if resp.hovered() { t.tab_text_active } else { t.text_dim };
-    // An open chevron (> / v), as After Effects draws its twirl-downs.
+    // An open chevron (> / v), as reference compositor draws its twirl-downs.
     let c = rect.center();
     let k = rect.width().min(rect.height()) * 0.2;
     let pts = if open {
@@ -446,7 +446,7 @@ fn label_swatch_id() -> egui::Id {
 }
 
 /// The colour swatch of a Label menu row, as an atom for its button: Label menus show each
-/// label's colour before its name (After Effects), so a label is picked by its colour. Paint it
+/// label's colour before its name (reference compositor), so a label is picked by its colour. Paint it
 /// with [`paint_label_swatch`] once the button is laid out.
 pub fn label_swatch() -> egui::Atom<'static> {
     egui::Atom::custom(label_swatch_id(), vec2(12.0, 12.0))

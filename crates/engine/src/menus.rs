@@ -1,4 +1,4 @@
-//! The menu bar, laid out like After Effects' (same menus, order, submenus, separators and
+//! The menu bar, laid out like reference compositor' (same menus, order, submenus, separators and
 //! labels). Every entry runs a registered command (`commands::find`), optionally with bound
 //! parameters (e.g. `layer.setBlendMode {"mode":"Multiply"}`). Frontends render this tree; agents
 //! read it through `ui.menu.list` / the command registry.
@@ -14,13 +14,13 @@
 //!   @effects                                  the effect categories (Effect menu)
 //!   @dynamic:history                          entries computed from the session when the menu
 //!                                             opens ([`dynamic`]: recent files, undo history…)
-//! [mac] Quit EffectCraft | app.quit           only on macOS ([!mac] = everywhere else)
+//! [mac] Quit Ardoise Motion | app.quit           only on macOS ([!mac] = everywhere else)
 //! ```
 //!
 //! An entry's shortcut is the command's default shortcut unless the line gives one (needed for
 //! entries with bound parameters). Adobe-service entries (Team Projects, Libraries, Bridge, Media
 //! Encoder, Behance, Creative Cloud…) are intentionally absent; the Essential Graphics workspace
-//! uses the Properties panel and the Essential Graphics panel, whose templates use EffectCraft's
+//! uses the Properties panel and the Essential Graphics panel, whose templates use Ardoise Motion's
 //! own open `.ectemplate` format.
 
 use std::sync::OnceLock;
@@ -153,7 +153,7 @@ pub fn dynamic(s: &Session, name: &str, cx: &DynCtx) -> (Vec<MenuEntry>, Option<
 }
 
 /// Display label of a submenu (the "Assign Shortcut to …" submenus name the current view or
-/// workspace, like After Effects).
+/// workspace, like reference compositor).
 pub fn submenu_label(s: &Session, label: &str, cx: &DynCtx) -> String {
     match label {
         "Assign Shortcut to 3D View" => {
@@ -355,7 +355,7 @@ pub fn checked(s: &Session, command: &str, params: &Value) -> Option<bool> {
 }
 
 /// Labels that name the platform's own tools: "Reveal in Finder" is "Reveal in Explorer" on
-/// Windows (as in After Effects) and "Reveal in File Manager" elsewhere.
+/// Windows (as in reference compositor) and "Reveal in File Manager" elsewhere.
 fn platform_label(label: &str, mac: bool) -> String {
     match label.strip_prefix("Reveal in Finder") {
         Some(rest) if !mac => format!("Reveal in {}{rest}", if cfg!(target_os = "windows") { "Explorer" } else { "File Manager" }),
@@ -470,10 +470,10 @@ fn effect_categories() -> Vec<MenuNode> {
     cats.into_iter().map(|(c, children)| MenuNode::Submenu { label: c.to_string(), children }).collect()
 }
 
-/// The After Effects menu layout. Labels use "..." like AE's macOS menus.
+/// The reference compositor menu layout. Labels use "..." like AE's macOS menus.
 pub const TREE: &str = r#"
-[mac] EffectCraft
-  About EffectCraft... | app.about
+[mac] Ardoise Motion
+  About Ardoise Motion... | app.about
   ---
   Settings...
     General... | app.settings {"page":"general"} | Cmd+Alt+;
@@ -494,11 +494,11 @@ pub const TREE: &str = r#"
     3D... | app.settings {"page":"3d"}
     Scripting & Expressions... | app.settings {"page":"scripting"}
   ---
-  Hide EffectCraft | app.hide
+  Hide Ardoise Motion | app.hide
   Hide Others | app.hideOthers
   Show All | app.showAll
   ---
-  Quit EffectCraft | app.quit
+  Quit Ardoise Motion | app.quit
 File
   New
     New Project | file.newProject
@@ -524,7 +524,7 @@ File
   Import
     File... | file.import
     Multiple Files... | file.importMultiple
-    Adobe Premiere Pro Project... | file.importTimeline
+    XML Interchange Project... | file.importTimeline
     Placeholder... | file.importPlaceholder
     Solid... | file.importSolid
     Lottie... | file.importLottie
@@ -536,7 +536,7 @@ File
     Clear Recent Footage | file.clearRecentFootage
   Export
     Add to Render Queue | renderQueue.add
-    Adobe Premiere Pro Project... | file.exportTimeline
+    XML Interchange Project... | file.exportTimeline
     Lottie JSON... | file.exportLottie
     Essential Graphics Template... | essential.exportTemplate
   ---
@@ -691,7 +691,7 @@ Composition
     Audio | playback.audio
   Save Frame As
     File... | comp.saveFrameAs
-    Photoshop Layers... | comp.saveFrameAsPsd
+    PSD Layers... | comp.saveFrameAsPsd
     ProEXR... | comp.saveFrameAsExr
   Pre-render... | render.preRender
   Save Current Preview... | render.saveCurrentPreview
@@ -1204,7 +1204,7 @@ Window
   VR Comp Editor | window.panel {"panel":"vrCompEditor"}
   @dynamic:scriptPanels
 Help
-  EffectCraft Help... | help.docs {"page":"help"} | F1
+  Ardoise Motion Help... | help.docs {"page":"help"} | F1
   Scripting Help... | help.docs {"page":"scripting"}
   Expression Reference... | help.docs {"page":"expressions"}
   Effect Reference... | help.docs {"page":"effects"}
@@ -1218,15 +1218,12 @@ Help
   Enable Logging | help.enableLogging
   Reveal Logging File | help.revealLogFile
   ---
-  Join the ArtCraft Discord... | help.discord
   Provide Feedback... | help.reportIssue
   ---
-  ArtCraft Website | help.website
-  EffectCraft Home Page | help.appPage
-  EffectCraft on GitHub | help.github
+  Ardoise Motion on GitHub | help.github
   Open Demo Project | file.openDemoProject
   [!mac] ---
-  [!mac] About EffectCraft... | app.about
+  [!mac] About Ardoise Motion... | app.about
 "#;
 
 #[cfg(test)]

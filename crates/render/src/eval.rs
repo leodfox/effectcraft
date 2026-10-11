@@ -312,7 +312,7 @@ pub fn responsive_source_time(comp: &Comp, stretch: f64, elapsed: f64) -> Option
 /// A layer's effect bounds ([`effectcraft_effects::EffectCtx::layer_size`]) and their top-left
 /// corner in layer coordinates: the source rectangle at (0, 0), or for layers without one
 /// (shape, text) a comp-sized rectangle centred on the layer's origin, which their content
-/// surrounds. Effects work in **effect space**, measured from that corner (After Effects' layer
+/// surrounds. Effects work in **effect space**, measured from that corner (reference compositor' layer
 /// space for effect points: a shape layer's default effect point is its bounds' centre).
 pub fn effect_bounds(project: &Project, comp: &Comp, layer: &Layer) -> ([f64; 2], [f64; 2]) {
     match source_size(project, layer) {

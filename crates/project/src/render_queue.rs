@@ -1,6 +1,6 @@
 //! The Render Queue: compositions queued for export, each with Render Settings (what to render:
 //! quality, resolution, time span, frame rate) and an Output Module (how to write it: format,
-//! channels, codec options, output path). Saved with the project, like After Effects.
+//! channels, codec options, output path). Saved with the project, like reference compositor.
 //!
 //! Output paths are templates: `[compName].[fileExtension]` (the default), with the tokens
 //! `[compName]`, `[projectName]`, `[fileExtension]`, `[width]`, `[height]`, `[frameRate]`,
@@ -1049,7 +1049,7 @@ pub struct OutputModule {
     /// WebM Opus audio bitrate (stereo total), kbit/s.
     pub opus_bitrate_kbps: u32,
     pub opus_application: OpusApplication,
-    /// Include Project Link: kept for parity; EffectCraft's writers have no place to store a
+    /// Include Project Link: kept for parity; Ardoise Motion's writers have no place to store a
     /// link back to the project, so it changes nothing in the file.
     pub include_project_link: bool,
 }

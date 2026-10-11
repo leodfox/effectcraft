@@ -202,7 +202,7 @@ fn adaptive_sample_limit_drives_layer_samples() {
     s.execute("edit.undo", json!({})).unwrap();
     assert_eq!(s.active_comp().unwrap().motion_blur_adaptive_limit, 16);
     assert_eq!(roundtrip(&s).comp(s.active_comp_id().unwrap()).unwrap().motion_blur_adaptive_limit, 16);
-    // Older projects without the field read the After Effects default.
+    // Older projects without the field read the reference compositor default.
     fn strip(v: &mut Value) {
         match v {
             Value::Object(o) => {

@@ -126,7 +126,7 @@ pub(crate) fn reference(comp: &Comp, from: &Layer, target: &Layer, uid: Uid, com
     let mut out = if from.id == target.id { String::new() } else { format!("thisComp.layer({}).", quote(&target.name)) };
     let _ = comp;
     if !compact {
-        // Match names: language-independent, like After Effects with Compact English off.
+        // Match names: language-independent, like reference compositor with Compact English off.
         let chain = target.props.node_chain(uid)?;
         let mut out = if from.id == target.id { "thisLayer".to_string() } else { format!("thisComp.layer({})", quote(&target.name)) };
         for n in chain {
@@ -164,14 +164,14 @@ fn pick_whip(s: &mut Session, p: &Value) -> Result<Value> {
     let r = reference(comp, from, target, tu, s.prefs.general.expression_pick_whip_compact).ok_or_else(|| bad("prop.pickWhip", "no such target property"))?;
     let (me, them) = (from.props.find(uid).ok_or(EngineError::NoComp)?, target.props.find(tu).ok_or(EngineError::NoComp)?);
     let (dm, dt) = (dims(from, me), dims(target, them));
-    // Dropped on one of the target's values: that dimension (`position[0]`), as in After Effects.
+    // Dropped on one of the target's values: that dimension (`position[0]`), as in reference compositor.
     let (r, dt) = match t.get("dimension").and_then(Value::as_u64) {
         Some(d) if d < dt as u64 => (format!("{r}[{d}]"), 1),
         Some(d) => return Err(bad("prop.pickWhip", format!("the target has {dt} dimension(s), no dimension {d}"))),
         None => (r, dt),
     };
     // While the expression is being edited the reference goes in at the cursor, replacing the
-    // selected text (After Effects): `expression` is the text being edited, `range` the
+    // selected text (reference compositor): `expression` is the text being edited, `range` the
     // selection [start, end] in characters.
     if let Some(base) = str_p(p, "expression") {
         let range: Option<Vec<u64>> = p.get("range").and_then(Value::as_array).map(|a| a.iter().filter_map(Value::as_u64).collect());

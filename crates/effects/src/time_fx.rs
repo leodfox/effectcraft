@@ -2,7 +2,7 @@
 //! Timewarp, CC Force Motion Blur, CC Wide Time and Pixel Motion Blur.
 //!
 //! These read the layer at *other* layer times through [`EffectHost::self_at`] with zero
-//! preceding effects: like After Effects' Time effects they see the layer's source with its
+//! preceding effects: like reference compositor' Time effects they see the layer's source with its
 //! masks and ignore effects applied before them (precompose to include those). Without a host
 //! (tests, thumbnails) they pass their input through.
 //!

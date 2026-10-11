@@ -1,7 +1,7 @@
-//! Branching undo history (the History panel; better than After Effects, whose undo is a
+//! Branching undo history (the History panel; better than reference compositor, whose undo is a
 //! straight line).
 //!
-//! [`History`] keeps After Effects' linear model as its working line — `undo` (the states
+//! [`History`] keeps reference compositor' linear model as its working line — `undo` (the states
 //! before each step, oldest first) and `redo` (undone states, next first) — and adds
 //! **branches**: when you undo and then do something new, the undone states are not thrown
 //! away but kept as a [`Branch`] hanging off the state they grew from. [`History::tree`] lists

@@ -1,4 +1,4 @@
-//! Photoshop document (PSD / PSB) reader, implemented from Adobe's public *Photoshop File Formats
+//! PSD document (PSD / PSB) reader, implemented from Adobe's public *PSD File Formats
 //! Specification* (see README.md), and a minimal writer ([`write`]) for fixtures.
 //!
 //! [`Psd::parse`] reads the structure (header, layer records and their additional information,
@@ -31,10 +31,10 @@ pub enum Error {
 impl std::fmt::Display for Error {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Error::NotPsd => write!(f, "not a Photoshop document"),
-            Error::Truncated => write!(f, "truncated Photoshop document"),
-            Error::Unsupported(s) => write!(f, "unsupported Photoshop feature: {s}"),
-            Error::Invalid(s) => write!(f, "invalid Photoshop document: {s}"),
+            Error::NotPsd => write!(f, "not a PSD document"),
+            Error::Truncated => write!(f, "truncated PSD document"),
+            Error::Unsupported(s) => write!(f, "unsupported PSD feature: {s}"),
+            Error::Invalid(s) => write!(f, "invalid PSD document: {s}"),
         }
     }
 }
@@ -56,7 +56,7 @@ fn decode_pixels(w: usize, h: usize) -> Result<usize> {
     }
 }
 
-/// Whether `bytes` start like a Photoshop document.
+/// Whether `bytes` start like a PSD document.
 pub fn is_psd(bytes: &[u8]) -> bool {
     bytes.len() >= 6 && &bytes[..4] == b"8BPS" && matches!(u16::from_be_bytes([bytes[4], bytes[5]]), 1 | 2)
 }
@@ -321,7 +321,7 @@ pub struct Pixels {
     pub data: Vec<[f32; 4]>,
 }
 
-/// A parsed Photoshop document.
+/// A parsed PSD document.
 #[derive(Clone, Debug)]
 pub struct Psd {
     /// PSB (large document format).

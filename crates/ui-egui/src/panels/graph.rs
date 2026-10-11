@@ -391,7 +391,7 @@ pub(crate) fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, p: &egui::Painte
                 let hresp = ui.interact(hr, egui::Id::new(("ghandle", uid, d, k.idx, side)), Sense::drag());
                 app.auto.add(&format!("timeline.graph.handle.{uid}.{d}.{}.{side}", k.idx), hr, "Bezier handle");
                 // The same side's handles of every selected key move with it, by as much as the
-                // pointer moved (After Effects), in one undo step.
+                // pointer moved (reference compositor), in one undo step.
                 if hresp.drag_started() {
                     let grabs: Vec<HandleGrab> = cs
                         .iter()
@@ -540,7 +540,7 @@ pub(crate) fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, p: &egui::Painte
     ) {
         app.ui.timeline.graph_mode = if auto_type { if speed { "speed" } else { "value" } } else { "auto" }.into();
     }
-    // Choosing a graph type turns Auto-Select off, as in After Effects.
+    // Choosing a graph type turns Auto-Select off, as in reference compositor.
     if text_button(app, ui, p, &mut buttons, y, "Value", !speed, "valueGraph", "Edit Value Graph") {
         app.ui.timeline.graph_mode = "value".into();
     }

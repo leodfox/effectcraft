@@ -1072,7 +1072,7 @@ fn vegas_plan(ctx: &EffectCtx, b: &Buf) -> PaintPlan {
 
 // ---------------------------------------------------------------- Write-on / Glue Gun
 
-/// Write-on draws a stroke along the animated Brush Position, as in After Effects: a dab every
+/// Write-on draws a stroke along the animated Brush Position, as in reference compositor: a dab every
 /// Brush Spacing seconds from the layer's start up to now, each one lasting Stroke Length
 /// seconds (0: for ever). The dabs' positions come from the host's parameters at their times;
 /// with Paint Time Properties ▸ Opacity or Brush Time Properties ▸ Size each dab keeps its own

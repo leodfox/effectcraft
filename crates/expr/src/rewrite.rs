@@ -1,4 +1,4 @@
-//! Source-to-source rewrite that gives JavaScript After Effects' array maths.
+//! Source-to-source rewrite that gives JavaScript reference compositor' array maths.
 //!
 //! AE's legacy expression engine lets `+ - * /` operate on arrays (`value + [10, 0]`,
 //! `[1, 2] * 2`). We get the same by rewriting every binary `+ - * /` into a helper call

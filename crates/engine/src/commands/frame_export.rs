@@ -1,10 +1,10 @@
-//! Composition ▸ Save Frame As ▸ Photoshop Layers… and ProEXR…: the current frame with every
+//! Composition ▸ Save Frame As ▸ PSD Layers… and ProEXR…: the current frame with every
 //! visible layer kept apart.
 //!
-//! - **Photoshop Layers** writes a layered PSD (crates/psd's writer): one pixel layer per comp
+//! - **PSD Layers** writes a layered PSD (crates/psd's writer): one pixel layer per comp
 //!   layer, each rendered in isolation (solo, Normal mode, 100% opacity) and cropped to its
 //!   pixels, carrying the layer's blend mode and opacity, plus the flattened frame as the merged
-//!   image. Photoshop (and EffectCraft's PSD import) rebuild the frame from the layers.
+//!   image. PSD (and Ardoise Motion's PSD import) rebuild the frame from the layers.
 //! - **ProEXR** writes one multi-layer OpenEXR (half-float-free, 32-bit float, linear light,
 //!   premultiplied): the composite as `R`, `G`, `B`, `A` plus one `<layer name>.R/G/B/A` channel
 //!   set per layer (the layer-prefixed channel convention multi-layer EXR readers use).
@@ -82,7 +82,7 @@ fn straight(p: [f32; 4]) -> [f32; 4] {
     if p[3] <= 0.0 { [0.0; 4] } else { [p[0] / p[3], p[1] / p[3], p[2] / p[3], p[3].min(1.0)] }
 }
 
-/// The Photoshop key of a blend mode (Normal for modes Photoshop lacks).
+/// The PSD key of a blend mode (Normal for modes PSD lacks).
 pub fn psd_blend_key(m: BlendMode) -> [u8; 4] {
     const KEYS: [&[u8; 4]; 26] = [
         b"diss", b"dark", b"mul ", b"idiv", b"lbrn", b"dkCl", b"lite", b"scrn", b"div ", b"lddg", b"lgCl", b"over", b"sLit", b"hLit", b"vLit", b"lLit",
@@ -220,7 +220,7 @@ pub fn specs() -> Vec<CommandSpec> {
     vec![
         cmd!(
             "comp.saveFrameAsPsd",
-            "Photoshop Layers...",
+            "PSD Layers...",
             ["Composition", "Save Frame As"],
             None,
             "{path (.psd), comp?, time?, scale?} → a layered PSD: one layer per visible comp layer (blend mode, opacity) + the merged frame",

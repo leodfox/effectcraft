@@ -23,7 +23,7 @@ pub fn preview(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
     let ctx = ui.ctx().clone();
     let p = ui.painter().with_clip_rect(rect);
     // The panel scrolls when it is shorter than its controls (the default workspace shows just
-    // the transport row, as in After Effects).
+    // the transport row, as in reference compositor).
     let scroll = widgets::PanelScroll::begin(ui, egui::Id::new("preview-scroll"), rect);
     let panel_clip = ui.clip_rect();
     ui.set_clip_rect(rect.intersect(panel_clip));
@@ -365,7 +365,7 @@ pub fn audio(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
 pub fn history(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
     let t = app.tokens;
     let p = ui.painter().with_clip_rect(rect);
-    // The branching history (EffectCraft's History panel): every state, branches indented under
+    // The branching history (Ardoise Motion's History panel): every state, branches indented under
     // the state they grew from; click any state to go there (`edit.history.goto`).
     let nodes = app.session.history_tree();
     let row_h = 22.0;

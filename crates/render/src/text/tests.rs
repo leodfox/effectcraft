@@ -486,7 +486,7 @@ fn caret_follows_animators_and_path_text() {
     assert!(qt.y > glyph_c[1] && qt.y < glyph_c[2], "between the 2nd and 3rd characters: {} in {glyph_c:?}", qt.y);
 }
 
-/// Glyphs that touch or overlap are drawn as one outline, as After Effects draws a line of text:
+/// Glyphs that touch or overlap are drawn as one outline, as reference compositor draws a line of text:
 /// no light seam where their anti-aliased edges meet (the crossbars of "ff", #415).
 #[test]
 fn touching_glyphs_join_without_a_seam() {

@@ -8,7 +8,7 @@ use effectcraft_time::{FrameRate, Tick};
 
 use crate::{MediaError, Result, ext_of, rate_from_fc};
 
-/// Frame rate given to image sequences on import (After Effects' default preference).
+/// Frame rate given to image sequences on import (reference compositor' default preference).
 pub const DEFAULT_SEQUENCE_RATE: FrameRate = FrameRate::FPS_30;
 
 /// Probe one file. Image sequences are made by the engine, which groups numbered stills

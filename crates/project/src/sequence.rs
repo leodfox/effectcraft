@@ -3,7 +3,7 @@
 //!
 //! A sequence's files are kept in frame-number order ([`Footage::sequence`]). Its frames run from
 //! the first file's number to the last's; a gap in the numbering shows a placeholder (colour
-//! bars), as in After Effects, except in a sequence imported with Force Alphabetical Order
+//! bars), as in reference compositor, except in a sequence imported with Force Alphabetical Order
 //! ([`Footage::alphabetical`]), whose files play one after another.
 
 use crate::{Footage, FootageKind};
@@ -36,7 +36,7 @@ pub fn frame_number(path: &str) -> Option<i64> {
     digits.get(digits.len().saturating_sub(15)..)?.parse().ok()
 }
 
-/// The After Effects name of a numbered sequence: `shot_[0001-0250].png`. `None` when the first
+/// The reference compositor name of a numbered sequence: `shot_[0001-0250].png`. `None` when the first
 /// file isn't numbered.
 pub fn sequence_name(files: &[String]) -> Option<String> {
     let (first, last) = (files.first()?, files.last()?);
@@ -154,7 +154,7 @@ mod tests {
     #[test]
     fn projects_saved_without_the_flag_show_placeholders() {
         // Projects saved before #297 have no `alphabetical`: their gaps show placeholders, as in
-        // After Effects; only Force Alphabetical Order is saved.
+        // reference compositor; only Force Alphabetical Order is saved.
         let f = seq(&[1, 2, 5]);
         let json = serde_json::to_value(&f).unwrap();
         assert!(json.get("alphabetical").is_none(), "{json}");
@@ -166,7 +166,7 @@ mod tests {
 
     #[test]
     fn start_timecode_only_relabels_source_time() {
-        // Override Start changes the timecode shown, not the frames (After Effects).
+        // Override Start changes the timecode shown, not the frames (reference compositor).
         let at = |f: &Footage, i| f.sequence_file(i).map(|p| frame_number(p).unwrap_or(-1));
         let mut f = Footage { frame_rate: effectcraft_time::FrameRate::from_f64(24.0), ..seq(&[1001, 1002, 1003]) };
         assert_eq!(f.timecode(0), "0:00:00:00");

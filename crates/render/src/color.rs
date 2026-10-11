@@ -4,7 +4,7 @@
 //!   pipelines: each layer's pixels are clamped to 0..1 and quantised to the depth after its
 //!   source and masks and after every effect, and the comp is clamped and quantised after every
 //!   layer is blended. Over-range values (Add/Screen of bright layers, Exposure…) therefore only
-//!   survive in 32 bpc. 16 bpc uses After Effects' 0..32768 range.
+//!   survive in 32 bpc. 16 bpc uses reference compositor' 0..32768 range.
 //! * **Working space** (colour management). Footage is converted from its colour profile (its
 //!   metadata, else sRGB) into the working space; the top-level comp output is converted from
 //!   the working space to the sRGB display. Without a working space nothing is converted.

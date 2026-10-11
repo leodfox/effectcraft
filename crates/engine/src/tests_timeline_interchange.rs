@@ -1,4 +1,4 @@
-//! File ▸ Import / Export ▸ Adobe Premiere Pro Project… (timeline interchange) through the command
+//! File ▸ Import / Export ▸ XML Interchange Project… (timeline interchange) through the command
 //! registry, without media decoding (pixels: `crates/host/tests/timeline_interop.rs`).
 
 use serde_json::json;
@@ -26,7 +26,7 @@ fn export_and_reimport_timeline_commands() {
         // No exporter in a bare session: the small solid can't be pre-rendered and is left out.
         let r = s.execute_checked("file.exportTimeline", json!({"comp": main, "path": path})).unwrap();
         assert_eq!(r["format"], format);
-        // Only Final Cut Pro XML carries colour mattes; the other formats would pre-render solids.
+        // Only XML Interchange (xmeml) carries colour mattes; the other formats would pre-render solids.
         assert_eq!(r["videoTracks"], if format == "xml" { 1 } else { 0 }, "{r}");
         assert!(r["warnings"].as_array().unwrap().iter().any(|w| w.as_str().unwrap().contains("pre-render")), "{r}");
         let r = s.execute_checked("file.importTimeline", json!({"path": path})).unwrap();
@@ -61,6 +61,6 @@ fn export_and_reimport_timeline_commands() {
 fn premiere_menu_entries_keep_after_effects_labels() {
     let entries = crate::menus::entries();
     let find = |cmd: &str| entries.iter().find(|(_, e)| e.command == cmd).map(|(p, e)| (p.join(" > "), e.label.clone()));
-    assert_eq!(find("file.exportTimeline"), Some(("File > Export".into(), "Adobe Premiere Pro Project...".into())));
-    assert_eq!(find("file.importTimeline"), Some(("File > Import".into(), "Adobe Premiere Pro Project...".into())));
+    assert_eq!(find("file.exportTimeline"), Some(("File > Export".into(), "XML Interchange Project...".into())));
+    assert_eq!(find("file.importTimeline"), Some(("File > Import".into(), "XML Interchange Project...".into())));
 }

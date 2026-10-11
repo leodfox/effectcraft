@@ -1,6 +1,6 @@
 //! Image sequences (#297): File ▸ Import with the "<format> Sequence" option, picked ranges,
 //! folders, Force Alphabetical Order, the import frame rate, Replace Footage, missing frames
-//! (placeholders, as in After Effects) and Interpret Footage ▸ Start Timecode.
+//! (placeholders, as in reference compositor) and Interpret Footage ▸ Start Timecode.
 
 use effectcraft_project::{Footage, FootageKind, ItemId, ItemKind};
 use effectcraft_time::{FrameRate, Tick};
@@ -89,7 +89,7 @@ fn picking_every_frame_imports_one_sequence() {
 }
 
 /// #431: without the Sequence option, picked or dropped numbered stills import as stills (one
-/// item each), as in After Effects; a dropped folder still makes its runs sequences.
+/// item each), as in reference compositor; a dropped folder still makes its runs sequences.
 #[test]
 fn numbered_stills_import_as_stills_by_default() {
     let dir = folder(&RUN);
@@ -152,7 +152,7 @@ fn interpret_footage_start_timecode_relabels_source_time() {
     let layer = s.execute("layer.addItem", json!({"item": item})).unwrap()["layer"].as_u64().unwrap();
     let out = |s: &Session| s.active_comp().unwrap().layer(effectcraft_project::LayerId(layer)).unwrap().out_point;
     assert_eq!(out(&s), FrameRate::FPS_30.tick_of(5));
-    // Override Start changes the timecode the Footage panel shows, not the frames (After Effects).
+    // Override Start changes the timecode the Footage panel shows, not the frames (reference compositor).
     let r = s.execute("file.interpretFootage", json!({"items": [item], "overrideStart": true, "startTimecode": "0:00:01:10"})).unwrap();
     assert_eq!((r["items"][0]["startTimecode"].as_str(), r["items"][0]["frames"].as_i64()), (Some("0:00:01:10"), Some(5)));
     assert_eq!((footage(&s, &item).1.start_timecode, out(&s)), (Some(40), FrameRate::FPS_30.tick_of(5)));

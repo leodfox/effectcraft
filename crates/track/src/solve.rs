@@ -188,7 +188,7 @@ impl Homography {
     }
 }
 
-/// Angle (degrees, y down = clockwise positive like After Effects' Rotation) and length of `b - a`.
+/// Angle (degrees, y down = clockwise positive like reference compositor' Rotation) and length of `b - a`.
 pub fn angle_and_length(a: [f64; 2], b: [f64; 2]) -> (f64, f64) {
     let d = sub(b, a);
     (d[1].atan2(d[0]).to_degrees(), (d[0] * d[0] + d[1] * d[1]).sqrt())

@@ -170,7 +170,7 @@ fn property_reply(p: &Value, layer: &Layer, pr: &Property, time: Tick, value: Va
 /// With `selected: true` (the Timeline, Properties and Effect Controls panels pass it): the same
 /// property (by match path, `transform/position`, `effects/<effect>#n/<param>`) of every other
 /// selected, unlocked layer of the comp whose value is of the same kind, as (layer, uid). Empty
-/// when `selected` is not set or the edited layer isn't selected. After Effects applies a value
+/// when `selected` is not set or the edited layer isn't selected. reference compositor applies a value
 /// edit, the stopwatch and the keyframe button to all selected layers (#355, #491).
 fn selected_twins(s: &Session, p: &Value, cmd: &str) -> Result<Vec<(LayerId, Uid)>> {
     if b_p(p, "selected") != Some(true) {

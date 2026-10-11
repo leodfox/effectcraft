@@ -1,4 +1,4 @@
-//! Menu labels for EffectCraft's own engine tree in each translated language. Commands remain
+//! Menu labels for Ardoise Motion's own engine tree in each translated language. Commands remain
 //! locale-independent. A command plus its source label distinguishes parameterised entries (e.g.
 //! blend modes). Empty command keys identify submenus. Dynamic filenames, user names and effect
 //! plug-in names remain verbatim; these catalogs only translate the fixed menu tree.
@@ -58,7 +58,7 @@ pub(crate) fn brazilian_portuguese(app: &EffectcraftApp) -> bool {
 }
 
 /// Settings ▸ General ▸ Language ▸ Match System: the operating system's interface language
-/// where EffectCraft has it, else English (#229), as After Effects installs in the system's
+/// where Ardoise Motion has it, else English (#229), as reference compositor installs in the system's
 /// language. The browser build stays in English because it has no system-locale probe.
 fn system_language() -> &'static str {
     #[cfg(not(target_arch = "wasm32"))]
@@ -71,7 +71,7 @@ fn system_language() -> &'static str {
     supported(None)
 }
 
-/// The language EffectCraft shows for a BCP 47 locale (`ja-JP` → `ja`, `zh-Hans-CN` → `zh-hans`,
+/// The language Ardoise Motion shows for a BCP 47 locale (`ja-JP` → `ja`, `zh-Hans-CN` → `zh-hans`,
 /// `zh-TW` → `zh-hant`, `uk-UA` → `uk`, `es-ES` → `es`, `pt-BR` → `pt-br`).
 fn supported(locale: Option<&str>) -> &'static str {
     let Some(locale) = locale else { return "en" };
@@ -225,11 +225,11 @@ pub(crate) fn submenu(app: &EffectcraftApp, source: &str, shown: String) -> Stri
 
 /// Simplified Chinese (zh-hans): the same (command, English label) keys as `JAPANESE`, one
 /// entry per fixed menu row of the engine's menu tree. The wording follows Adobe's Simplified
-/// Chinese After Effects documentation and the catalogs the sibling Craft apps ship; see the
+/// Chinese reference compositor documentation and the catalogs the sibling Craft apps ship; see the
 /// pull request for the rows taken from #321.
 const SIMPLIFIED_CHINESE: &[(&str, &str, &str)] = &[
-    ("", "EffectCraft", "EffectCraft"),
-    ("app.about", "About EffectCraft...", "关于 EffectCraft..."),
+    ("", "Ardoise Motion", "Ardoise Motion"),
+    ("app.about", "About Ardoise Motion...", "关于 Ardoise Motion..."),
     ("", "Settings...", "设置..."),
     ("app.settings", "General...", "常规..."),
     ("app.settings", "Startup & Repair...", "启动和修复..."),
@@ -248,10 +248,10 @@ const SIMPLIFIED_CHINESE: &[(&str, &str, &str)] = &[
     ("app.settings", "Video...", "视频..."),
     ("app.settings", "3D...", "3D..."),
     ("app.settings", "Scripting & Expressions...", "脚本和表达式..."),
-    ("app.hide", "Hide EffectCraft", "隐藏 EffectCraft"),
+    ("app.hide", "Hide Ardoise Motion", "隐藏 Ardoise Motion"),
     ("app.hideOthers", "Hide Others", "隐藏其他"),
     ("app.showAll", "Show All", "全部显示"),
-    ("app.quit", "Quit EffectCraft", "退出 EffectCraft"),
+    ("app.quit", "Quit Ardoise Motion", "退出 Ardoise Motion"),
     ("", "File", "文件"),
     ("", "New", "新建"),
     ("file.newProject", "New Project", "新建项目"),
@@ -273,7 +273,7 @@ const SIMPLIFIED_CHINESE: &[(&str, &str, &str)] = &[
     ("", "Import", "导入"),
     ("file.import", "File...", "文件..."),
     ("file.importMultiple", "Multiple Files...", "多个文件..."),
-    ("file.importTimeline", "Adobe Premiere Pro Project...", "Adobe Premiere Pro 项目..."),
+    ("file.importTimeline", "XML Interchange Project...", "XML Interchange 项目..."),
     ("file.importPlaceholder", "Placeholder...", "占位符..."),
     ("file.importSolid", "Solid...", "纯色..."),
     ("file.importLottie", "Lottie...", "Lottie..."),
@@ -283,7 +283,7 @@ const SIMPLIFIED_CHINESE: &[(&str, &str, &str)] = &[
     ("file.clearRecentFootage", "Clear Recent Footage", "清除最近使用的素材"),
     ("", "Export", "导出"),
     ("renderQueue.add", "Add to Render Queue", "添加到渲染队列"),
-    ("file.exportTimeline", "Adobe Premiere Pro Project...", "Adobe Premiere Pro 项目..."),
+    ("file.exportTimeline", "XML Interchange Project...", "XML Interchange 项目..."),
     ("file.exportLottie", "Lottie JSON...", "Lottie JSON..."),
     ("essential.exportTemplate", "Essential Graphics Template...", "动态图形模板..."),
     ("app.find", "Find", "查找"),
@@ -398,7 +398,7 @@ const SIMPLIFIED_CHINESE: &[(&str, &str, &str)] = &[
     ("playback.audio", "Audio", "音频"),
     ("", "Save Frame As", "帧另存为"),
     ("comp.saveFrameAs", "File...", "文件..."),
-    ("comp.saveFrameAsPsd", "Photoshop Layers...", "Photoshop 图层..."),
+    ("comp.saveFrameAsPsd", "PSD Layers...", "PSD 图层..."),
     ("comp.saveFrameAsExr", "ProEXR...", "ProEXR..."),
     ("render.preRender", "Pre-render...", "预渲染..."),
     ("render.saveCurrentPreview", "Save Current Preview...", "保存当前预览..."),
@@ -829,7 +829,7 @@ const SIMPLIFIED_CHINESE: &[(&str, &str, &str)] = &[
     ("window.panel", "Create Nulls From Paths", "从路径创建空对象"),
     ("window.panel", "VR Comp Editor", "VR 合成编辑器"),
     ("", "Help", "帮助"),
-    ("help.docs", "EffectCraft Help...", "EffectCraft 帮助..."),
+    ("help.docs", "Ardoise Motion Help...", "Ardoise Motion 帮助..."),
     ("help.docs", "Scripting Help...", "脚本帮助..."),
     ("help.docs", "Expression Reference...", "表达式引用..."),
     ("help.docs", "Effect Reference...", "效果参考..."),
@@ -840,11 +840,9 @@ const SIMPLIFIED_CHINESE: &[(&str, &str, &str)] = &[
     ("help.systemReport", "System Compatibility Report...", "系统兼容性报告..."),
     ("help.enableLogging", "Enable Logging", "启用日志记录"),
     ("help.revealLogFile", "Reveal Logging File", "显示日志记录文件"),
-    ("help.discord", "Join the ArtCraft Discord...", "加入 ArtCraft 的 Discord 社区..."),
     ("help.reportIssue", "Provide Feedback...", "提供反馈..."),
-    ("help.website", "ArtCraft Website", "ArtCraft 网站"),
-    ("help.appPage", "EffectCraft Home Page", "EffectCraft 主页"),
-    ("help.github", "EffectCraft on GitHub", "GitHub 上的 EffectCraft"),
+    ("help.appPage", "Ardoise Motion Home Page", "Ardoise Motion 主页"),
+    ("help.github", "Ardoise Motion on GitHub", "GitHub 上的 Ardoise Motion"),
     ("file.openDemoProject", "Open Demo Project", "打开示例项目"),
 ];
 
@@ -852,8 +850,8 @@ const SIMPLIFIED_CHINESE: &[(&str, &str, &str)] = &[
 /// entry per fixed menu row of the engine's menu tree, mirroring `SIMPLIFIED_CHINESE` in the
 /// vocabulary the sibling Craft apps' zh-hant catalogs use.
 const TRADITIONAL_CHINESE: &[(&str, &str, &str)] = &[
-    ("", "EffectCraft", "EffectCraft"),
-    ("app.about", "About EffectCraft...", "關於 EffectCraft..."),
+    ("", "Ardoise Motion", "Ardoise Motion"),
+    ("app.about", "About Ardoise Motion...", "關於 Ardoise Motion..."),
     ("", "Settings...", "設定..."),
     ("app.settings", "General...", "一般..."),
     ("app.settings", "Startup & Repair...", "啟動和修復..."),
@@ -872,10 +870,10 @@ const TRADITIONAL_CHINESE: &[(&str, &str, &str)] = &[
     ("app.settings", "Video...", "視訊..."),
     ("app.settings", "3D...", "3D..."),
     ("app.settings", "Scripting & Expressions...", "指令碼和運算式..."),
-    ("app.hide", "Hide EffectCraft", "隱藏 EffectCraft"),
+    ("app.hide", "Hide Ardoise Motion", "隱藏 Ardoise Motion"),
     ("app.hideOthers", "Hide Others", "隱藏其他"),
     ("app.showAll", "Show All", "全部顯示"),
-    ("app.quit", "Quit EffectCraft", "結束 EffectCraft"),
+    ("app.quit", "Quit Ardoise Motion", "結束 Ardoise Motion"),
     ("", "File", "檔案"),
     ("", "New", "新增"),
     ("file.newProject", "New Project", "新增專案"),
@@ -897,7 +895,7 @@ const TRADITIONAL_CHINESE: &[(&str, &str, &str)] = &[
     ("", "Import", "匯入"),
     ("file.import", "File...", "檔案..."),
     ("file.importMultiple", "Multiple Files...", "多個檔案..."),
-    ("file.importTimeline", "Adobe Premiere Pro Project...", "Adobe Premiere Pro 專案..."),
+    ("file.importTimeline", "XML Interchange Project...", "XML Interchange 專案..."),
     ("file.importPlaceholder", "Placeholder...", "預留位置..."),
     ("file.importSolid", "Solid...", "純色..."),
     ("file.importLottie", "Lottie...", "Lottie..."),
@@ -907,7 +905,7 @@ const TRADITIONAL_CHINESE: &[(&str, &str, &str)] = &[
     ("file.clearRecentFootage", "Clear Recent Footage", "清除最近使用的素材"),
     ("", "Export", "匯出"),
     ("renderQueue.add", "Add to Render Queue", "新增至渲染佇列"),
-    ("file.exportTimeline", "Adobe Premiere Pro Project...", "Adobe Premiere Pro 專案..."),
+    ("file.exportTimeline", "XML Interchange Project...", "XML Interchange 專案..."),
     ("file.exportLottie", "Lottie JSON...", "Lottie JSON..."),
     ("essential.exportTemplate", "Essential Graphics Template...", "動態圖形範本..."),
     ("app.find", "Find", "尋找"),
@@ -1022,7 +1020,7 @@ const TRADITIONAL_CHINESE: &[(&str, &str, &str)] = &[
     ("playback.audio", "Audio", "音訊"),
     ("", "Save Frame As", "將影格另存新檔"),
     ("comp.saveFrameAs", "File...", "檔案..."),
-    ("comp.saveFrameAsPsd", "Photoshop Layers...", "Photoshop 圖層..."),
+    ("comp.saveFrameAsPsd", "PSD Layers...", "PSD 圖層..."),
     ("comp.saveFrameAsExr", "ProEXR...", "ProEXR..."),
     ("render.preRender", "Pre-render...", "預先渲染..."),
     ("render.saveCurrentPreview", "Save Current Preview...", "儲存目前預覽..."),
@@ -1453,7 +1451,7 @@ const TRADITIONAL_CHINESE: &[(&str, &str, &str)] = &[
     ("window.panel", "Create Nulls From Paths", "從路徑建立空物件"),
     ("window.panel", "VR Comp Editor", "VR 合成編輯器"),
     ("", "Help", "說明"),
-    ("help.docs", "EffectCraft Help...", "EffectCraft 說明..."),
+    ("help.docs", "Ardoise Motion Help...", "Ardoise Motion 說明..."),
     ("help.docs", "Scripting Help...", "指令碼說明..."),
     ("help.docs", "Expression Reference...", "運算式參考..."),
     ("help.docs", "Effect Reference...", "效果參考..."),
@@ -1464,17 +1462,15 @@ const TRADITIONAL_CHINESE: &[(&str, &str, &str)] = &[
     ("help.systemReport", "System Compatibility Report...", "系統相容性報告..."),
     ("help.enableLogging", "Enable Logging", "啟用日誌記錄"),
     ("help.revealLogFile", "Reveal Logging File", "顯示日誌檔案"),
-    ("help.discord", "Join the ArtCraft Discord...", "加入 ArtCraft 的 Discord 社群..."),
     ("help.reportIssue", "Provide Feedback...", "提供意見..."),
-    ("help.website", "ArtCraft Website", "ArtCraft 網站"),
-    ("help.appPage", "EffectCraft Home Page", "EffectCraft 首頁"),
-    ("help.github", "EffectCraft on GitHub", "GitHub 上的 EffectCraft"),
+    ("help.appPage", "Ardoise Motion Home Page", "Ardoise Motion 首頁"),
+    ("help.github", "Ardoise Motion on GitHub", "GitHub 上的 Ardoise Motion"),
     ("file.openDemoProject", "Open Demo Project", "開啟範例專案"),
 ];
 
 const JAPANESE: &[(&str, &str, &str)] = &[
-    ("", "EffectCraft", "EffectCraft"),
-    ("app.about", "About EffectCraft...", "EffectCraftについて..."),
+    ("", "Ardoise Motion", "Ardoise Motion"),
+    ("app.about", "About Ardoise Motion...", "Ardoise Motionについて..."),
     ("", "Settings...", "設定..."),
     ("app.settings", "General...", "一般..."),
     ("app.settings", "Startup & Repair...", "起動と修復..."),
@@ -1493,10 +1489,10 @@ const JAPANESE: &[(&str, &str, &str)] = &[
     ("app.settings", "Video...", "ビデオ..."),
     ("app.settings", "3D...", "3D..."),
     ("app.settings", "Scripting & Expressions...", "スクリプトとエクスプレッション..."),
-    ("app.hide", "Hide EffectCraft", "EffectCraftを隠す"),
+    ("app.hide", "Hide Ardoise Motion", "Ardoise Motionを隠す"),
     ("app.hideOthers", "Hide Others", "ほかを隠す"),
     ("app.showAll", "Show All", "すべてを表示"),
-    ("app.quit", "Quit EffectCraft", "EffectCraftを終了"),
+    ("app.quit", "Quit Ardoise Motion", "Ardoise Motionを終了"),
     ("", "File", "ファイル"),
     ("", "New", "新規"),
     ("file.newProject", "New Project", "新規プロジェクト"),
@@ -1518,7 +1514,7 @@ const JAPANESE: &[(&str, &str, &str)] = &[
     ("", "Import", "読み込み"),
     ("file.import", "File...", "ファイル..."),
     ("file.importMultiple", "Multiple Files...", "複数のファイル..."),
-    ("file.importTimeline", "Adobe Premiere Pro Project...", "Adobe Premiere Proプロジェクト..."),
+    ("file.importTimeline", "XML Interchange Project...", "XML Interchangeプロジェクト..."),
     ("file.importPlaceholder", "Placeholder...", "プレースホルダー..."),
     ("file.importSolid", "Solid...", "平面..."),
     ("file.importLottie", "Lottie...", "Lottie..."),
@@ -1528,7 +1524,7 @@ const JAPANESE: &[(&str, &str, &str)] = &[
     ("file.clearRecentFootage", "Clear Recent Footage", "最近使用したフッテージを消去"),
     ("", "Export", "書き出し"),
     ("renderQueue.add", "Add to Render Queue", "レンダーキューに追加"),
-    ("file.exportTimeline", "Adobe Premiere Pro Project...", "Adobe Premiere Proプロジェクト..."),
+    ("file.exportTimeline", "XML Interchange Project...", "XML Interchangeプロジェクト..."),
     ("file.exportLottie", "Lottie JSON...", "Lottie JSON..."),
     ("essential.exportTemplate", "Essential Graphics Template...", "エッセンシャルグラフィックステンプレート..."),
     ("app.find", "Find", "検索"),
@@ -1643,7 +1639,7 @@ const JAPANESE: &[(&str, &str, &str)] = &[
     ("playback.audio", "Audio", "オーディオ"),
     ("", "Save Frame As", "フレームを保存"),
     ("comp.saveFrameAs", "File...", "ファイル..."),
-    ("comp.saveFrameAsPsd", "Photoshop Layers...", "Photoshopレイヤー..."),
+    ("comp.saveFrameAsPsd", "PSD Layers...", "PSDレイヤー..."),
     ("comp.saveFrameAsExr", "ProEXR...", "ProEXR..."),
     ("render.preRender", "Pre-render...", "プリレンダリング..."),
     ("render.saveCurrentPreview", "Save Current Preview...", "現在のプレビューを保存..."),
@@ -2074,7 +2070,7 @@ const JAPANESE: &[(&str, &str, &str)] = &[
     ("window.panel", "Create Nulls From Paths", "パスからヌルを作成"),
     ("window.panel", "VR Comp Editor", "VRコンポジションエディター"),
     ("", "Help", "ヘルプ"),
-    ("help.docs", "EffectCraft Help...", "EffectCraftヘルプ..."),
+    ("help.docs", "Ardoise Motion Help...", "Ardoise Motionヘルプ..."),
     ("help.docs", "Scripting Help...", "スクリプトヘルプ..."),
     ("help.docs", "Expression Reference...", "エクスプレッションリファレンス..."),
     ("help.docs", "Effect Reference...", "エフェクトリファレンス..."),
@@ -2085,11 +2081,9 @@ const JAPANESE: &[(&str, &str, &str)] = &[
     ("help.systemReport", "System Compatibility Report...", "システム互換性レポート..."),
     ("help.enableLogging", "Enable Logging", "ログ記録を有効化"),
     ("help.revealLogFile", "Reveal Logging File", "ログファイルを表示"),
-    ("help.discord", "Join the ArtCraft Discord...", "ArtCraft Discordに参加..."),
     ("help.reportIssue", "Provide Feedback...", "フィードバックを送信..."),
-    ("help.website", "ArtCraft Website", "ArtCraftウェブサイト"),
-    ("help.appPage", "EffectCraft Home Page", "EffectCraftホームページ"),
-    ("help.github", "EffectCraft on GitHub", "GitHubのEffectCraft"),
+    ("help.appPage", "Ardoise Motion Home Page", "Ardoise Motionホームページ"),
+    ("help.github", "Ardoise Motion on GitHub", "GitHubのArdoise Motion"),
     ("file.openDemoProject", "Open Demo Project", "デモプロジェクトを開く"),
 ];
 
@@ -2097,8 +2091,8 @@ const JAPANESE: &[(&str, &str, &str)] = &[
 /// Ukrainian motion-graphics vocabulary. Product names and technical identifiers stay verbatim.
 /// The (command, source) keys match the other catalogs; no proprietary localization was used.
 const UKRAINIAN: &[(&str, &str, &str)] = &[
-    ("", "EffectCraft", "EffectCraft"),
-    ("app.about", "About EffectCraft...", "Про EffectCraft..."),
+    ("", "Ardoise Motion", "Ardoise Motion"),
+    ("app.about", "About Ardoise Motion...", "Про Ardoise Motion..."),
     ("", "Settings...", "Налаштування..."),
     ("app.settings", "General...", "Загальні..."),
     ("app.settings", "Startup & Repair...", "Запуск і відновлення..."),
@@ -2117,10 +2111,10 @@ const UKRAINIAN: &[(&str, &str, &str)] = &[
     ("app.settings", "Video...", "Відео..."),
     ("app.settings", "3D...", "3D..."),
     ("app.settings", "Scripting & Expressions...", "Скрипти та вирази..."),
-    ("app.hide", "Hide EffectCraft", "Приховати EffectCraft"),
+    ("app.hide", "Hide Ardoise Motion", "Приховати Ardoise Motion"),
     ("app.hideOthers", "Hide Others", "Приховати решту"),
     ("app.showAll", "Show All", "Показати все"),
-    ("app.quit", "Quit EffectCraft", "Вийти з EffectCraft"),
+    ("app.quit", "Quit Ardoise Motion", "Вийти з Ardoise Motion"),
     ("", "File", "Файл"),
     ("", "New", "Створити"),
     ("file.newProject", "New Project", "Новий проєкт"),
@@ -2142,7 +2136,7 @@ const UKRAINIAN: &[(&str, &str, &str)] = &[
     ("", "Import", "Імпорт"),
     ("file.import", "File...", "Файл..."),
     ("file.importMultiple", "Multiple Files...", "Кілька файлів..."),
-    ("file.importTimeline", "Adobe Premiere Pro Project...", "Проєкт Adobe Premiere Pro..."),
+    ("file.importTimeline", "XML Interchange Project...", "Проєкт XML Interchange..."),
     ("file.importPlaceholder", "Placeholder...", "Заповнювач..."),
     ("file.importSolid", "Solid...", "Суцільний колір..."),
     ("file.importLottie", "Lottie...", "Lottie..."),
@@ -2152,7 +2146,7 @@ const UKRAINIAN: &[(&str, &str, &str)] = &[
     ("file.clearRecentFootage", "Clear Recent Footage", "Очистити список нещодавніх матеріалів"),
     ("", "Export", "Експорт"),
     ("renderQueue.add", "Add to Render Queue", "Додати до черги рендерингу"),
-    ("file.exportTimeline", "Adobe Premiere Pro Project...", "Проєкт Adobe Premiere Pro..."),
+    ("file.exportTimeline", "XML Interchange Project...", "Проєкт XML Interchange..."),
     ("file.exportLottie", "Lottie JSON...", "Lottie JSON..."),
     ("essential.exportTemplate", "Essential Graphics Template...", "Шаблон основної графіки..."),
     ("app.find", "Find", "Знайти"),
@@ -2267,7 +2261,7 @@ const UKRAINIAN: &[(&str, &str, &str)] = &[
     ("playback.audio", "Audio", "Аудіо"),
     ("", "Save Frame As", "Зберегти кадр як"),
     ("comp.saveFrameAs", "File...", "Файл..."),
-    ("comp.saveFrameAsPsd", "Photoshop Layers...", "Шари Photoshop..."),
+    ("comp.saveFrameAsPsd", "PSD Layers...", "Шари PSD..."),
     ("comp.saveFrameAsExr", "ProEXR...", "ProEXR..."),
     ("render.preRender", "Pre-render...", "Попередній рендеринг..."),
     ("render.saveCurrentPreview", "Save Current Preview...", "Зберегти поточний попередній перегляд..."),
@@ -2698,7 +2692,7 @@ const UKRAINIAN: &[(&str, &str, &str)] = &[
     ("window.panel", "Create Nulls From Paths", "Створення нульових об’єктів із контурів"),
     ("window.panel", "VR Comp Editor", "Редактор композицій VR"),
     ("", "Help", "Довідка"),
-    ("help.docs", "EffectCraft Help...", "Довідка EffectCraft..."),
+    ("help.docs", "Ardoise Motion Help...", "Довідка Ardoise Motion..."),
     ("help.docs", "Scripting Help...", "Довідка зі скриптів..."),
     ("help.docs", "Expression Reference...", "Довідник виразів..."),
     ("help.docs", "Effect Reference...", "Довідник ефектів..."),
@@ -2709,21 +2703,19 @@ const UKRAINIAN: &[(&str, &str, &str)] = &[
     ("help.systemReport", "System Compatibility Report...", "Звіт про сумісність системи..."),
     ("help.enableLogging", "Enable Logging", "Увімкнути журналювання"),
     ("help.revealLogFile", "Reveal Logging File", "Показати файл журналу"),
-    ("help.discord", "Join the ArtCraft Discord...", "Приєднатися до Discord ArtCraft..."),
     ("help.reportIssue", "Provide Feedback...", "Надіслати відгук..."),
-    ("help.website", "ArtCraft Website", "Вебсайт ArtCraft"),
-    ("help.appPage", "EffectCraft Home Page", "Домашня сторінка EffectCraft"),
-    ("help.github", "EffectCraft on GitHub", "EffectCraft на GitHub"),
+    ("help.appPage", "Ardoise Motion Home Page", "Домашня сторінка Ardoise Motion"),
+    ("help.github", "Ardoise Motion on GitHub", "Ardoise Motion на GitHub"),
     ("file.openDemoProject", "Open Demo Project", "Відкрити демонстраційний проєкт"),
 ];
 
 /// Spanish (es): the same (command, English label) keys as `JAPANESE`, one entry per fixed menu
 /// row of the engine's menu tree.
-/// Wording follows Adobe's Spanish After Effects documentation (helpx.adobe.com/es) where it
+/// Wording follows Adobe's Spanish reference compositor documentation (helpx.adobe.com/es) where it
 /// names the feature, and macOS Spanish for the app menu.
 const SPANISH: &[(&str, &str, &str)] = &[
-    ("", "EffectCraft", "EffectCraft"),
-    ("app.about", "About EffectCraft...", "Acerca de EffectCraft..."),
+    ("", "Ardoise Motion", "Ardoise Motion"),
+    ("app.about", "About Ardoise Motion...", "Acerca de Ardoise Motion..."),
     ("", "Settings...", "Ajustes..."),
     ("app.settings", "General...", "General..."),
     ("app.settings", "Startup & Repair...", "Inicio y reparación..."),
@@ -2742,10 +2734,10 @@ const SPANISH: &[(&str, &str, &str)] = &[
     ("app.settings", "Video...", "Vídeo..."),
     ("app.settings", "3D...", "3D..."),
     ("app.settings", "Scripting & Expressions...", "Scripts y expresiones..."),
-    ("app.hide", "Hide EffectCraft", "Ocultar EffectCraft"),
+    ("app.hide", "Hide Ardoise Motion", "Ocultar Ardoise Motion"),
     ("app.hideOthers", "Hide Others", "Ocultar otros"),
     ("app.showAll", "Show All", "Mostrar todo"),
-    ("app.quit", "Quit EffectCraft", "Salir de EffectCraft"),
+    ("app.quit", "Quit Ardoise Motion", "Salir de Ardoise Motion"),
     ("", "File", "Archivo"),
     ("", "New", "Nuevo"),
     ("file.newProject", "New Project", "Nuevo proyecto"),
@@ -2767,7 +2759,7 @@ const SPANISH: &[(&str, &str, &str)] = &[
     ("", "Import", "Importar"),
     ("file.import", "File...", "Archivo..."),
     ("file.importMultiple", "Multiple Files...", "Varios archivos..."),
-    ("file.importTimeline", "Adobe Premiere Pro Project...", "Proyecto de Adobe Premiere Pro..."),
+    ("file.importTimeline", "XML Interchange Project...", "Proyecto de XML Interchange..."),
     ("file.importPlaceholder", "Placeholder...", "Marcador de posición..."),
     ("file.importSolid", "Solid...", "Sólido..."),
     ("file.importLottie", "Lottie...", "Lottie..."),
@@ -2777,7 +2769,7 @@ const SPANISH: &[(&str, &str, &str)] = &[
     ("file.clearRecentFootage", "Clear Recent Footage", "Borrar material de archivo reciente"),
     ("", "Export", "Exportar"),
     ("renderQueue.add", "Add to Render Queue", "Añadir a la cola de procesamiento"),
-    ("file.exportTimeline", "Adobe Premiere Pro Project...", "Proyecto de Adobe Premiere Pro..."),
+    ("file.exportTimeline", "XML Interchange Project...", "Proyecto de XML Interchange..."),
     ("file.exportLottie", "Lottie JSON...", "JSON de Lottie..."),
     ("essential.exportTemplate", "Essential Graphics Template...", "Plantilla de Gráficos esenciales..."),
     ("app.find", "Find", "Buscar"),
@@ -2892,7 +2884,7 @@ const SPANISH: &[(&str, &str, &str)] = &[
     ("playback.audio", "Audio", "Audio"),
     ("", "Save Frame As", "Guardar fotograma como"),
     ("comp.saveFrameAs", "File...", "Archivo..."),
-    ("comp.saveFrameAsPsd", "Photoshop Layers...", "Capas de Photoshop..."),
+    ("comp.saveFrameAsPsd", "PSD Layers...", "Capas de PSD..."),
     ("comp.saveFrameAsExr", "ProEXR...", "ProEXR..."),
     ("render.preRender", "Pre-render...", "Preprocesar..."),
     ("render.saveCurrentPreview", "Save Current Preview...", "Guardar la previsualización actual..."),
@@ -3323,7 +3315,7 @@ const SPANISH: &[(&str, &str, &str)] = &[
     ("window.panel", "Create Nulls From Paths", "Crear nulos a partir de trazados"),
     ("window.panel", "VR Comp Editor", "Editor de composición de RV"),
     ("", "Help", "Ayuda"),
-    ("help.docs", "EffectCraft Help...", "Ayuda de EffectCraft..."),
+    ("help.docs", "Ardoise Motion Help...", "Ayuda de Ardoise Motion..."),
     ("help.docs", "Scripting Help...", "Ayuda de scripts..."),
     ("help.docs", "Expression Reference...", "Referencia de expresiones..."),
     ("help.docs", "Effect Reference...", "Referencia de efectos..."),
@@ -3334,19 +3326,17 @@ const SPANISH: &[(&str, &str, &str)] = &[
     ("help.systemReport", "System Compatibility Report...", "Informe de compatibilidad del sistema..."),
     ("help.enableLogging", "Enable Logging", "Habilitar registro"),
     ("help.revealLogFile", "Reveal Logging File", "Mostrar archivo de registro"),
-    ("help.discord", "Join the ArtCraft Discord...", "Unirse al Discord de ArtCraft..."),
     ("help.reportIssue", "Provide Feedback...", "Enviar comentarios..."),
-    ("help.website", "ArtCraft Website", "Sitio web de ArtCraft"),
-    ("help.appPage", "EffectCraft Home Page", "Página de inicio de EffectCraft"),
-    ("help.github", "EffectCraft on GitHub", "EffectCraft en GitHub"),
+    ("help.appPage", "Ardoise Motion Home Page", "Página de inicio de Ardoise Motion"),
+    ("help.github", "Ardoise Motion on GitHub", "Ardoise Motion en GitHub"),
     ("file.openDemoProject", "Open Demo Project", "Abrir proyecto de demostración"),
 ];
 
 /// Brazilian Portuguese: the same (command, English label) keys as `JAPANESE`, one entry
 /// per fixed menu row of the engine's menu tree.
 const PORTUGUESE: &[(&str, &str, &str)] = &[
-    ("", "EffectCraft", "EffectCraft"),
-    ("app.about", "About EffectCraft...", "Sobre o EffectCraft..."),
+    ("", "Ardoise Motion", "Ardoise Motion"),
+    ("app.about", "About Ardoise Motion...", "Sobre o Ardoise Motion..."),
     ("", "Settings...", "Configurações..."),
     ("app.settings", "General...", "Geral..."),
     ("app.settings", "Startup & Repair...", "Inicialização e reparo..."),
@@ -3365,10 +3355,10 @@ const PORTUGUESE: &[(&str, &str, &str)] = &[
     ("app.settings", "Video...", "Vídeo..."),
     ("app.settings", "3D...", "3D..."),
     ("app.settings", "Scripting & Expressions...", "Scripts e expressões..."),
-    ("app.hide", "Hide EffectCraft", "Ocultar EffectCraft"),
+    ("app.hide", "Hide Ardoise Motion", "Ocultar Ardoise Motion"),
     ("app.hideOthers", "Hide Others", "Ocultar outros"),
     ("app.showAll", "Show All", "Mostrar tudo"),
-    ("app.quit", "Quit EffectCraft", "Sair do EffectCraft"),
+    ("app.quit", "Quit Ardoise Motion", "Sair do Ardoise Motion"),
     ("", "File", "Arquivo"),
     ("", "New", "Novo"),
     ("file.newProject", "New Project", "Novo projeto"),
@@ -3390,7 +3380,7 @@ const PORTUGUESE: &[(&str, &str, &str)] = &[
     ("", "Import", "Importar"),
     ("file.import", "File...", "Arquivo..."),
     ("file.importMultiple", "Multiple Files...", "Vários arquivos..."),
-    ("file.importTimeline", "Adobe Premiere Pro Project...", "Projeto do Adobe Premiere Pro..."),
+    ("file.importTimeline", "XML Interchange Project...", "Projeto do XML Interchange..."),
     ("file.importPlaceholder", "Placeholder...", "Espaço reservado..."),
     ("file.importSolid", "Solid...", "Sólido..."),
     ("file.importLottie", "Lottie...", "Lottie..."),
@@ -3400,7 +3390,7 @@ const PORTUGUESE: &[(&str, &str, &str)] = &[
     ("file.clearRecentFootage", "Clear Recent Footage", "Limpar mídias recentes"),
     ("", "Export", "Exportar"),
     ("renderQueue.add", "Add to Render Queue", "Adicionar à fila de renderização"),
-    ("file.exportTimeline", "Adobe Premiere Pro Project...", "Projeto do Adobe Premiere Pro..."),
+    ("file.exportTimeline", "XML Interchange Project...", "Projeto do XML Interchange..."),
     ("file.exportLottie", "Lottie JSON...", "Lottie JSON..."),
     ("essential.exportTemplate", "Essential Graphics Template...", "Modelo de gráficos essenciais..."),
     ("app.find", "Find", "Localizar"),
@@ -3515,7 +3505,7 @@ const PORTUGUESE: &[(&str, &str, &str)] = &[
     ("playback.audio", "Audio", "Áudio"),
     ("", "Save Frame As", "Salvar quadro como"),
     ("comp.saveFrameAs", "File...", "Arquivo..."),
-    ("comp.saveFrameAsPsd", "Photoshop Layers...", "Camadas do Photoshop..."),
+    ("comp.saveFrameAsPsd", "PSD Layers...", "Camadas do PSD..."),
     ("comp.saveFrameAsExr", "ProEXR...", "ProEXR..."),
     ("render.preRender", "Pre-render...", "Pré-renderização..."),
     ("render.saveCurrentPreview", "Save Current Preview...", "Salvar pré-visualização atual..."),
@@ -3946,7 +3936,7 @@ const PORTUGUESE: &[(&str, &str, &str)] = &[
     ("window.panel", "Create Nulls From Paths", "Criar nulls a partir de caminhos"),
     ("window.panel", "VR Comp Editor", "Editor de composição VR"),
     ("", "Help", "Ajuda"),
-    ("help.docs", "EffectCraft Help...", "Ajuda do EffectCraft..."),
+    ("help.docs", "Ardoise Motion Help...", "Ajuda do Ardoise Motion..."),
     ("help.docs", "Scripting Help...", "Ajuda de scripting..."),
     ("help.docs", "Expression Reference...", "Referência de expressões..."),
     ("help.docs", "Effect Reference...", "Referência de efeitos..."),
@@ -3957,11 +3947,9 @@ const PORTUGUESE: &[(&str, &str, &str)] = &[
     ("help.systemReport", "System Compatibility Report...", "Relatório de compatibilidade do sistema..."),
     ("help.enableLogging", "Enable Logging", "Ativar registro em log"),
     ("help.revealLogFile", "Reveal Logging File", "Revelar arquivo de log"),
-    ("help.discord", "Join the ArtCraft Discord...", "Entrar no Discord do ArtCraft..."),
     ("help.reportIssue", "Provide Feedback...", "Enviar comentários..."),
-    ("help.website", "ArtCraft Website", "Site do ArtCraft"),
-    ("help.appPage", "EffectCraft Home Page", "Página inicial do EffectCraft"),
-    ("help.github", "EffectCraft on GitHub", "EffectCraft no GitHub"),
+    ("help.appPage", "Ardoise Motion Home Page", "Página inicial do Ardoise Motion"),
+    ("help.github", "Ardoise Motion on GitHub", "Ardoise Motion no GitHub"),
     ("file.openDemoProject", "Open Demo Project", "Abrir projeto de demonstração"),
 ];
 

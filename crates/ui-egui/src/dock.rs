@@ -169,7 +169,7 @@ pub enum SplitSize {
 }
 
 /// One frame in a [`DockNode::Stack`]: a header with one tab per panel (a panel dropped onto a
-/// stacked panel joins its frame as a tab, as in After Effects).
+/// stacked panel joins its frame as a tab, as in reference compositor).
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(from = "StackEntryRepr")]
 pub struct StackEntry {
@@ -241,7 +241,7 @@ pub enum DockNode {
         panels: Vec<PanelKind>,
         active: usize,
     },
-    /// After Effects' stacked panels (e.g. the Default workspace's right column): each panel has
+    /// reference compositor' stacked panels (e.g. the Default workspace's right column): each panel has
     /// a header row; clicking it expands or collapses the panel in place, and dragging the gap
     /// between two open panels resizes them.
     Stack {
@@ -262,7 +262,7 @@ fn vsplit(size: SplitSize, a: DockNode, b: DockNode) -> DockNode {
     DockNode::Split { vertical: true, size, a: Box::new(a), b: Box::new(b) }
 }
 
-/// The built-in workspaces: After Effects 2026's (Window ▸ Workspace), less Libraries (an Adobe
+/// The built-in workspaces: reference compositor 2026's (Window ▸ Workspace), less Libraries (an Adobe
 /// service). Learn shows the Home screen (community links instead of Adobe's tutorials);
 /// Essential Graphics uses the Properties panel; Undocked Panels floats the panels over the
 /// Composition panel.
@@ -358,7 +358,7 @@ pub fn workspace(name: &str) -> DockNode {
             hsplit(FixedA(280.0), tabs(&[Project, Markers], 0), hsplit(FixedB(260.0), tabs(&[Composition, Layer], 0), right(&[Preview, Info], &[Audio]))),
             tabs(&[Timeline, RenderQueue], 0),
         ),
-        // Essential Graphics: the Properties panel (After Effects' successor to the Essential
+        // Essential Graphics: the Properties panel (reference compositor' successor to the Essential
         // Graphics panel) full height on the right, type panels beside the viewer.
         "Essential Graphics" => hsplit(
             FixedB(320.0),
@@ -433,7 +433,7 @@ pub fn workspace(name: &str) -> DockNode {
             ),
             tabs(&[Timeline, RenderQueue], 0),
         ),
-        // Default (as in After Effects): Project/Effect Controls | Composition over the Timeline,
+        // Default (as in reference compositor): Project/Effect Controls | Composition over the Timeline,
         // and a full-height right column with Preview above the Properties panel.
         _ => hsplit(
             FixedB(300.0),
@@ -892,7 +892,7 @@ pub enum DockAction {
 }
 
 /// One document a panel shows as a tab of its own (the Timeline: one tab per open comp, as in
-/// After Effects).
+/// reference compositor).
 #[derive(Debug, Clone, PartialEq)]
 pub struct DocTab {
     pub id: u64,
@@ -918,7 +918,7 @@ pub struct Chrome {
     pub tabs: Vec<(PanelKind, Rect)>,
 }
 
-/// After Effects-style extras on a tab that shows a composition (Composition, Timeline): a close
+/// compositor-style extras on a tab that shows a composition (Composition, Timeline): a close
 /// button (×), the item's label colour as a small square and the viewer lock.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct TabDeco {
@@ -1431,7 +1431,7 @@ mod tests {
 
     #[test]
     fn after_effects_workspaces_exist() {
-        // Window ▸ Workspace in After Effects 2026, less Libraries (an Adobe service).
+        // Window ▸ Workspace in reference compositor 2026, less Libraries (an Adobe service).
         for w in [
             "Default",
             "Review",

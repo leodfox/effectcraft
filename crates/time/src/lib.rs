@@ -1,4 +1,4 @@
-//! Exact media time for EffectCraft (shared design with FilmCraft).
+//! Exact media time for Ardoise Motion (shared design with FilmCraft).
 //!
 //! All time is an integer number of [`Tick`]s at [`TICKS_PER_SECOND`] = 254 016 000 000/s. That
 //! rate divides evenly into every broadcast frame duration (23.976, 24, 25, 29.97, 30, 48, 50,
@@ -358,7 +358,7 @@ pub fn format_timecode_frames(frame: i64, rate: FrameRate, drop_frame: bool) -> 
     format!("{}{h:02}{sep}{m:02}{sep}{s:02}{sep}{f:0fw$}", if neg { "-" } else { "" })
 }
 
-/// Format a frame count the way After Effects displays the current time: hours not padded
+/// Format a frame count the way reference compositor displays the current time: hours not padded
 /// (`0:00:02:15`, or `0;00;02;15` for drop-frame).
 pub fn format_timecode_ae(frame: i64, rate: FrameRate, drop_frame: bool) -> String {
     let df = drop_frame && rate.supports_drop_frame();

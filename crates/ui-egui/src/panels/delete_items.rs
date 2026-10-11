@@ -1,4 +1,4 @@
-//! Deleting Project items that compositions use asks first, as in After Effects: the Delete key
+//! Deleting Project items that compositions use asks first, as in reference compositor: the Delete key
 //! and the Project panel's trash button (`project.delete` through the UI) show how many layers in
 //! how many compositions go with the items (`project.usage`). Items nothing uses are deleted at
 //! once. Agents running `project.delete` with `engine.execute` are never asked, and neither is

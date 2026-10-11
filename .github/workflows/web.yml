@@ -1,0 +1,54 @@
+name: Ardoise web bundle
+
+on:
+  push:
+    branches: [ardoise]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ardoise-web-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: 0
+  RUST_BACKTRACE: 1
+  EFFECTCRAFT_BUILD_SHA: ${{ github.sha }}
+  WASM_BINDGEN_VERSION: 0.2.129
+
+jobs:
+  web:
+    name: Web (wasm)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: ardoise-web
+      - name: Install wasm-bindgen CLI
+        run: |
+          # Must match the wasm-bindgen crate version exactly (WASM_BINDGEN in xtask/src/main.rs).
+          if ! { command -v wasm-bindgen >/dev/null && wasm-bindgen --version | grep -q "$WASM_BINDGEN_VERSION"; }; then
+            cargo install wasm-bindgen-cli --version "$WASM_BINDGEN_VERSION" --locked
+          fi
+          wasm-bindgen --version
+      - name: Build and zip
+        run: packaging/web/package.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ardoise-web-motion
+          path: dist/release/*.zip
+          if-no-files-found: error
+      - name: Attach to a GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ardoise-web-motion-v0.8.0-${{ github.run_number }}
+        run: |
+          gh release create "$TAG" --target "$GITHUB_SHA" --title "Ardoise Motion web bundle ($TAG)" \
+            --notes "Web bundle built from $GITHUB_SHA (based on EffectCraft v0.8.0, Apache-2.0)." dist/release/*.zip

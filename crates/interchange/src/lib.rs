@@ -1,7 +1,7 @@
-//! Premiere Pro interop through the public timeline interchange formats Premiere itself reads and
-//! writes (After Effects' File ▸ Import / Export ▸ Adobe Premiere Pro Project…):
+//! video editors interop through the public timeline interchange formats Premiere itself reads and
+//! writes (reference compositor' File ▸ Import / Export ▸ XML Interchange Project…):
 //!
-//! - **Final Cut Pro 7 XML** (`xmeml`, `.xml`): Premiere's File ▸ Export ▸ Final Cut Pro XML and
+//! - **Final Cut Pro 7 XML** (`xmeml`, `.xml`): Premiere's File ▸ Export ▸ XML Interchange (xmeml) and
 //!   File ▸ Import; the default for export;
 //! - **FCPXML** 1.9–1.11 (`.fcpxml`);
 //! - **OpenTimelineIO** (`.otio`);
@@ -20,7 +20,7 @@
 //!   placeholders.
 //! - [`export`]: a composition → one sequence with one track per layer (bottom layer = V1),
 //!   footage clips with their timing, Motion and Opacity; precomps as nested sequences; solids as
-//!   colour mattes; layers only EffectCraft can draw (text, shapes, effects, masks, 3D…) are
+//!   colour mattes; layers only Ardoise Motion can draw (text, shapes, effects, masks, 3D…) are
 //!   either left out or pre-rendered by the caller (ProRes 4444 with alpha, see
 //!   [`plan_prerender`]) and referenced as media.
 //!
@@ -53,7 +53,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum TimelineFormat {
-    /// Final Cut Pro 7 XML (`xmeml`), the format Premiere Pro imports and exports.
+    /// Final Cut Pro 7 XML (`xmeml`), the format video editors imports and exports.
     Fcp7Xml,
     /// FCPXML 1.9–1.11.
     Fcpxml,
@@ -61,7 +61,7 @@ pub enum TimelineFormat {
     Otio,
     /// CMX 3600 edit decision list.
     Edl,
-    /// Advanced Authoring Format (AAF Edit Protocol), as Premiere Pro exports for audio post.
+    /// Advanced Authoring Format (AAF Edit Protocol), as video editors exports for audio post.
     Aaf,
     /// OMF Interchange 2.0.
     Omf,
@@ -85,7 +85,7 @@ impl TimelineFormat {
 
     pub fn label(self) -> &'static str {
         match self {
-            TimelineFormat::Fcp7Xml => "Final Cut Pro XML (Premiere Pro)",
+            TimelineFormat::Fcp7Xml => "XML Interchange (xmeml)",
             TimelineFormat::Fcpxml => "FCPXML",
             TimelineFormat::Otio => "OpenTimelineIO",
             TimelineFormat::Edl => "CMX 3600 EDL",
@@ -154,7 +154,7 @@ impl TimelineFormat {
 pub enum Error {
     #[error("{0}")]
     Interchange(#[from] filmcraft_interchange::Error),
-    #[error("not a timeline document (expected Final Cut Pro XML, FCPXML, OpenTimelineIO or EDL)")]
+    #[error("not a timeline document (expected XML Interchange (xmeml), FCPXML, OpenTimelineIO or EDL)")]
     UnknownFormat,
     #[error("no composition {0}")]
     NoComp(u64),

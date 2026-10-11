@@ -579,7 +579,7 @@ fn delete_points(s: &mut Session, p: &Value) -> Result<Value> {
         Ok(())
     })?;
     s.state.camera_points.retain(|x| !del.contains(x));
-    // Re-solve now (After Effects re-solves after deleting points).
+    // Re-solve now (reference compositor re-solves after deleting points).
     let wait = b_p(p, "wait").unwrap_or(false);
     if !s.is_camera_analyzing() {
         s.start_camera(cid, lid, uid, wait).map_err(EngineError::Other)?;

@@ -134,7 +134,7 @@ fn save_copy_xml(s: &mut Session, p: &Value) -> Result<Value> {
     Ok(json!({"path": path, "bytes": xml.len()}))
 }
 
-/// File ▸ Replace Footage ▸ With Layered Comp: a layered (Photoshop) footage item becomes a
+/// File ▸ Replace Footage ▸ With Layered Comp: a layered (PSD) footage item becomes a
 /// composition of its layers; every layer using the footage now uses the comp, and the footage
 /// item goes. One undo step.
 fn replace_with_layered_comp(s: &mut Session, p: &Value) -> Result<Value> {
@@ -142,7 +142,7 @@ fn replace_with_layered_comp(s: &mut Session, p: &Value) -> Result<Value> {
     let item = item.ok_or_else(|| bad("file.replaceWithLayeredComp", "select a layered footage item"))?;
     let path = match s.project.item(item).map(|i| &i.kind) {
         Some(ItemKind::Footage(f)) if f.codec == "PSD" || f.path.to_ascii_lowercase().ends_with(".psd") => f.path.clone(),
-        _ => return Err(bad("file.replaceWithLayeredComp", "the item is not layered footage (a Photoshop file)")),
+        _ => return Err(bad("file.replaceWithLayeredComp", "the item is not layered footage (a PSD file)")),
     };
     let bytes = s.services.read_file(&path).map_err(|e| EngineError::Other(format!("cannot read {path}: {e}")))?;
     grouped(s, "Replace Footage", |s| {
@@ -306,7 +306,7 @@ pub const IMPORT_FORMATS: &[&str] = &[
     "TIFF",
     "BMP",
     "OpenEXR",
-    "Photoshop (PSD)",
+    "PSD",
     "SVG",
     "WAV",
     "AIFF",
@@ -340,7 +340,7 @@ pub fn system_report(s: &Session) -> Value {
         issues.push("Export is not available in this build.".to_string());
     }
     json!({
-        "app": format!("EffectCraft {}", env!("CARGO_PKG_VERSION")),
+        "app": format!("Ardoise Motion {}", env!("CARGO_PKG_VERSION")),
         "os": crate::sysinfo::os_version(),
         "arch": std::env::consts::ARCH,
         "cpu": crate::sysinfo::cpu_name(),
@@ -439,7 +439,7 @@ pub(crate) const FACES: [(&str, [f64; 3], [f64; 3], [f64; 3]); 6] = [
 /// (column, row) of each face in the 3:2 cube map.
 pub(crate) const CELLS_3X2: [(u32, u32); 6] = [(0, 0), (1, 0), (2, 0), (0, 1), (1, 1), (2, 1)];
 
-/// VR world direction → After Effects world (Y down).
+/// VR world direction → reference compositor world (Y down).
 pub(crate) fn ae(v: [f64; 3]) -> Vec3 {
     vec3(v[0], -v[1], v[2])
 }

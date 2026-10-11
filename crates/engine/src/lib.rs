@@ -1,4 +1,4 @@
-//! The EffectCraft engine façade.
+//! The Ardoise Motion engine façade.
 //!
 //! Every user-visible action is a command with a stable id (`layer.newSolid`, `prop.set`,
 //! `keys.easyEase`…) and JSON parameters, dispatched through [`Session::execute`]. The egui UI,
@@ -168,7 +168,7 @@ pub struct KeyRef {
 /// A keyframe drag in progress (`keys.move` steps sharing a merge key): the selection it
 /// started from and the total offset so far, so every step is applied to the keys as they were
 /// before the drag. A key passed over on the way is never overwritten; only the drop position
-/// counts, as in After Effects.
+/// counts, as in reference compositor.
 #[derive(Clone, Debug)]
 pub struct KeyMove {
     pub merge: String,

@@ -1,6 +1,6 @@
 //! Image sequences on import (File ▸ Import ▸ File…, dropped files and folders, Replace
 //! Footage, Reload, proxies): numbered stills of one run (`shot_0001.png`, `shot_0002.png`, …)
-//! become one footage item, as with After Effects' "PNG Sequence" import option.
+//! become one footage item, as with reference compositor' "PNG Sequence" import option.
 //!
 //! - One picked numbered file brings its whole run from its folder ([`crate::Services::list_dir`]).
 //! - Several picked files of one run import as one sequence of just those files (a range).
@@ -203,7 +203,7 @@ pub fn sequences(services: &dyn Services, paths: &[String], alphabetical: bool) 
 }
 
 /// Probe what a [`Source`] makes. A sequence is its first file's footage with every file, at
-/// `rate`, showing gaps in its numbering as placeholders, as in After Effects (in Force
+/// `rate`, showing gaps in its numbering as placeholders, as in reference compositor (in Force
 /// Alphabetical Order the files play one after another).
 pub fn probe(importer: &dyn Importer, src: &Source, rate: FrameRate) -> Result<Footage, String> {
     let Source::Sequence { files, alphabetical } = src else { return importer.probe(src.path()) };
@@ -317,7 +317,7 @@ mod tests {
     }
 
     /// #431: `file.import` brings picked or dropped numbered stills in as stills; only a folder or
-    /// an explicit `sequence: true` makes a sequence, as After Effects' Sequence checkbox does.
+    /// an explicit `sequence: true` makes a sequence, as reference compositor' Sequence checkbox does.
     #[test]
     fn import_takes_stills_unless_asked_for_a_sequence() {
         let t = Table(vec!["/s/a_0001.png", "/s/a_0002.png", "/s/a_0003.png", "/s/IMG_0001.jpg", "/s/IMG_0042.jpg"]);

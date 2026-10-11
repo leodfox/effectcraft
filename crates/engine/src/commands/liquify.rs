@@ -4,7 +4,7 @@
 //! line of its hidden Distortion Mesh data (see `effectcraft_effects::distort4`). Brush size,
 //! pressure, turbulent jitter and clone offset default to the effect's own tool options. When
 //! the Distortion Mesh is animated, the stroke goes into a keyframe at the current time (copying
-//! the mesh in effect there), as After Effects records mesh keyframes.
+//! the mesh in effect there), as reference compositor records mesh keyframes.
 
 use effectcraft_effects::distort4::{LIQUIFY_TOOLS, LiquifyStroke, parse_strokes};
 use effectcraft_keyframe::{Keyframe, Value as KV};

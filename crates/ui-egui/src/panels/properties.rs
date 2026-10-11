@@ -1,5 +1,5 @@
 //! Properties panel: the selected layer's essential properties in one context-sensitive stack,
-//! like After Effects' Properties panel. Sections appear by layer type:
+//! like reference compositor' Properties panel. Sections appear by layer type:
 //!
 //! - **Layer Transform** (all layers but cameras/lights): keyframe navigator (◀ ◆ ▶) or
 //!   stopwatch, scrubbable values, linked Scale, `Nx+N°` Rotation (revolutions and degrees scrub on their own), Reset.
@@ -72,7 +72,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
     let mut y = top;
     let mut actions: Actions = vec![];
 
-    // Several layers selected: "(3) Selected Objects", as in After Effects. The rows show the
+    // Several layers selected: "(3) Selected Objects", as in reference compositor. The rows show the
     // first layer; the stopwatch, keyframe button and value edits apply to all of them (#355).
     let selected = app.session.state.selected_layers.iter().filter(|id| comp.layer(**id).is_some()).count();
     if selected > 1 {

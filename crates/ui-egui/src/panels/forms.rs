@@ -141,12 +141,12 @@ fn imports_ext(p: &Value, exts: &[&str]) -> bool {
     import_paths(p).iter().any(|s| s.rsplit('.').next().is_some_and(|e| exts.contains(&e.to_ascii_lowercase().as_str())))
 }
 
-/// The import includes a Photoshop document.
+/// The import includes a PSD document.
 fn is_layered(p: &Value) -> bool {
     imports_ext(p, &["psd", "psb"])
 }
 
-/// The import includes a PDF or Illustrator file (which may have several pages).
+/// The import includes a PDF or AI file (which may have several pages).
 fn is_pdf(p: &Value) -> bool {
     imports_ext(p, &["pdf", "ai"])
 }
@@ -154,7 +154,7 @@ fn is_pdf(p: &Value) -> bool {
 /// File ▸ Import ▸ File… picked numbered stills that import as image sequences: ask, as After
 /// Effects' "<format> Sequence" checkbox in its Import dialog does (rfd's native dialog can't
 /// carry a checkbox), with Force Alphabetical Order and the frame rate. `p`: the import's
-/// parameters. Returns whether the dialog opened. The checkbox starts off, as in After Effects:
+/// parameters. Returns whether the dialog opened. The checkbox starts off, as in reference compositor:
 /// unticked, the picked files import as stills. Dropped files and agents' `file.import` don't
 /// ask (files import as stills, folders' runs as sequences).
 pub fn open_import_sequence(app: &mut EffectcraftApp, p: &Value) -> bool {
@@ -215,9 +215,9 @@ pub fn open_form(app: &mut EffectcraftApp, id: &str, p: &Value) -> bool {
     let lt = layer.map(|l| l.layer_time(t)).unwrap_or(t);
     let base = p.clone();
     let (title, fields): (String, Vec<Field>) = match id {
-        // Photoshop files: Import Kind (Footage / Composition / – Retain Layer Sizes).
+        // PSD files: Import Kind (Footage / Composition / – Retain Layer Sizes).
         "file.import" if !has(p, &["importAs"]) && is_layered(p) => (
-            "Import Photoshop File".into(),
+            "Import PSD File".into(),
             vec![Field::choice(
                 "importAs",
                 "Import Kind",
@@ -225,9 +225,9 @@ pub fn open_form(app: &mut EffectcraftApp, id: &str, p: &Value) -> bool {
                 1,
             )],
         ),
-        // PDF / Illustrator files: Import Kind and the page.
+        // PDF / AI files: Import Kind and the page.
         "file.import" if !has(p, &["importAs", "page"]) && is_pdf(p) => (
-            "Import PDF / Illustrator File".into(),
+            "Import PDF / AI File".into(),
             vec![
                 Field::choice("importAs", "Import Kind", &[("Footage", json!("footage")), ("Composition", json!("composition"))], 0),
                 Field::num("page", "Page", 1.0),
@@ -256,7 +256,7 @@ pub fn open_form(app: &mut EffectcraftApp, id: &str, p: &Value) -> bool {
             )
         }
         // Double-click a keyframe (or its context menu ▸ Edit Value…): the property's value at
-        // that key, like After Effects' value dialog.
+        // that key, like reference compositor' value dialog.
         "keys.set" if !has(p, &["value", "newTime"]) => {
             let l = p.get("layer").and_then(Value::as_u64).and_then(|l| comp?.layer(effectcraft_engine::project::LayerId(l)));
             let pr = l.and_then(|l| l.props.find(p.get("prop").and_then(Value::as_u64)?));
@@ -358,7 +358,7 @@ pub fn open_form(app: &mut EffectcraftApp, id: &str, p: &Value) -> bool {
                 ],
             )
         }
-        // Several items selected: After Effects' New Composition from Selection dialog.
+        // Several items selected: reference compositor' New Composition from Selection dialog.
         "file.newCompFromSelection"
             if s.state.project_selection.len() > 1 && !has(p, &["single", "dimensionsFrom", "duration", "sequence", "addToRenderQueue"]) =>
         {
@@ -463,7 +463,7 @@ pub fn open_form(app: &mut EffectcraftApp, id: &str, p: &Value) -> bool {
                 Field::bool("linearLight", "Interpret As Linear Light", f.linear_light),
             ];
             // After Frame Rate: an image sequence's frames (missing ones show colour bars, as in
-            // After Effects), then Start Timecode.
+            // reference compositor), then Start Timecode.
             let mut timing = Vec::new();
             if f.kind == effectcraft_engine::project::FootageKind::Sequence {
                 let gaps = match effectcraft_engine::sequence::missing_report(&f.sequence) {
@@ -530,7 +530,7 @@ pub fn open_form(app: &mut EffectcraftApp, id: &str, p: &Value) -> bool {
                     Field::choice(
                         "colorEngine",
                         "Color engine",
-                        &[("Adobe-style built-in", json!("adobe")), ("OCIO (built-in ACES config)", json!("ocio"))],
+                        &[("Compatibility built-in", json!("adobe")), ("OCIO (built-in ACES config)", json!("ocio"))],
                         usize::from(st.color_engine == effectcraft_engine::project::ColorEngine::Ocio),
                     ),
                     Field::choice(
@@ -547,7 +547,7 @@ pub fn open_form(app: &mut EffectcraftApp, id: &str, p: &Value) -> bool {
                         ],
                         st.working_space.map_or(0, |c| 1 + effectcraft_engine::project::ColorSpace::WORKING.iter().position(|x| *x == c).unwrap_or(0)),
                     ),
-                    // With Working Space None (After Effects' Working Gamma, 2.2 or 2.4).
+                    // With Working Space None (reference compositor' Working Gamma, 2.2 or 2.4).
                     Field::choice("workingGamma", "Working gamma", &[("2.2", json!(2.2)), ("2.4", json!(2.4))], usize::from(st.working_gamma_24())),
                     Field::bool("linearize", "Linearize working space", st.linearize),
                     Field::bool("blendLinear", "Blend colors using 1.0 gamma", st.blend_linear),
@@ -644,21 +644,21 @@ pub fn open_form(app: &mut EffectcraftApp, id: &str, p: &Value) -> bool {
                 ],
             )
         }
-        // File ▸ Export ▸ Adobe Premiere Pro Project…: Final Cut Pro XML (or FCPXML / OTIO / EDL).
+        // File ▸ Export ▸ XML Interchange Project…: XML Interchange (xmeml) (or FCPXML / OTIO / EDL).
         "file.exportTimeline" if !has(p, &["path"]) => {
             let name = s.active_comp_id().and_then(|c| s.project.item(c)).map(|i| i.name.clone()).unwrap_or_else(|| "Composition".into());
             let dir = s.path.as_deref().and_then(|p| std::path::Path::new(p).parent()).map(|d| d.to_path_buf()).unwrap_or_default();
             let path = dir.join(format!("{name}.xml")).to_string_lossy().to_string();
             (
-                "Export Adobe Premiere Pro Project".into(),
+                "Export XML Interchange Project".into(),
                 vec![
-                    Field::note("note", "Writes Final Cut Pro XML (.xml), which Premiere Pro opens with File ▸ Import. Native .prproj files are not written."),
+                    Field::note("note", "Writes XML interchange (xmeml, .xml), which most video editors open with File ▸ Import. Native .prproj files are not written."),
                     Field::save_path("path", "File", &path),
                     Field::choice(
                         "format",
                         "Format",
                         &[
-                            ("Final Cut Pro XML (.xml) – Premiere Pro", json!("xml")),
+                            ("XML Interchange (xmeml, .xml)", json!("xml")),
                             ("FCPXML (.fcpxml)", json!("fcpxml")),
                             ("OpenTimelineIO (.otio)", json!("otio")),
                             ("CMX 3600 EDL (.edl, V1 only)", json!("edl")),
@@ -671,7 +671,7 @@ pub fn open_form(app: &mut EffectcraftApp, id: &str, p: &Value) -> bool {
                         "prerender",
                         "Pre-render (ProRes 4444)",
                         &[
-                            ("Layers Premiere can't show (text, shapes, effects…)", json!("unsupported")),
+                            ("Layers the XML format can't show (text, shapes, effects…)", json!("unsupported")),
                             ("All layers", json!("all")),
                             ("None (leave them out)", json!("none")),
                         ],
@@ -948,7 +948,7 @@ mod tests {
         assert_eq!(f.params(), json!({"prop": "position", "value": [10.0, 20.0], "mode": "b"}));
     }
 
-    /// File ▸ Export ▸ Adobe Premiere Pro Project… opens a form that says it writes Final Cut Pro
+    /// File ▸ Export ▸ XML Interchange Project… opens a form that says it writes Final Cut Pro
     /// XML; its fields register automation ids and OK runs `file.exportTimeline`.
     #[test]
     fn premiere_export_dialog() {
@@ -961,7 +961,7 @@ mod tests {
         assert!(matches!(app.dialog, Some(Dialog::Form)));
         let f = &app.dialog_state.form;
         assert_eq!(f.command, "file.exportTimeline");
-        assert!(matches!(&f.fields[0].kind, FieldKind::Note(t) if t.contains("Final Cut Pro XML (.xml)")));
+        assert!(matches!(&f.fields[0].kind, FieldKind::Note(t) if t.contains("XML Interchange (xmeml) (.xml)")));
         let dir = std::env::temp_dir().join(format!("effectcraft-ui-premiere-{}", std::process::id()));
         std::fs::create_dir_all(&dir).unwrap();
         let path = dir.join("Spot.xml").to_string_lossy().to_string();

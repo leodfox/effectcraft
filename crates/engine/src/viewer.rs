@@ -67,7 +67,7 @@ impl SnapTarget {
     }
 }
 
-/// Tools bar ▸ Snapping options, the two After Effects' Snapping menu has: Snap Edges Extended
+/// Tools bar ▸ Snapping options, the two reference compositor' Snapping menu has: Snap Edges Extended
 /// (layer edges snap along their whole line, beyond the layer's bounds) and Snap to Features in
 /// Collapsed Compositions and Text Layers (the layers inside a precomp layer with Collapse
 /// Transformations on are targets too). Both are on by default. Every layer feature snaps
@@ -904,7 +904,7 @@ pub struct DisplayColor {
 
 impl DisplayColor {
     /// `working`: the project working space (None = unmanaged: nothing is converted, as in
-    /// After Effects); `linear`: the working space is linear; `source`: the space rendered
+    /// reference compositor); `linear`: the working space is linear; `source`: the space rendered
     /// frames are in (the project's output space, sRGB by default); `dcm`: Use Display Color
     /// Management; `display`: the monitor's space.
     #[allow(clippy::too_many_arguments)]

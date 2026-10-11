@@ -1,6 +1,6 @@
 //! Composition viewer tools: snapping (targets and the highlighted feedback), rulers with guides
 //! dragged out of them, the displayed frame (Show Channel, exposure, snapshots, region of
-//! interest, Wireframe Fast Previews) and the bottom control bar in After Effects' order.
+//! interest, Wireframe Fast Previews) and the bottom control bar in reference compositor' order.
 //!
 //! Edits go through engine commands (`view.*`, `comp.*`); the viewer calls in from small hooks.
 
@@ -509,7 +509,7 @@ fn toggle_popup(ui: &egui::Ui, id: &str) {
     ui.data_mut(|d| d.insert_temp(pid, !open));
 }
 
-/// Magnification as After Effects shows it: "136.1 %", "100 %".
+/// Magnification as reference compositor shows it: "136.1 %", "100 %".
 pub(crate) fn magnification_label(pct: f32) -> String {
     if (pct - pct.round()).abs() < 0.05 { format!("{:.0} %", pct.round()) } else { format!("{pct:.1} %") }
 }
@@ -534,7 +534,7 @@ pub(crate) fn resolution_label(res: Resolution, scale: f64) -> String {
     }
 }
 
-/// The Composition panel's bottom bar, in After Effects 2026 order: magnification, resolution,
+/// The Composition panel's bottom bar, in reference compositor 2026 order: magnification, resolution,
 /// transparency grid, mask and shape path visibility, region of interest, grid and guide
 /// options, show channel, reset exposure, exposure, take / show snapshot, Fast Previews, the 3D
 /// renderer and view, and the current time.
@@ -726,7 +726,7 @@ pub(crate) fn bottom_bar(app: &mut EffectcraftApp, ui: &mut egui::Ui, bar: Rect,
     x += 4.0;
     // 3D renderer + view.
     if comp.has_3d() {
-        // The comp's 3D renderer, as After Effects' Composition panel shows it: the menu switches
+        // The comp's 3D renderer, as reference compositor' Composition panel shows it: the menu switches
         // it through Composition Settings (undoable), and the automation label is the renderer.
         use effectcraft_engine::project::Renderer;
         let renderers = [(Renderer::Classic3D, "Classic 3D", "classic3D"), (Renderer::Advanced3D, "Advanced 3D", "advanced3D")];
@@ -794,7 +794,7 @@ mod tests {
         assert_eq!(resolution_label(Resolution::Custom(5), 0.2), "Custom (5)");
     }
 
-    /// Auto renders the pixels the magnification needs, as in After Effects: Full above 50 %,
+    /// Auto renders the pixels the magnification needs, as in reference compositor: Full above 50 %,
     /// Half down to 33.3 %, Third down to 25 %, Quarter below — never fewer pixels than the
     /// screen shows (#417: 60 % rendered at Half).
     #[test]

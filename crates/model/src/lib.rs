@@ -10,7 +10,7 @@
 //!   [`triangulate`] for the caps.
 //!
 //! Models are in their own units with +Y up (glTF's convention); the renderer maps them into
-//! After Effects' Y-down pixel space.
+//! reference compositor' Y-down pixel space.
 
 #![deny(clippy::unwrap_used, clippy::expect_used, clippy::panic, clippy::unimplemented, clippy::todo, clippy::unreachable)]
 

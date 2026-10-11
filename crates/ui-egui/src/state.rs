@@ -252,7 +252,7 @@ impl Resolution {
     /// Render scale for a viewer magnification (and display pixel density).
     pub fn scale(self, zoom: f32, ppp: f32) -> f64 {
         match self {
-            // As in After Effects, Auto renders the pixels the magnification needs: the coarsest
+            // As in reference compositor, Auto renders the pixels the magnification needs: the coarsest
             // whole factor that still gives every screen pixel a rendered one (Full above 50 %,
             // Half down to 33.3 %, Third down to 25 %, Quarter below), never fewer (#417).
             Resolution::Auto => {
@@ -570,7 +570,7 @@ pub struct UiState {
     #[serde(default)]
     pub maximized: Option<PanelKind>,
     /// Locked Composition / Timeline tabs (panel ids): opening another composition does not
-    /// bring a locked panel forward (the tab's lock icon, as After Effects' viewer lock).
+    /// bring a locked panel forward (the tab's lock icon, as reference compositor' viewer lock).
     #[serde(default)]
     pub locked_tabs: BTreeSet<String>,
     /// The comp each Composition viewer shows, by viewer id (0 = the Composition panel; see

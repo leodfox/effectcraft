@@ -1,4 +1,4 @@
-//! Variable-width mask feather (After Effects' Mask Feather tool).
+//! Variable-width mask feather (reference compositor' Mask Feather tool).
 //!
 //! Feather points sit on the mask path with a signed radius (outer > 0, inner < 0) and a
 //! tension. Between points the outer and inner radii are interpolated along the path's arc

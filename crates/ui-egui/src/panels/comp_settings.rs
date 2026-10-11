@@ -1,4 +1,4 @@
-//! Composition Settings dialog (also New Composition), laid out like After Effects': name, then
+//! Composition Settings dialog (also New Composition), laid out like reference compositor': name, then
 //! Basic / Advanced / 3D Renderer tabs, Cancel / OK. Every control registers an automation id
 //! (`dialog.comp.<field>`).
 

@@ -3,7 +3,7 @@
 //! Y'CbCr is converted with the matrix and range the stream signals (BT.601 / BT.709 / BT.2020,
 //! limited or full), upsampling chroma bilinearly with centred siting (like ffmpeg's swscale,
 //! which is also how most tools subsample when encoding).
-//! Values stay gamma-encoded: like After Effects, footage pixels enter the working space as they
+//! Values stay gamma-encoded: like reference compositor, footage pixels enter the working space as they
 //! are encoded in the file. Alpha follows the footage's [`AlphaMode`] interpretation.
 
 use effectcraft_project::{AlphaMode, Footage};
@@ -358,7 +358,7 @@ pub(crate) fn dynamic_to_image(img: &image::DynamicImage, op: AlphaOp) -> Image 
     out
 }
 
-/// Straight RGBA `f32` pixels (layered stills: Photoshop, SVG) to an [`Image`].
+/// Straight RGBA `f32` pixels (layered stills: PSD, SVG) to an [`Image`].
 pub(crate) fn straight_to_image(w: u32, h: u32, px: &[[f32; 4]], op: AlphaOp) -> Image {
     let mut out = Image::new(w, h);
     let wu = w as usize;

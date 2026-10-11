@@ -1,7 +1,7 @@
 //! Motion tracking, clean-room from textbook methods:
 //!
 //! - each **track point** has a *feature region* (the pattern to follow) and a *search region*
-//!   (where to look for it in the next frame), as in After Effects' Tracker;
+//!   (where to look for it in the next frame), as in reference compositor' Tracker;
 //! - the pattern is located by **normalized cross-correlation** (Lewis, "Fast Normalized
 //!   Cross-Correlation", 1995) searched **coarse to fine over an image pyramid**;
 //! - the integer match is refined to **sub-pixel** precision (and, optionally, the feature's

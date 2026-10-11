@@ -158,9 +158,9 @@ impl BlendMode {
     }
 
     /// Modes whose formulas are defined for over-range (HDR, 32 bpc) values. The others clamp
-    /// their inputs to 0..1 before blending, as After Effects documents for 32 bpc projects
+    /// their inputs to 0..1 before blending, as reference compositor documents for 32 bpc projects
     /// (in 8/16 bpc everything is already in range). Overlay, Exclusion, Luminosity and the
-    /// Color Burns keep their plain formula above 1 in After Effects (#494).
+    /// Color Burns keep their plain formula above 1 in reference compositor (#494).
     pub fn supports_hdr(self) -> bool {
         matches!(
             self,
@@ -194,7 +194,7 @@ impl BlendMode {
         )
     }
 
-    /// The source colour a classic mode leaves the backdrop unchanged with. After Effects fades
+    /// The source colour a classic mode leaves the backdrop unchanged with. reference compositor fades
     /// the source toward it by the layer's opacity before applying the classic formula at full
     /// strength, rather than mixing the full-strength result by opacity (#494).
     fn classic_neutral(self) -> Option<f32> {
@@ -259,7 +259,7 @@ fn separable(mode: BlendMode, cb: f32, cs: f32) -> f32 {
         BlendMode::Multiply => cb * cs,
         BlendMode::ColorBurn => burn(cb, cs),
         BlendMode::ClassicColorBurn => {
-            // (negative results are kept, as in After Effects)
+            // (negative results are kept, as in reference compositor)
             if cs <= 0.0 { 0.0 } else { 1.0 - (1.0 - cb) / cs }
         }
         BlendMode::LinearBurn => (cb + cs - 1.0).max(0.0),
@@ -499,7 +499,7 @@ mod tests {
         assert!(blend_pixel(BlendMode::SoftLight, d, s, 0.5)[0] <= 1.0);
     }
 
-    /// #494: After Effects' 32 bpc formulas, measured by the reporter. b = bottom, o = top,
+    /// #494: reference compositor' 32 bpc formulas, measured by the reporter. b = bottom, o = top,
     /// k = opacity (premultiplied into the source, as the compositor passes it).
     #[test]
     fn after_effects_32bpc_formulas() {

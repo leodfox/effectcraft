@@ -1,4 +1,4 @@
-//! Window ▸ Script Console: a JavaScript REPL over the After Effects-style scripting object model
+//! Window ▸ Script Console: a JavaScript REPL over the compositor-style scripting object model
 //! (`app.project`, comps, layers, properties…). Each run goes through the `script.run` command
 //! in the console's persistent context, so variables survive between runs; edits are undoable.
 
@@ -99,7 +99,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
         p.text(
             out_rect.center(),
             Align2::CENTER_CENTER,
-            "JavaScript with the After Effects scripting object model — try app.project.numItems",
+            "JavaScript with the compositor scripting object model — try app.project.numItems",
             Tokens::ui(12.0),
             t.text_faint,
         );

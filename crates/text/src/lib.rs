@@ -1,4 +1,4 @@
-//! EffectCraft text engine.
+//! Ardoise Motion text engine.
 //!
 //! - [`fonts`], [`sfnt`], [`layout`]: font database, shaping (harfrust), bidi, line breaking and
 //!   paragraph layout (shared design with FilmCraft's text engine).
@@ -189,7 +189,7 @@ pub fn paragraph_style(p: &ParaStyle, width: Option<f32>) -> ParagraphStyle {
         leading: 0.0,
         width,
         // The chosen direction is the paragraph's base direction (a left-to-right paragraph
-        // starting with Arabic or Hebrew still runs left to right, as in After Effects).
+        // starting with Arabic or Hebrew still runs left to right, as in reference compositor).
         rtl: Some(p.direction == Direction::Rtl),
         indent_start: p.indent_left as f32,
         indent_end: p.indent_right as f32,

@@ -1,4 +1,4 @@
-//! Photoshop import as a composition (IO-2) and Layer ▸ Create text conversions (SHP-5).
+//! PSD import as a composition (IO-2) and Layer ▸ Create text conversions (SHP-5).
 
 use effectcraft_color::BlendMode;
 use effectcraft_keyframe::Value as KV;
@@ -133,7 +133,7 @@ fn psd_imports_as_composition() {
     assert_eq!(inner_names, ["Hidden", "Masked Square"]);
     assert!(!inner.layers[0].switches.video);
     assert_eq!(inner.layers[1].blend_mode, BlendMode::Multiply);
-    // Footage items name their Photoshop layer; document-sized footage.
+    // Footage items name their PSD layer; document-sized footage.
     let LayerSource::Footage { item } = inner.layers[1].source else { panic!("footage") };
     let ItemKind::Footage(f) = &s.project.item(item).unwrap().kind else { panic!() };
     let sl = f.layer.as_ref().unwrap();

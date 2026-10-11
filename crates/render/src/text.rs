@@ -848,7 +848,7 @@ fn solid_fill(g: &PlacedGlyph, stroke: bool) -> bool {
 }
 
 /// The passes in drawing order, consecutive opaque fills of one colour gathered into a run that
-/// is rasterised as one outline, as After Effects draws a line of text: glyphs that touch (the
+/// is rasterised as one outline, as reference compositor draws a line of text: glyphs that touch (the
 /// crossbars of "ff") or overlap join without a seam (#415). Under an Inter-Character Blending
 /// mode other than Normal every character is still composited onto the others on its own.
 fn runs(geom: &TextGeom) -> Vec<(Vec<usize>, bool)> {

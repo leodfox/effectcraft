@@ -168,7 +168,7 @@ pub fn interact(
         let sign = if kind == "bg" || kind == "refineErase" { "−" } else { "+" };
         painter.text(hp, Align2::CENTER_CENTER, sign, Tokens::semibold(12.0), col);
     }
-    // ⌘/Ctrl-drag resizes the brush (After Effects): the circle stays at the press point and its
+    // ⌘/Ctrl-drag resizes the brush (reference compositor): the circle stays at the press point and its
     // edge follows the pointer. No stroke is painted.
     let rid = egui::Id::new("layer-panel-roto-resize");
     if resp.drag_started()

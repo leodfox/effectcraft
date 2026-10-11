@@ -256,7 +256,7 @@ fn layer_cache_is_keyed_by_colour_settings() {
 }
 
 /// #495: with no working space, Interpret As Linear Light footage is encoded with the project's
-/// Working Gamma: the sRGB curve at 2.2, a pure 2.4 power curve at 2.4 (as After Effects does);
+/// Working Gamma: the sRGB curve at 2.2, a pure 2.4 power curve at 2.4 (as reference compositor does);
 /// Blend Colors Using 1.0 Gamma linearizes with the same curve. A working space ignores it.
 #[test]
 fn working_gamma_24_encodes_linear_footage_with_a_power_curve() {

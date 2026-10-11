@@ -2,7 +2,7 @@
 //!
 //! Pure functions shared by the renderer and tests. Selection values are fractions (1 = fully
 //! selected; negative values invert the animated property's effect, as with a negative Amount).
-//! Behaviour follows After Effects' public documentation of the Range, Wiggly and Expression
+//! Behaviour follows reference compositor' public documentation of the Range, Wiggly and Expression
 //! selectors; the formulas themselves are our own.
 //!
 //! * **Range**: Start / End / Offset over `n` units, Shape (Square with Smoothness, Ramp Up /

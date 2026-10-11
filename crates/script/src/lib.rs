@@ -1,7 +1,7 @@
 //! # effectcraft-script (L4)
 //!
-//! Scripting with an After Effects-style object model, on the boa JavaScript engine (the one the
-//! expressions use). Scripts written for After Effects' documented scripting API mostly run
+//! Scripting with an compositor-style object model, on the boa JavaScript engine (the one the
+//! expressions use). Scripts written for reference compositor' documented scripting API mostly run
 //! unchanged:
 //!
 //! ```text
@@ -26,7 +26,7 @@
 //!   [`Session::execute`](effectcraft_engine::Session::execute), so it is undoable, journaled
 //!   and identical to the UI's action; `app.beginUndoGroup`/`endUndoGroup` fold everything in
 //!   between into one undo step.
-//! * **Match names** ([`matchnames`]): After Effects' documented match names for our properties
+//! * **Match names** ([`matchnames`]): reference compositor' documented match names for our properties
 //!   and effects (`ADBE Transform Group`, `ADBE Position`, `ADBE Gaussian Blur 2`…).
 //! * **Security**: scripts can import/open/save projects and render, but `File` reads are limited
 //!   to the project's folder and writes (and the network) are off unless Preferences ▸ Scripting

@@ -437,7 +437,7 @@ pub fn layer_rect_at(ctx: &crate::EffectCtx, offset: [f64; 2], scale: f64) -> (f
 /// with `offset` and `scale`, so it covers the whole layer rectangle (at most 4096). A text or
 /// shape layer's buffer only surrounds its content, but its layer bounds are comp-sized (see
 /// the renderer's `effect_bounds`): an effect that fills the layer, such as CC Tiler, fills
-/// those as in After Effects (#659).
+/// those as in reference compositor (#659).
 pub fn layer_cover_pad(ctx: &crate::EffectCtx, size: [u32; 2], offset: [f64; 2], scale: f64) -> u32 {
     let (x0, y0, w, h) = layer_rect_at(ctx, offset, scale);
     let need = [-x0, -y0, x0 + w - f64::from(size[0]), y0 + h - f64::from(size[1])].into_iter().fold(0.0, f64::max);
@@ -473,7 +473,7 @@ pub fn fit_buffer(source: &crate::Buf, width: u32, height: u32, offset: [f64; 2]
 }
 
 /// The layer chosen in layer parameter `id` fitted to `b` (see [`fit_layer`]), or a copy of
-/// `b`'s own pixels when none is chosen / available (After Effects' "self" behaviour).
+/// `b`'s own pixels when none is chosen / available (reference compositor' "self" behaviour).
 pub fn layer_or_self(ctx: &crate::EffectCtx, b: &crate::Buf, id: &str, masks_and_effects: bool, stretch: bool) -> Image {
     match ctx.layer_param(id, masks_and_effects) {
         Some(o) => fit_layer(ctx, b, &o, stretch),

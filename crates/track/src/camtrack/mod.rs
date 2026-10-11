@@ -36,7 +36,7 @@
 //!    camera) and adjusted jointly again. The solve stores `k1, k2`; the effect can undistort
 //!    its output so composited 3D layers line up.
 //!
-//! The camera model has square pixels and the principal point at the layer centre. Camera space is x right, y down, z forward (After Effects' convention); a camera
+//! The camera model has square pixels and the principal point at the layer centre. Camera space is x right, y down, z forward (reference compositor' convention); a camera
 //! is `(R, C, f)` with `X_cam = R (X − C)` and pixel `u = f x / z + w / 2`.
 //!
 //! The solve is stored in a canonical frame: the first solved frame's camera is at the origin
@@ -305,7 +305,7 @@ pub struct Ground {
     pub x_axis: V3,
 }
 
-/// A plane through solved points: After Effects' target.
+/// A plane through solved points: reference compositor' target.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", default)]
 pub struct Target {
@@ -390,7 +390,7 @@ impl CameraSolve {
             if linalg::dot(n, linalg::sub(cam.center, c)) < 0.0 {
                 n = linalg::scale(n, -1.0);
             }
-            // After Effects sizes the target from the camera distance when the points are close.
+            // reference compositor sizes the target from the camera distance when the points are close.
             let depth = linalg::norm(linalg::sub(cam.center, c));
             Target { center: c, normal: n, size: (spread * 2.0).max(depth * 0.12) }
         })
@@ -412,7 +412,7 @@ impl CameraSolve {
 
     /// Canonical solve coordinates → composition world, for a camera whose zoom on the first
     /// solved frame is `zoom0` (comp pixels) in a `comp` sized composition. Without a ground
-    /// plane, the first solved frame's camera becomes After Effects' default camera (at
+    /// plane, the first solved frame's camera becomes reference compositor' default camera (at
     /// `(w/2, h/2, −zoom)` looking down +z, so points at the median depth land near z = 0). With
     /// one, the ground plane becomes the X-Z plane through the origin, normal along −y (up).
     pub fn world(&self, comp: [f64; 2], zoom0: f64) -> Similarity {
@@ -466,7 +466,7 @@ impl CameraSolve {
     }
 }
 
-/// Deterministic colour of a track point (After Effects draws each target in its own colour).
+/// Deterministic colour of a track point (reference compositor draws each target in its own colour).
 pub fn point_color(id: u32) -> [f32; 3] {
     let mut h = id.wrapping_mul(0x9E37_79B9) ^ 0x5bd1_e995;
     h ^= h >> 15;

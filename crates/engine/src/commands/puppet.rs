@@ -7,7 +7,7 @@
 //!
 //! Pin positions are in effect space. A new pin is attached to the mesh under it: the click is
 //! mapped back through the current deformation to the rest mesh (its hidden rest position), and
-//! Position / Advanced pins get a Position keyframe at the current time, as in After Effects.
+//! Position / Advanced pins get a Position keyframe at the current time, as in reference compositor.
 
 use effectcraft_effects::puppet::{self, MeshOpts, PinKind};
 use effectcraft_effects::{Buf, Params};
@@ -98,7 +98,7 @@ fn add_pin(s: &mut Session, p: &Value) -> Result<Value> {
                 let rest = puppet::unmap(mesh, def, at);
                 // A moving pin holds its nearest mesh vertex at `position + (vertex - rest)`
                 // (puppet::solve). Choose the position that keeps that vertex where it is now, so
-                // adding a pin to a bent mesh moves nothing (After Effects, #318); on an unbent
+                // adding a pin to a bent mesh moves nothing (reference compositor, #318); on an unbent
                 // mesh that is the click itself.
                 let now = (0..mesh.verts.len().min(def.len()))
                     .filter(|_| kind.moves())

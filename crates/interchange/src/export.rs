@@ -1,5 +1,5 @@
-//! Compositions → timeline documents (File ▸ Export ▸ Adobe Premiere Pro Project…, which writes
-//! Final Cut Pro XML that Premiere Pro imports; FCPXML, OTIO and EDL on request).
+//! Compositions → timeline documents (File ▸ Export ▸ XML Interchange Project…, which writes
+//! XML Interchange (xmeml) that video editors imports; FCPXML, OTIO and EDL on request).
 
 use std::collections::HashMap;
 
@@ -17,7 +17,7 @@ use crate::{Error, Result, TimelineFormat, par_fraction, rate_out, tick_out};
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum PrerenderMode {
-    /// Nothing is rendered: layers only EffectCraft can draw are left out (with a warning), and
+    /// Nothing is rendered: layers only Ardoise Motion can draw are left out (with a warning), and
     /// effects, masks, parenting… of footage layers are dropped.
     None,
     /// Layers a timeline cannot represent (text, shapes, effects, masks, 3D, parenting, track

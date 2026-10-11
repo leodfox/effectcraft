@@ -87,7 +87,7 @@ fn enable_time_remap(s: &mut Session, p: &Value) -> Result<Value> {
         return Err(bad("layer.enableTimeRemap", "time remapping needs a footage or composition layer"));
     }
     // Each layer's source duration (stills have none): a layer extended past it ends its remap
-    // at the source's end, where its last frame starts to hold (After Effects).
+    // at the source's end, where its last frame starts to hold (reference compositor).
     let src_end: Vec<(LayerId, Tick)> =
         comp.layers.iter().filter(|l| ids.contains(&l.id)).filter_map(|l| Some((l.id, l.source.item().and_then(|i| s.project.item(i))?.duration()?))).collect();
     let on = s.edit("Enable Time Remapping", None, |proj, _| {

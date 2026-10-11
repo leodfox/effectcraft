@@ -1,4 +1,4 @@
-//! Composition ▸ Save Frame As ▸ Photoshop Layers… / ProEXR….
+//! Composition ▸ Save Frame As ▸ PSD Layers… / ProEXR….
 
 use serde_json::json;
 

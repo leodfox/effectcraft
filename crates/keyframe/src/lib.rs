@@ -1,4 +1,4 @@
-//! Animated values with After Effects keyframe semantics.
+//! Animated values with reference compositor keyframe semantics.
 //!
 //! * **Temporal** interpolation between two keys is linear, Bezier or hold. Bezier eases are given
 //!   per dimension as *speed* (value units per second) and *influence* (fraction of the segment's
@@ -314,7 +314,7 @@ fn v3(v: &Value) -> [f64; 3] {
     v.as_vec3()
 }
 
-/// Auto-Bezier spatial tangents for key `i`, as After Effects computes them (Catmull-Rom): the out
+/// Auto-Bezier spatial tangents for key `i`, as reference compositor computes them (Catmull-Rom): the out
 /// tangent is a sixth of the way from the previous key to the next, the in tangent its mirror, and
 /// key times play no part. An end key uses its one neighbour, so the path leaves the first key
 /// and enters the last one toward the neighbouring key instead of with no tangent.
@@ -337,7 +337,7 @@ pub fn spatial_tangents(keys: &[Keyframe], i: usize) -> ([f64; 3], [f64; 3]) {
 /// Spatial tangents of key `i` as motion-path handles: [`spatial_tangents`], with a side that
 /// has none but a neighbour (a key whose stored tangents are zero, as on a straight path) pointing
 /// where the path leaves the key, toward the segment's next control point, a third of the way to
-/// the neighbouring key. After Effects shows Bezier handles there to drag the path into a curve.
+/// the neighbouring key. reference compositor shows Bezier handles there to drag the path into a curve.
 pub fn spatial_handles(keys: &[Keyframe], i: usize) -> ([f64; 3], [f64; 3]) {
     let (mut tin, mut tout) = spatial_tangents(keys, i);
     let Some(p) = keys.get(i).map(|k| v3(&k.value)) else { return (tin, tout) };
@@ -426,7 +426,7 @@ pub fn spatial_segment_length(keys: &[Keyframe], i: usize) -> f64 {
 
 /// Re-time roving keyframes: each run of roving keys between two fixed (non-roving) keys gets
 /// times proportional to the motion-path length, so the layer moves through them at one
-/// constant speed (After Effects' "Rove Across Time"). The first and last keys never rove.
+/// constant speed (reference compositor' "Rove Across Time"). The first and last keys never rove.
 /// Returns true when any key time changed. Key order is preserved.
 pub fn retime_roving(keys: &mut [Keyframe], spatial: bool) -> bool {
     let n = keys.len();
@@ -848,7 +848,7 @@ mod tests {
 
     #[test]
     fn spatial_auto_bezier_tangents_follow_after_effects() {
-        // Measured on After Effects 26.3 with original paths (docs/fidelity/README.md): each
+        // Measured on reference compositor 26.3 with original paths (docs/fidelity/README.md): each
         // auto-Bezier key's out tangent is (next - previous) / 6 and its in tangent the mirror,
         // whatever the key times. End keys use their one neighbour: (neighbour - key) / 6.
         let p = [[40.0, 300.0, 0.0], [260.0, 80.0, 20.0], [700.0, 420.0, -40.0], [1100.0, 150.0, 0.0]];

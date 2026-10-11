@@ -2,7 +2,7 @@
 
 use serde::{Deserialize, Serialize};
 
-/// A Bezier shape in the After Effects / Lottie vertex model: vertices with tangents relative to
+/// A Bezier shape in the reference compositor / Lottie vertex model: vertices with tangents relative to
 /// their vertex.
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 pub struct ShapePath {

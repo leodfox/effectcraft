@@ -6,7 +6,7 @@
 use super::FrameSeg;
 use super::matting::{self, contrast, gauss, guided_filter, shift_soft, signed_distance};
 
-/// The effect's matte parameters (After Effects' units: pixels and percent).
+/// The effect's matte parameters (reference compositor' units: pixels and percent).
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct MatteParams {
     // Roto Brush Matte.

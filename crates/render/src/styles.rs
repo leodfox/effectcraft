@@ -1,4 +1,4 @@
-//! Layer Styles rendering (Photoshop-style layer effects, as After Effects renders them).
+//! Layer Styles rendering (PSD-style layer effects, as reference compositor renders them).
 //!
 //! Styles run in layer space after masks and effects and before the transform. The layer's
 //! processed pixels (the *content*) become:
@@ -6,7 +6,7 @@
 //! * **exterior passes** — Drop Shadow, then Outer Glow — separate buffers composited onto the
 //!   comp *below* the layer, each with its own blend mode (so a Multiply shadow multiplies the
 //!   layers underneath, as in AE);
-//! * the **body** — the content scaled by Fill Opacity, then the interior styles in Photoshop's
+//! * the **body** — the content scaled by Fill Opacity, then the interior styles in PSD's
 //!   stacking order (Gradient Overlay, Color Overlay, Satin, Inner Glow, Inner Shadow), each
 //!   clipped to the content's alpha and blended with its mode, then Stroke and Bevel and Emboss.
 //!   With *Blend Interior Styles as Group* the interior styles are faded by Fill Opacity too.

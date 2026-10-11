@@ -1,4 +1,4 @@
-//! Motion trackers in the property tree, laid out like After Effects':
+//! Motion trackers in the property tree, laid out like reference compositor':
 //!
 //! ```text
 //! Motion Trackers                      (match `motionTrackers`, first group of the layer)
@@ -114,7 +114,7 @@ pub struct TrackerOptions {
     /// Confidence threshold, percent.
     pub threshold: f64,
     pub action: LowConfidence,
-    /// Follow each feature's rotation and scale while matching (EffectCraft extension).
+    /// Follow each feature's rotation and scale while matching (Ardoise Motion extension).
     pub track_shape: bool,
 }
 

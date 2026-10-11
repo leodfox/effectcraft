@@ -2,7 +2,7 @@
 //! tools paint. Double-clicking a footage or solid layer (or Layer ▸ Open Layer) opens it.
 //!
 //! The image is the layer's source and masks followed by its effects up to the View menu's
-//! choice (by default the last Paint effect, as After Effects shows "Paint"). Dragging with a
+//! choice (by default the last Paint effect, as reference compositor shows "Paint"). Dragging with a
 //! paint tools records the stroke's points in layer space and, on release, runs `paint.stroke`
 //! at the current time (the drag's duration feeds Write On). Alt/Option-click with the Clone
 //! Stamp sets the clone source.

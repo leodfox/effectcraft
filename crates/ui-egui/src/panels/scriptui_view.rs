@@ -373,7 +373,7 @@ pub fn show_windows(app: &mut EffectcraftApp, ctx: &egui::Context) {
     let mut acts = vec![];
     let screen = ctx.content_rect();
     if windows.iter().any(|w| w.modal) {
-        // A modal dialog blocks the app behind it, as in After Effects.
+        // A modal dialog blocks the app behind it, as in reference compositor.
         let r = egui::Area::new(egui::Id::new("scriptui-modal-block")).order(egui::Order::Middle).fixed_pos(screen.min).show(ctx, |ui| {
             ui.allocate_exact_size(screen.size(), Sense::click_and_drag());
             ui.painter().rect_filled(screen, 0.0, Color32::from_black_alpha(90));

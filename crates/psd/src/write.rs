@@ -1,4 +1,4 @@
-//! A minimal Photoshop document writer, per the same specification as the reader: RGB, CMYK or
+//! A minimal PSD document writer, per the same specification as the reader: RGB, CMYK or
 //! Grayscale, 8 or 16 bits, raw or RLE channels, pixel layers with layer masks, groups and any
 //! additional-information blocks (helpers below build text, effects, fill and adjustment
 //! blocks). Used to generate test fixtures; not a full exporter.

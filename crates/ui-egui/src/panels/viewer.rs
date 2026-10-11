@@ -85,7 +85,7 @@ enum Gesture {
         l2c: Mat3,
         inv: Mat3,
         /// The other selected layers and their scales as the drag began: they scale by the same
-        /// ratio about their own anchor points, as in After Effects (#491).
+        /// ratio about their own anchor points, as in reference compositor (#491).
         others: Vec<(LayerId, [f64; 3])>,
     },
     Rotate {
@@ -383,7 +383,7 @@ fn handle_point(b: [f64; 4], handle: usize) -> [f64; 2] {
 
 /// The resize cursor over bounding-box handle `handle` of the on-screen box `sq` (corners
 /// clockwise from the top left, handles as in [`handle_point`]): along the direction the handle
-/// scales, so it turns with the layer, as in After Effects. A corner points between its two
+/// scales, so it turns with the layer, as in reference compositor. A corner points between its two
 /// edges (the box's diagonal whatever its proportions), an edge handle across its edge.
 fn handle_cursor(sq: &[Pos2], handle: usize) -> egui::CursorIcon {
     let at = |k: usize| sq.get(k % 4).copied().unwrap_or(Pos2::ZERO);
@@ -410,7 +410,7 @@ fn handle_cursor(sq: &[Pos2], handle: usize) -> egui::CursorIcon {
 /// The scale ratio (x, y) that puts the point grabbed at `start` (relative to the anchor, layer
 /// pixels) under the pointer at `cur`. `uniform` (Shift on a corner) keeps the aspect ratio,
 /// following the pointer along the handle's diagonal. Dragging past the anchor flips the layer,
-/// as in After Effects; an axis whose grabbed point sits on the anchor keeps its scale.
+/// as in reference compositor; an axis whose grabbed point sits on the anchor keeps its scale.
 fn drag_ratio(start: [f64; 2], cur: [f64; 2], axes: [bool; 2], uniform: bool) -> [f64; 2] {
     if uniform {
         let d2 = start[0] * start[0] + start[1] * start[1];
@@ -679,7 +679,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
     let p = ui.painter().clone();
     VIEW_CAM.with(|c| c.set(app.session.view_camera(cid)));
 
-    // Navigator bar (open comps as breadcrumbs). After Effects shows a single breadcrumb row:
+    // Navigator bar (open comps as breadcrumbs). reference compositor shows a single breadcrumb row:
     // when the Composition Navigator (nested comp flow) is above the viewer, this row is left
     // out.
     let nav_h = if super::precomp::has_flow(app) { 0.0 } else { 24.0 };
@@ -1712,7 +1712,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
             }
             Tool::Type | Tool::TypeVertical => {}
             Tool::Pen | Tool::MaskFeather => {}
-            // On a motion path (After Effects): Add Vertex adds a keyframe where it is clicked,
+            // On a motion path (reference compositor): Add Vertex adds a keyframe where it is clicked,
             // Delete Vertex removes the keyframe, Convert Vertex switches it between Linear and
             // Auto Bezier spatial interpolation.
             Tool::PenAdd => {
@@ -1781,7 +1781,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
                     let _ = app.session.execute("edit.deselectAll", json!({}));
                 } else if !mods.shift && !app.session.state.selected_vertices.is_empty() && ov::segment_at(&paths, &map, pos, 6.0).is_none() {
                     // A click away from the paths, even on their layer, deselects the mask
-                    // points (the layer stays selected), as in After Effects (#513).
+                    // points (the layer stays selected), as in reference compositor (#513).
                     let _ = app.session.execute("mask.selectVertices", json!({"vertices": []}));
                 }
             }
@@ -1795,7 +1795,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
     {
         // Double-click a path: all its points selected in a free-transform box (Layer ▸ Mask and
         // Shape Path ▸ Free Transform Points), so dragging any of them, or inside the box, moves
-        // the whole path (After Effects).
+        // the whole path (reference compositor).
         if let Some(p) = paths.iter().find(|p| p.layer == l && p.uid == m) {
             let all: Vec<serde_json::Value> = (0..p.sp.vertices.len()).map(|index| json!({"layer": l.0, "mask": m, "index": index})).collect();
             let _ = app.session.execute("mask.selectVertices", json!({"vertices": all}));
@@ -1945,7 +1945,7 @@ fn select_motion_key(app: &mut EffectcraftApp, k: &ov::KeyHit) -> bool {
 }
 
 /// The pointer for a Pen slot tool: the tool's own pen, the Pen showing Add Vertex's over a path
-/// it would add a point to (After Effects).
+/// it would add a point to (reference compositor).
 fn pen_cursor_icon(tool: Tool, over_path: bool) -> crate::icons::Icon {
     use crate::icons::Icon;
     match tool {
@@ -2085,7 +2085,7 @@ pub(crate) fn layer_at<'a>(ectx: &EvalCtx<'a>, cpt: [f64; 2]) -> Option<&'a Laye
 }
 
 /// The layer a press at a comp point acts on, selected (Shift toggles the topmost layer). As in
-/// After Effects, a selected layer under the point comes before the layers in front of it, so it
+/// reference compositor, a selected layer under the point comes before the layers in front of it, so it
 /// can be dragged where they cover it; otherwise the topmost layer (#230).
 pub(crate) fn pick(app: &mut EffectcraftApp, ectx: &EvalCtx, cpt: [f64; 2], toggle: bool) -> Option<LayerId> {
     if toggle {
@@ -2168,7 +2168,7 @@ fn shape_drag(app: &EffectcraftApp, tool: Tool, start: [f64; 2], end: [f64; 2], 
     let (target, layer) = target;
     let mask_index = if target == ShapeTarget::Mask { layer.and_then(|l| l.masks()).map_or(0, |m| m.groups().count()) } else { 0 };
     let (mut w, mut h) = ((end[0] - start[0]).abs(), (end[1] - start[1]).abs());
-    // Ctrl/Cmd draws from the press point as the centre, as in After Effects.
+    // Ctrl/Cmd draws from the press point as the centre, as in reference compositor.
     if mods.command {
         w *= 2.0;
         h *= 2.0;
@@ -2273,7 +2273,7 @@ fn create_shape(app: &mut EffectcraftApp, tool: Tool, a: [f64; 2], b: [f64; 2], 
         }
         return;
     }
-    // Into the selected shape layer's Contents as a new group (as in After Effects), else a new
+    // Into the selected shape layer's Contents as a new group (as in reference compositor), else a new
     // shape layer; painted with the Tools bar's Fill and Stroke.
     if let Err(e) = app.session.execute("shape.newShape", json!({"kind": kind, "size": [w, h], "position": [cx, cy]})) {
         app.ui.status = e.to_string();

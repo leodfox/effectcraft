@@ -1,4 +1,4 @@
-//! ScriptUI: the windows, dialogs and dockable panels scripts build with After Effects'
+//! ScriptUI: the windows, dialogs and dockable panels scripts build with reference compositor'
 //! ScriptUI object model (`new Window("dialog", "Title")`, `win.add("button", undefined, "OK")`,
 //! `orientation`, `alignChildren`, `onClick`/`onChange`, `show()`, `close()`,
 //! `layout.layout()`…).

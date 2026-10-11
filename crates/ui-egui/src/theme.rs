@@ -1,6 +1,6 @@
 //! Design tokens. Every widget reads colours/sizes from [`Tokens`] so themes apply everywhere.
 //!
-//! The default theme follows the look of After Effects' dark UI (values estimated from public
+//! The default theme follows the look of reference compositor' dark UI (values estimated from public
 //! documentation and product knowledge, tuned by eye; see `plan/aftereffects/README.md` §2). Fonts
 //! are Inter + JetBrains Mono (OFL).
 
@@ -270,7 +270,7 @@ impl Tokens {
         t
     }
 
-    /// Lighten (b > 0) or darken (b < 0) the interface greys, like After Effects' brightness
+    /// Lighten (b > 0) or darken (b < 0) the interface greys, like reference compositor' brightness
     /// slider. Accent colours, labels and keyframe colours are kept.
     pub fn with_brightness(mut self, b: f32) -> Tokens {
         let b = b.clamp(-1.0, 1.0);

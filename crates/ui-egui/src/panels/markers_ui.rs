@@ -1,7 +1,7 @@
 //! Markers in the Timeline (composition markers in the ruler, layer markers on layer bars) and
 //! the Composition/Layer Marker dialog.
 //!
-//! Gestures, as in After Effects: drag moves a marker (snapping to the current time, the work
+//! Gestures, as in reference compositor: drag moves a marker (snapping to the current time, the work
 //! area and other markers), Alt-drag sets its duration, Cmd-click (Ctrl-click elsewhere)
 //! deletes it, double-click opens the Marker dialog, right-click offers Settings / Convert /
 //! Delete. Protected regions (Responsive Design) shade the timeline. A marker dragged out of the
@@ -378,7 +378,7 @@ pub(crate) fn comp_markers(app: &mut EffectcraftApp, ui: &mut egui::Ui, comp: &C
     }
 }
 
-/// The composition marker bin at the right end of the time ruler (`bin`), as in After Effects
+/// The composition marker bin at the right end of the time ruler (`bin`), as in reference compositor
 /// (#275): drag a marker out of it and it follows the pointer along the marker strip `strip`
 /// (snapping like a dragged marker); dropping it there adds a composition marker at that time,
 /// one undo step. Dropped back on the bin or outside the time graph's width, nothing is added.

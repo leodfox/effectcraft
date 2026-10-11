@@ -11,7 +11,7 @@ pub const PARTIAL: &[(&str, &str)] = &[];
 
 /// Whether Effect Controls shows parameter (or twirl-down group) `param` (spec id path,
 /// `group/param`) of an instance of effect `effect`, given the instance's current values
-/// (`value(spec id)`). After Effects shows only the controls a popup selects: Levels' channel,
+/// (`value(spec id)`). reference compositor shows only the controls a popup selects: Levels' channel,
 /// Hue/Saturation's Channel Control, the camera system of the card effects, and so on. Every
 /// parameter stays animatable and addressable; this is presentation only.
 pub fn param_shown(effect: &str, param: &str, value: &dyn Fn(&str) -> Option<effectcraft_keyframe::Value>) -> bool {
@@ -128,7 +128,7 @@ pub fn effects_markdown() -> String {
     let float = r.iter().filter(|e| e.float).count();
     let partial = r.iter().filter(|e| PARTIAL.iter().any(|(id, _)| *id == e.id)).count();
     s.push_str(&format!(
-        "EffectCraft ships {} effects with {} parameters in total, grouped into the same categories as the Effects & Presets \
+        "Ardoise Motion ships {} effects with {} parameters in total, grouped into the same categories as the Effects & Presets \
          panel. Every effect is our own implementation, written from public behaviour descriptions and standard \
          image-processing literature. Parameter names, order, popup options, units, defaults and ranges follow the \
          reference application so that projects, expressions and muscle memory carry over.\n\n",

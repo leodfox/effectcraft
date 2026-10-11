@@ -235,7 +235,7 @@ fn collapsed_precomp_of_another_size_renders_through_the_parent_camera() {
     }
 }
 
-/// Text layers are always continuously rasterised, as text is vector in After Effects (#390, #194):
+/// Text layers are always continuously rasterised, as text is vector in reference compositor (#390, #194):
 /// text scaled up with the layer's Scale is drawn at its on-screen size, as sharp as text set at
 /// that font size, without the switch.
 #[test]

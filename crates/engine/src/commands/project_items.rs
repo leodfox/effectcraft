@@ -160,7 +160,7 @@ fn usage_of(project: &Project, items: &[ItemId]) -> (usize, usize) {
 
 /// What deleting the items (default: selected) would delete: the items (with folder contents)
 /// and the layers in other compositions that use them. The Project panel asks before deleting
-/// items in use, as After Effects does.
+/// items in use, as reference compositor does.
 fn usage(s: &mut Session, p: &Value) -> Result<Value> {
     let ids = items_p(s, p, "project.usage")?;
     let doomed = doomed_items(&s.project, &ids);
@@ -169,7 +169,7 @@ fn usage(s: &mut Session, p: &Value) -> Result<Value> {
 }
 
 /// Delete project items (folders with their contents). Layers that use a deleted item and Render
-/// Queue items of deleted comps go too, like After Effects' Edit ▸ Clear in the Project panel.
+/// Queue items of deleted comps go too, like reference compositor' Edit ▸ Clear in the Project panel.
 fn delete(s: &mut Session, p: &Value) -> Result<Value> {
     let c = "project.delete";
     let ids = items_p(s, p, c)?;

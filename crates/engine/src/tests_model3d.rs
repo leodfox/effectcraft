@@ -196,7 +196,7 @@ fn material_commands_and_serde() {
 
 /// #264: only Advanced 3D draws models and primitives, and new comps are Classic 3D, so an
 /// imported model was invisible. Adding one switches the comp to Advanced 3D (in the same undo
-/// step, with a toast), as After Effects does.
+/// step, with a toast), as reference compositor does.
 #[test]
 fn adding_models_switches_classic_comps_to_advanced_3d() {
     let toasts = |s: &mut Session| -> Vec<String> {

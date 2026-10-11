@@ -2,9 +2,9 @@
 //! Reload Footage Changed on Disk.
 //!
 //! Reloading re-reads what the file decides (its size, a movie's duration, streams and frame
-//! rate, the codec, a data file's text) and keeps what the project decided: the Photoshop layer
+//! rate, the codec, a data file's text) and keeps what the project decided: the PSD layer
 //! or PDF page an item shows and its interpretation (alpha, conformed frame rate, pixel aspect,
-//! fields, colour). A Photoshop layer is found again by name when layers were added or removed
+//! fields, colour). A PSD layer is found again by name when layers were added or removed
 //! around it. The media layer then forgets the file and the layer cache is emptied, so the next
 //! render reads the new pixels.
 //!
@@ -30,7 +30,7 @@ pub type Stamp = (u64, u128);
 pub type Scan = Arc<Mutex<Option<Vec<(String, Option<Stamp>)>>>>;
 
 /// The files footage items read: each item's file and every frame of an image sequence. Image
-/// sequences count only with Automatically Reload Footage set to All Footage (After Effects'
+/// sequences count only with Automatically Reload Footage set to All Footage (reference compositor'
 /// default, Non-Sequence Footage, leaves them alone: thousands of frames on a share add up).
 fn watched(s: &Session) -> BTreeSet<String> {
     let sequences = s.prefs.import.auto_reload_footage == "all";
@@ -49,7 +49,7 @@ fn watched(s: &Session) -> BTreeSet<String> {
     paths
 }
 
-/// Size and position in the stack of Photoshop layer `l` in the file at `path` now: the layer
+/// Size and position in the stack of PSD layer `l` in the file at `path` now: the layer
 /// at its recorded index when the name still matches, else the first layer with its name.
 fn psd_layer(s: &Session, path: &str, l: &SourceLayer) -> Option<(u32, Option<(u32, u32)>)> {
     let psd = effectcraft_psd::Psd::parse(s.services.read_file(path).ok()?).ok()?;

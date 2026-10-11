@@ -6,7 +6,7 @@ use std::sync::atomic::{AtomicBool, Ordering};
 
 use effectcraft_engine::Session;
 
-use crate::{api, audio, browse, diskcache, files, frames, persist, storage, worker};
+use crate::{api, ardoise_bridge, audio, browse, diskcache, files, frames, persist, storage, worker};
 use effectcraft_ui_egui::EffectcraftApp;
 use serde_json::json;
 use wasm_bindgen::prelude::*;
@@ -78,7 +78,7 @@ pub(crate) fn open_or_import(app: &mut EffectcraftApp, paths: Vec<String>) {
     }
 }
 
-/// The eframe app: the shared EffectCraft UI plus the browser host's per-frame duties.
+/// The eframe app: the shared Ardoise Motion UI plus the browser host's per-frame duties.
 pub struct WebApp {
     pub app: EffectcraftApp,
     /// Keep the session snapshot (off with `?empty`).
@@ -266,6 +266,13 @@ pub async fn start(canvas_id: String) -> Result<(), JsValue> {
             }),
         )
         .await?;
+    // Ardoise: files pushed by the embedding host are handled like dropped files.
+    ardoise_bridge::install_bridge(|name, bytes| {
+        let data = js_sys::Uint8Array::new(&bytes).to_vec();
+        let path = files::path_for(&name);
+        files::put(&path, data.into());
+        post(move |app| open_or_import(app, vec![path]));
+    });
     // Hide the loading message once the app runs.
     if let Some(el) = doc.get_element_by_id("loading") {
         el.remove();

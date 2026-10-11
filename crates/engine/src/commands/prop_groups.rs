@@ -175,7 +175,7 @@ pub(crate) fn paste_contents(s: &mut Session, p: &Value) -> Result<Value> {
 }
 
 /// Edit ▸ Duplicate with shape items selected: each is copied in place, above the original and
-/// named as After Effects does ("Rectangle 1" → "Rectangle 2"), and the copies are selected.
+/// named as reference compositor does ("Rectangle 1" → "Rectangle 2"), and the copies are selected.
 pub(crate) fn duplicate_contents(s: &mut Session, items: &[(LayerId, Uid)]) -> Result<Value> {
     let c = "edit.duplicate";
     let cid = s.active_comp_id().ok_or(EngineError::NoComp)?;

@@ -1,9 +1,9 @@
-//! The colour picker every colour input opens, laid out like After Effects' Color Picker: a
+//! The colour picker every colour input opens, laid out like reference compositor' Color Picker: a
 //! square and a slider for the channel chosen with the H / S / B / R / G / B buttons, the new
 //! colour over the original, the HSB and RGB values, the hex code, and OK / Cancel.
 //!
 //! Colours are sRGB components (0–1), as the project stores them. Changes apply as they are made
-//! (After Effects' Preview); Cancel or Escape goes back to the colour the picker opened with.
+//! (reference compositor' Preview); Cancel or Escape goes back to the colour the picker opened with.
 
 use egui::{Color32, Rect, Response, Sense, Stroke, StrokeKind, Ui, pos2, vec2};
 
@@ -80,7 +80,7 @@ enum Chan {
 }
 
 impl Chan {
-    /// The square's (across, up) channels while `self` is on the slider (After Effects' layout).
+    /// The square's (across, up) channels while `self` is on the slider (reference compositor' layout).
     fn square(self) -> (Chan, Chan) {
         match self {
             Chan::H => (Chan::S, Chan::V),
@@ -152,7 +152,7 @@ fn color_picker(ui: &mut Ui, id: egui::Id, c: &mut [f32; 3], original: [f32; 3])
         Some((hsv, _)) => Pick { hsv: keep_hue(rgb_to_hsv(*c), hsv), rgb: *c },
         None => Pick { hsv: rgb_to_hsv(*c), rgb: *c },
     };
-    // The slider's channel is remembered between pickers, as After Effects does.
+    // The slider's channel is remembered between pickers, as reference compositor does.
     let chan_id = egui::Id::new("color-picker-channel");
     let mut chan = ui.data(|d| d.get_temp::<usize>(chan_id)).and_then(|i| CHANS.get(i).map(|c| c.0)).unwrap_or(Chan::H);
     let before = pick;

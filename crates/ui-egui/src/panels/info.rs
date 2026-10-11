@@ -109,7 +109,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
             );
         }
         if !app.session.state.selected_keys.is_empty() {
-            // One key: its property, time and value (as After Effects' Info panel shows them).
+            // One key: its property, time and value (as reference compositor' Info panel shows them).
             let sel = &app.session.state.selected_keys;
             let one = match sel.as_slice() {
                 [k] => c.layer(k.layer).and_then(|l| {

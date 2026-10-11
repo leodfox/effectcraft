@@ -1,4 +1,4 @@
-//! Menus, keyboard shortcuts and UI-level commands. The menu bar is the engine's After Effects
+//! Menus, keyboard shortcuts and UI-level commands. The menu bar is the engine's reference compositor
 //! menu tree (`effectcraft_engine::menus`): every entry is an engine command, and frontend-only
 //! commands (viewer zoom, panels, dialogs…) come back as `Event::Frontend` and are performed by
 //! [`frontend`]. [`UI_COMMANDS`] holds the remaining UI-only shortcuts (tools, timeline
@@ -202,7 +202,7 @@ fn reveal_time_remap(app: &mut EffectcraftApp, params: &Value) {
 }
 
 /// After Alt+Shift+P (A, S, R, T) the Timeline shows the property on each layer it keyed, as in
-/// After Effects: added to what a reveal shortcut shows, else with the layer's Transform twirled
+/// reference compositor: added to what a reveal shortcut shows, else with the layer's Transform twirled
 /// open, else alone like P.
 fn reveal_keyed(app: &mut EffectcraftApp, keyed: &Value, kind: &str) {
     let layers: std::collections::BTreeSet<u64> = keyed.as_array().into_iter().flatten().filter_map(|k| k.get("layer").and_then(Value::as_u64)).collect();
@@ -241,7 +241,7 @@ fn reveal_targets(app: &EffectcraftApp) -> Vec<u64> {
 
 /// The arrow keys over the Composition panel or the Timeline: move the selected layers 1 pixel
 /// at the viewer's magnification (`up`, `down`, `left`, `right`), 10 with Shift (`up10`…), as
-/// After Effects does, so zoomed in they move by fractions of a comp pixel. Not while typing,
+/// reference compositor does, so zoomed in they move by fractions of a comp pixel. Not while typing,
 /// or with mask points selected.
 fn nudge(app: &mut EffectcraftApp, ctx: &egui::Context, dir: &str) -> Result<Value, String> {
     let (side, n) = match dir.strip_suffix("10") {
@@ -315,7 +315,7 @@ pub fn invoke(app: &mut EffectcraftApp, ctx: &egui::Context, id: &str, params: V
     if crate::panels::unsaved::guard(app, id, &params) {
         return Ok(json!({"dialog": "unsavedChanges"}));
     }
-    // Deleting Project items that compositions use asks first, as in After Effects.
+    // Deleting Project items that compositions use asks first, as in reference compositor.
     if crate::panels::delete_items::guard(app, id, &params) {
         return Ok(json!({"dialog": "deleteItems"}));
     }
@@ -637,7 +637,7 @@ pub fn invoke(app: &mut EffectcraftApp, ctx: &egui::Context, id: &str, params: V
                 return r;
             }
             // An effect added to a layer (Effect menu, Last Effect, dropped on a layer) brings
-            // up Effect Controls on that layer, as in After Effects.
+            // up Effect Controls on that layer, as in reference compositor.
             if matches!(id, "effect.apply" | "effect.applyLast") {
                 let r = run_engine(app, ctx, id, params.clone());
                 if let Ok(applied) = &r {
@@ -669,11 +669,11 @@ pub fn invoke(app: &mut EffectcraftApp, ctx: &egui::Context, id: &str, params: V
 const COPY_COMMANDS: &[&str] =
     &["edit.copy", "edit.cut", "edit.copyWithPropertyLinks", "edit.copyWithRelativePropertyLinks", "edit.copyExpressionOnly", "keys.copy", "effect.copy"];
 
-/// A line for the system clipboard naming what EffectCraft copied. The system clipboard must
+/// A line for the system clipboard naming what Ardoise Motion copied. The system clipboard must
 /// hold something: with nothing on it, the windowing layer sends no paste event for Ctrl+V.
 fn clipboard_note(s: &effectcraft_engine::Session) -> String {
     let st = &s.state;
-    let n = |n: usize, one: &str, many: &str| format!("EffectCraft: {n} {}", if n == 1 { one } else { many });
+    let n = |n: usize, one: &str, many: &str| format!("Ardoise Motion: {n} {}", if n == 1 { one } else { many });
     if st.clip_is_keys && !st.key_clipboard.is_empty() {
         n(st.key_clipboard.iter().map(|c| c.keys.len()).sum(), "keyframe", "keyframes")
     } else if !st.effect_clipboard.is_empty() {
@@ -681,7 +681,7 @@ fn clipboard_note(s: &effectcraft_engine::Session) -> String {
     } else if !st.contents_clipboard.is_empty() {
         n(st.contents_clipboard.len(), "shape item", "shape items")
     } else if st.link_clipboard.is_some() {
-        "EffectCraft: property links".into()
+        "Ardoise Motion: property links".into()
     } else {
         n(st.clipboard.len(), "layer", "layers")
     }
@@ -915,7 +915,7 @@ pub fn frontend(app: &mut EffectcraftApp, ctx: &egui::Context, id: &str, p: Valu
             };
             Value::Null
         }
-        // Ctrl+\ / Cmd+\, as in After Effects (#336): `{maximized}`, the window's new state.
+        // Ctrl+\ / Cmd+\, as in reference compositor (#336): `{maximized}`, the window's new state.
         "window.maximizeApp" => {
             let maximized = !ctx.input(|i| i.viewport().maximized.unwrap_or(false));
             ctx.send_viewport_cmd(egui::ViewportCommand::Maximized(maximized));
@@ -1277,7 +1277,7 @@ fn run_with_picked(app: &mut EffectcraftApp, id: &str, key: &str, params: &Value
     if matches!(id, "file.import" | "file.importMultiple") {
         p.insert("background".into(), Value::Bool(true));
     }
-    // Photoshop files ask how to import them first; numbered stills whether to import them as an
+    // PSD files ask how to import them first; numbered stills whether to import them as an
     // image sequence.
     let picked = Value::Object(p.clone());
     if id == "file.import" && crate::panels::dialogs::open_form(app, id, &picked)
@@ -1655,7 +1655,7 @@ pub fn handle_shortcuts(app: &mut EffectcraftApp, ctx: &egui::Context) {
     let binds = bindings(&app.session);
     for (key, mods, pressed) in events {
         // Plain Spacebar runs its shortcut (Play Current Preview) on the release: held, it is
-        // the Hand tool (After Effects), and a drag with it must not start or stop playback.
+        // the Hand tool (reference compositor), and a drag with it must not start or stop playback.
         if key == egui::Key::Space && (!pressed || !mods.any()) {
             if pressed {
                 if app.dialog.is_none() {
@@ -1866,7 +1866,7 @@ pub(crate) fn dyn_ctx<'a>(workspace: &'a str, saved_workspaces: &'a [String]) ->
     effectcraft_engine::menus::DynCtx { workspace: Some(workspace), saved_workspaces }
 }
 
-/// The check-mark column every menu row reserves (like macOS / After Effects menus).
+/// The check-mark column every menu row reserves (like macOS / reference compositor menus).
 fn gutter(checked: bool) -> egui::Atom<'static> {
     use egui::AtomExt;
     (if checked { "✔" } else { "" }).atom_size(egui::vec2(14.0, 14.0))
@@ -1923,7 +1923,7 @@ mod tests {
     }
 
     /// #336: Ctrl+\ (Cmd+\ on macOS) maximizes the application window, and again restores
-    /// it, as in After Effects.
+    /// it, as in reference compositor.
     #[test]
     fn ctrl_backslash_maximizes_or_restores_the_window() {
         let mut app = EffectcraftApp::new(effectcraft_engine::Session::default());

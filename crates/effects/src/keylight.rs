@@ -1,4 +1,4 @@
-//! Key Light — a full screen-colour keyer with the controls of After Effects' bundled
+//! Key Light — a full screen-colour keyer with the controls of reference compositor' bundled
 //! "Keylight (1.2)" (that name is a trademark of its vendor, so the effect is registered as
 //! **Key Light**; `lookup("Keylight (1.2)")` finds it through [`KEYLIGHT_ALIASES`]).
 //!
@@ -610,7 +610,7 @@ mod tests {
         let g = run_fx("ec.keying.keylight", &[("screenColour", green()), ("screenGain", num(150.0))], plate(), 0.0, EffectEnv::default());
         assert!(g.img.get(27, 5)[3] < out.img.get(27, 5)[3]);
         assert_eq!(crate::lookup("Keylight (1.2)").map(|s| s.id), Some("ec.keying.keylight"));
-        // Searches find it by After Effects' name as well as its own.
+        // Searches find it by reference compositor' name as well as its own.
         let spec = crate::find("ec.keying.keylight").unwrap();
         assert!(crate::name_matches(spec, "keylight") && crate::name_matches(spec, "key light") && !crate::name_matches(spec, "blur"));
     }

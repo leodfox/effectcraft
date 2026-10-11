@@ -53,7 +53,7 @@ fn tracker_group(l: &Layer, uid: Uid) -> Option<&PropGroup> {
     l.props.find_group(uid).filter(|g| matches!(&g.kind, effectcraft_engine::project::GroupKind::Effect { effect } if effect == ct::ID))
 }
 
-/// The selected 3D Camera Tracker effect on an active layer (After Effects shows the points
+/// The selected 3D Camera Tracker effect on an active layer (reference compositor shows the points
 /// while the effect is selected).
 fn active(s: &Session, comp: &Comp, ectx: &EvalCtx, l2c: &dyn Fn(&EvalCtx, &Layer) -> Mat3) -> Option<Active> {
     let time = ectx.time;

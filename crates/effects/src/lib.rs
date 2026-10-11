@@ -319,7 +319,7 @@ pub trait EffectHost: Sync {
     }
     /// The effect's own layer at another **layer time** `layer_time` (seconds): its source with
     /// masks applied, followed by the first `effects` effects of its stack (0 = none, which is
-    /// what After Effects' Time effects see). `None` when unavailable (no host, recursion
+    /// what reference compositor' Time effects see). `None` when unavailable (no host, recursion
     /// limit, adjustment layers). Time effects use this to read neighbouring frames.
     fn self_at(&self, _layer_time: f64, _effects: usize) -> Option<Buf> {
         None
@@ -534,7 +534,7 @@ pub fn categories() -> Vec<&'static str> {
     v
 }
 
-/// After Effects' third-party display names of effects we register under a generic name.
+/// reference compositor' third-party display names of effects we register under a generic name.
 const ALIASES: &[(&str, &[&str])] = &[("ec.keying.keylight", keylight::KEYLIGHT_ALIASES)];
 
 /// Other names effect `id` answers to (in [`lookup`] and searches).
@@ -568,7 +568,7 @@ pub fn default_value(ps: &ParamSpec, layer_size: [f64; 2]) -> Value {
     }
 }
 
-/// Options of a layer parameter's source popup (After Effects shows it next to the layer
+/// Options of a layer parameter's source popup (reference compositor shows it next to the layer
 /// popup): what of the chosen layer the effect sees.
 pub const LAYER_SOURCE_OPTIONS: [&str; 3] = ["Source", "Masks", "Effects & Masks"];
 

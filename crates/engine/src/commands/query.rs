@@ -183,7 +183,7 @@ fn capabilities(s: &mut Session, _: &Value) -> Result<Value> {
         "scripting": s.script.is_some(),
         "gpu": s.accel.is_some(),
         "parity": {
-            "target": "Adobe After Effects 2026",
+            "target": "reference compositors",
             "summary": PARITY,
             "doc": "docs/target-app-parity.md",
         },
@@ -191,7 +191,7 @@ fn capabilities(s: &mut Session, _: &Value) -> Result<Value> {
 }
 
 /// The headline of `docs/target-app-parity.md` (kept in sync by hand at each re-measure).
-const PARITY: &str = "≈91% feature breadth and ≈45% ready for real work (estimated parity with After Effects 2026 26.5, stage alpha); all After Effects effects present (306 registered)";
+const PARITY: &str = "≈91% feature breadth and ≈45% ready for real work (estimated parity with leading compositors, stage alpha); all the reference effects present (306 registered)";
 
 fn state(s: &mut Session, _: &Value) -> Result<Value> {
     Ok(serde_json::to_value(&s.state).unwrap_or_default())

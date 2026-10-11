@@ -260,7 +260,7 @@ fn paint(c: &mut PropGroup, ids: &mut Ids, lt: Tick, fill: Option<[f64; 4]>, str
     }
 }
 
-/// The toolbar's Fill and Stroke options with shape layers selected (as in After Effects, they
+/// The toolbar's Fill and Stroke options with shape layers selected (as in reference compositor, they
 /// change the layers' fills and strokes): `fill` sets every Fill's colour, `stroke` every Stroke's,
 /// `strokeWidth` every stroke's width. A stroke colour or a width above 0 gives the paths that
 /// have no stroke one. Without values, reports the first layer's paint.

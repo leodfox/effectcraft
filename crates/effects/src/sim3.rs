@@ -15,7 +15,7 @@
 //! producer, a selection map, characters, age with feather). The Options' cannon / grid text
 //! turns particles into characters (the built-in stroke font). Map layers are read at the frame
 //! being rendered (their pixels are part of the cache key). Particles replace the layer's own
-//! pixels, as in After Effects.
+//! pixels, as in reference compositor.
 //!
 //! **CC Hair** grows strands from the layer's opaque pixels (Density per 1 000 px²), each a
 //! quadratic curve of Length that droops with Weight, optionally steered and scaled by a hairfall
@@ -132,7 +132,7 @@ impl MapImg {
     }
 }
 
-/// Particle properties a Property Mapper channel can drive, in After Effects' order.
+/// Particle properties a Property Mapper channel can drive, in reference compositor' order.
 pub const MAP_TARGETS: [&str; 27] = [
     "None",
     "Red",
@@ -1053,7 +1053,7 @@ pub fn specs() -> Vec<EffectSpec> {
         p("options/cannonText", "Cannon Text", Value::Str(String::new()), ParamUi::Text),
         p("options/gridText", "Grid Text", Value::Str(String::new()), ParamUi::Text),
         p("options/autoOrientRotation", "Auto-Orient Rotation", Value::Bool(false), ParamUi::Checkbox),
-        // Generator switches (kept for saved projects; After Effects turns a generator off with
+        // Generator switches (kept for saved projects; reference compositor turns a generator off with
         // its rate / counts instead).
         p("cannonEnabled", "Cannon Enabled", Value::Bool(true), ParamUi::Hidden),
         p("gridEnabled", "Grid Enabled", Value::Bool(true), ParamUi::Hidden),

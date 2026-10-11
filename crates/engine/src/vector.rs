@@ -1,5 +1,5 @@
 //! Vector conversions behind Layer ▸ Create: Create Shapes from Vector Layer (SVG, PDF,
-//! Illustrator and EPS footage → shape layer), Create Shapes from Text and Create Masks from
+//! AI and EPS footage → shape layer), Create Shapes from Text and Create Masks from
 //! Text (glyph outlines), and vector files imported as compositions (one layer per file layer).
 
 use effectcraft_keyframe::{Gradient, ShapePath, Value};
@@ -159,7 +159,7 @@ fn clipped_items(ids: &mut Ids, s: &effectcraft_svg::Shape, m: Affine, clips: &[
 /// geometry; group and element opacity go to the group transforms, blend modes to the groups'
 /// Blend Mode). Top of the paint order first.
 ///
-/// Clipping groups (PDF / Illustrator clipping masks): shapes inside them are intersected with
+/// Clipping groups (PDF / AI clipping masks): shapes inside them are intersected with
 /// the clip paths through Merge Paths ▸ Intersect (see [`clipped_items`]). Clips enclosing the
 /// whole document are layer masks instead ([`vector_clip_masks`], used by
 /// [`shapes_from_vector`]). Images are skipped (Layer ▸ Create makes them footage layers, see
@@ -227,7 +227,7 @@ fn blend_index(b: effectcraft_svg::BlendMode) -> u32 {
 }
 
 /// Clips that enclose the whole document (on a chain of single-child groups from the root, as
-/// an Illustrator artboard clip or a PDF page clip), in document pixels, and the document with
+/// an AI artboard clip or a PDF page clip), in document pixels, and the document with
 /// those clips removed: Create Shapes from Vector Layer makes them layer masks.
 pub fn vector_clip_masks(doc: &Doc) -> (Vec<BezPath>, Doc) {
     let mut out = doc.clone();
@@ -272,7 +272,7 @@ pub fn vector_doc(path: &str, bytes: &[u8], layer: Option<&effectcraft_project::
     )
 }
 
-/// Import page `page` of a PDF / Illustrator / EPS document as a composition the size of the
+/// Import page `page` of a PDF / AI / EPS document as a composition the size of the
 /// page: one footage item per file layer (each showing only that layer, continuously
 /// rasterisable), top layer first. Returns (comp, folder, items).
 pub fn import_vector_comp(
@@ -524,7 +524,7 @@ pub fn shapes_from_text(proj: &mut Project, comp: &Comp, ctx_project: &Project, 
             groups.push(group(&mut ids, &name, items, 1.0));
         }
     }
-    // First character on top, as in After Effects.
+    // First character on top, as in reference compositor.
     if let Some(c) = l.props.sub_mut("contents") {
         c.children.extend(groups.into_iter().map(Into::into));
     }

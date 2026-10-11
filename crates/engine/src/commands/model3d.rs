@@ -21,7 +21,7 @@ pub(crate) fn add_geometry_options(next_id: &mut u64, l: &mut Layer) {
         return;
     }
     let g = build::extrusion_geometry_options(&mut Ids(next_id));
-    // After Transform, like After Effects.
+    // After Transform, like reference compositor.
     let at = l.props.children.iter().position(|c| c.match_id() == "transform").map_or(l.props.children.len(), |i| i + 1);
     l.props.children.insert(at, g.into());
 }
@@ -75,7 +75,7 @@ fn renderer_id(r: Renderer) -> &'static str {
 }
 
 /// Only the Advanced 3D renderer draws model and primitive layers, so adding one switches a
-/// Classic 3D comp to it, like After Effects (inside the adding edit: one undo step). Whether
+/// Classic 3D comp to it, like reference compositor (inside the adding edit: one undo step). Whether
 /// the renderer changed.
 fn use_advanced_3d(proj: &mut effectcraft_project::Project, cid: ItemId) -> Result<bool> {
     let c = proj.comp_mut(cid).ok_or(EngineError::NoComp)?;

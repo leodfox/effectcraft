@@ -1,6 +1,6 @@
 //! The dock area: lays out the docked tree (or the maximized panel), draws each group's chrome
 //! and body, floating (undocked) panel groups over it, and tab drag-and-drop: drag a tab onto a
-//! group to tab it there (center) or split it off to a side (After Effects' drop zones, with a
+//! group to tab it there (center) or split it off to a side (reference compositor' drop zones, with a
 //! highlight of where it will land); hold Cmd/Ctrl when releasing, or drop outside every group,
 //! to float it. `` ` `` maximizes the panel under the pointer.
 
@@ -14,7 +14,7 @@ fn drag_id() -> egui::Id {
 }
 
 impl EffectcraftApp {
-    /// Tab labels that name what the panel shows, as After Effects does: "Composition Intro",
+    /// Tab labels that name what the panel shows, as reference compositor does: "Composition Intro",
     /// "Effect Controls Title", "Properties: Title" (the Timeline's tabs are its comps, see
     /// [`Self::tab_docs`]).
     fn tab_titles(&self) -> Vec<(PanelKind, String)> {
@@ -47,7 +47,7 @@ impl EffectcraftApp {
         }
     }
 
-    /// The Timeline's tabs: one per open comp, as in After Effects (opening a precomp adds a tab
+    /// The Timeline's tabs: one per open comp, as in reference compositor (opening a precomp adds a tab
     /// next to its parent's instead of replacing it).
     fn tab_docs(&self) -> Vec<(PanelKind, Vec<dock::DocTab>)> {
         let st = &self.session.state;
@@ -173,7 +173,7 @@ impl EffectcraftApp {
         let t = self.tokens;
         let ctx = ui.ctx().clone();
         if self.ui.start_screen {
-            // Home covers the whole workspace, as in After Effects (the panels wait behind it).
+            // Home covers the whole workspace, as in reference compositor (the panels wait behind it).
             let mut child = ui.new_child(egui::UiBuilder::new().max_rect(body).id_salt("home"));
             child.set_clip_rect(body.intersect(ui.clip_rect()));
             panels::home::show(self, &mut child, body);

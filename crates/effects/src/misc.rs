@@ -260,7 +260,7 @@ fn drop_shadow(ctx: &EffectCtx, mut b: Buf) -> Buf {
     b
 }
 
-/// Invert's Channel options (After Effects order): RGB / HLS / YIQ groups, each followed by its
+/// Invert's Channel options (reference compositor order): RGB / HLS / YIQ groups, each followed by its
 /// single channels, then Alpha.
 pub const INVERT_CHANNELS: [&str; 13] =
     ["RGB", "Red", "Green", "Blue", "HLS", "Hue", "Lightness", "Saturation", "YIQ", "Luminance", "In Phase Chrominance", "Quadrature Chrominance", "Alpha"];

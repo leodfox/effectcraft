@@ -1,4 +1,4 @@
-//! Preview panel settings (After Effects' Preview panel): five keyboard shortcuts (Spacebar,
+//! Preview panel settings (reference compositor' Preview panel): five keyboard shortcuts (Spacebar,
 //! Shift+Spacebar, Numpad 0, Shift+Numpad 0, Alt+Numpad 0), each with its own saved options —
 //! what to include (video, audio, overlays, layer controls), Loop, Cache Before Playback, Range,
 //! Play From, Frame Rate, Skip, Resolution, Full Screen, "If caching, play cached frames" and

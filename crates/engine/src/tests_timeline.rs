@@ -589,7 +589,7 @@ fn reset_gives_a_property_its_default() {
 }
 
 /// #363: dropped on one of the target's values the pick whip picks that dimension
-/// (`position[0]`), as in After Effects; a multi-dimension property follows it on every axis.
+/// (`position[0]`), as in reference compositor; a multi-dimension property follows it on every axis.
 #[test]
 fn pick_whip_picks_one_dimension_of_the_target() {
     let (mut s, l) = setup();
@@ -606,7 +606,7 @@ fn pick_whip_picks_one_dimension_of_the_target() {
 }
 
 /// #284: with the expression being edited, the pick whip puts the reference at the cursor,
-/// replacing the selected characters (After Effects), in one undo step.
+/// replacing the selected characters (reference compositor), in one undo step.
 #[test]
 fn pick_whip_inserts_into_the_expression_being_edited() {
     let (mut s, l) = setup();

@@ -1,4 +1,4 @@
-//! Footage import for EffectCraft (layer **L3**: it implements `effectcraft_render::FootageSource`).
+//! Footage import for Ardoise Motion (layer **L3**: it implements `effectcraft_render::FootageSource`).
 //!
 //! - [`probe`] / [`probe_bytes`]: inspect a file and describe it as an [`effectcraft_project::Footage`]
 //!   (video, still, image sequence or audio; size, rate, duration, streams, codec, alpha).
@@ -10,7 +10,7 @@
 //! Video containers (MP4/MOV, Matroska/WebM) and codecs (H.264, HEVC, VP9, AV1, ProRes, DNxHD,
 //! MJPEG; AAC, Opus, PCM, MP3/FLAC/Vorbis) come from FilmCraft's pure-Rust crates (git dependency,
 //! pinned; `plan/adr/0001`). FilmCraft types never leave this crate. Stills use the `image` crate
-//! (PNG, JPEG, GIF, WebP, TIFF, BMP, OpenEXR); Photoshop documents (merged image or one layer) come
+//! (PNG, JPEG, GIF, WebP, TIFF, BMP, OpenEXR); PSD documents (merged image or one layer) come
 //! from `effectcraft-psd` and SVG from `effectcraft-svg` (rasterised at any scale).
 
 #![deny(clippy::unwrap_used, clippy::expect_used, clippy::panic, clippy::unimplemented, clippy::todo, clippy::unreachable)]

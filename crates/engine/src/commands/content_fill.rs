@@ -1,7 +1,7 @@
 //! Content-Aware Fill (Window ▸ Content-Aware Fill, Layer ▸ New ▸ Content-Aware Fill Layer):
 //! fill the transparent area of a layer (what its masks cut away) across the work area or the
 //! whole layer, render the result as a PNG sequence and add it as a "Fill" layer above the
-//! source, like After Effects. The algorithms are `effectcraft_raster::inpaint` (Object:
+//! source, like reference compositor. The algorithms are `effectcraft_raster::inpaint` (Object:
 //! flow-guided propagation + PatchMatch; Surface: propagation + one synthesised fill carried by
 //! the flow; Edge Blend: membrane fill). It runs as a background job (Window ▸ Progress); in
 //! the browser the job goes to a job worker ([`FillPlan`], `offload::WorkerJob::ContentFill`),

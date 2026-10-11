@@ -1,4 +1,4 @@
-//! The keyboard in the in-window menu bar (#279), as in After Effects on Windows: Alt pressed and
+//! The keyboard in the in-window menu bar (#279), as in reference compositor on Windows: Alt pressed and
 //! released on its own focuses the menu bar (and leaves it again); Left / Right move between its
 //! menus, Down, Enter or Space opens one. In an open menu Up / Down move the highlight through
 //! the entries (skipping disabled ones, wrapping around), Right opens the highlighted submenu and

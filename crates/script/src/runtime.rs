@@ -12,7 +12,7 @@ use serde_json::{Value as J, json};
 
 const PRELUDE: &str = include_str!("prelude.js");
 
-/// Engine commands that create layers: like After Effects, scripts add new layers at the top of
+/// Engine commands that create layers: like reference compositor, scripts add new layers at the top of
 /// the stack (the UI inserts above the selection).
 const CREATES_LAYER: &[&str] =
     &["layer.newSolid", "layer.newNull", "layer.newText", "layer.newShape", "layer.newAdjustment", "layer.newCamera", "layer.newLight", "layer.addItem"];
@@ -172,7 +172,7 @@ pub(crate) fn exec(s: &mut Session, id: &str, params: J) -> Result<J, String> {
 
 /// Run a keyframe command that acts on the selected keys (`keys.velocity`, `keys.interpolation`,
 /// `keys.delete`) on the keys `targets` names instead (`[{layer, prop, index}]`, 0-based, in the
-/// command's comp): After Effects' per-key methods (`setTemporalEaseAtKey`, `removeKey`…) leave
+/// command's comp): reference compositor' per-key methods (`setTemporalEaseAtKey`, `removeKey`…) leave
 /// the user's key selection as it was. Selected keys that no longer exist drop out of it.
 fn exec_on_keys(s: &mut Session, id: &str, params: J, targets: &J) -> Result<J, String> {
     use effectcraft_engine::KeyRef;
@@ -205,7 +205,7 @@ fn native_query(_: &JsValue, args: &[JsValue], ctx: &mut Context) -> JsResult<Js
     let a = arg_json(args, 1, ctx)?;
     let r = with_active(|act| match kind.as_str() {
         "app" => Ok(json!({
-            "version": format!("26.0 (EffectCraft {})", env!("CARGO_PKG_VERSION")),
+            "version": format!("26.0 (Ardoise Motion {})", env!("CARGO_PKG_VERSION")),
             "buildName": env!("CARGO_PKG_VERSION"),
             "scriptName": act.name,
             "allowFiles": act.session.prefs.scripting.allow_scripts_write_files,
@@ -229,7 +229,7 @@ fn native_print(_: &JsValue, args: &[JsValue], ctx: &mut Context) -> JsResult<Js
     Ok(JsValue::undefined())
 }
 
-/// `__undo("begin" | "end", name)`: After Effects' `app.beginUndoGroup` / `endUndoGroup`. Every
+/// `__undo("begin" | "end", name)`: reference compositor' `app.beginUndoGroup` / `endUndoGroup`. Every
 /// command run inside the outermost group folds into one undo step named after the group.
 fn native_undo(_: &JsValue, args: &[JsValue], ctx: &mut Context) -> JsResult<JsValue> {
     let op = arg_string(args, 0, ctx)?;
@@ -392,7 +392,7 @@ fn native_file(_: &JsValue, args: &[JsValue], ctx: &mut Context) -> JsResult<JsV
                 Ok(json!(r.is_ok()))
             }
             "network" => Err(if s.prefs.scripting.allow_scripts_write_files {
-                "network access from scripts is not supported in EffectCraft".to_string()
+                "network access from scripts is not supported in Ardoise Motion".to_string()
             } else {
                 format!("scripts can't access the network unless {GATE} is on")
             }),

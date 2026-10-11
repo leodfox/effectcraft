@@ -1,6 +1,6 @@
 //! Layer Styles (Layer ▸ Layer Styles): the `layerStyles` property group and its styles.
 //!
-//! After Effects' layer styles are Photoshop's: Blending Options (Global Light, Advanced
+//! reference compositor' layer styles are PSD's: Blending Options (Global Light, Advanced
 //! Blending), Drop Shadow, Inner Shadow, Outer Glow, Inner Glow, Bevel and Emboss, Satin, Color
 //! Overlay, Gradient Overlay and Stroke. Every style is a group under the layer's `layerStyles`
 //! group (which sits after Transform, as in the AE timeline), with AE's property names, order,
@@ -42,7 +42,7 @@ pub fn style_id(s: &str) -> Option<&'static str> {
     STYLES.iter().find(|(id, name)| id.eq_ignore_ascii_case(s) || name.eq_ignore_ascii_case(s)).map(|(id, _)| *id)
 }
 
-/// The Blend Mode popup of layer styles (Photoshop's list) and the compositor mode for each.
+/// The Blend Mode popup of layer styles (PSD's list) and the compositor mode for each.
 pub const STYLE_BLEND_MODES: &[(&str, BlendMode)] = &[
     ("Normal", BlendMode::Normal),
     ("Dissolve", BlendMode::Dissolve),
@@ -92,7 +92,7 @@ pub const BEVEL_DIRECTION: &[&str] = &["Up", "Down"];
 pub const GRADIENT_STYLE: &[&str] = &["Linear", "Radial", "Angle", "Reflected", "Diamond"];
 pub const STROKE_POSITION: &[&str] = &["Outside", "Inside", "Center"];
 
-/// Default Global Light (Photoshop / After Effects defaults).
+/// Default Global Light (PSD / reference compositor defaults).
 pub const DEFAULT_ANGLE: f64 = 120.0;
 pub const DEFAULT_ALTITUDE: f64 = 30.0;
 

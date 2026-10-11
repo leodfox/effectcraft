@@ -4,7 +4,7 @@
 //! grid of bicubic Bézier patches), and a renderer that bakes both into document-space pixels.
 //!
 //! The custom mesh is evaluated exactly (bicubic Bézier patches over `meshPoints`, split by
-//! `quiltSliceX` / `quiltSliceY`). Photoshop does not publish the curves of its named styles;
+//! `quiltSliceX` / `quiltSliceY`). PSD does not publish the curves of its named styles;
 //! the styles here are clean-room geometric definitions of what each name describes (Arc,
 //! Arch, Bulge, Shell, Flag, Wave, Fish, Rise, Fisheye, Inflate, Squeeze, Twist), matched by
 //! behaviour, not numerically.

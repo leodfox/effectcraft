@@ -98,7 +98,7 @@ fn go(s: &mut Session, p: &Value) -> Result<Value> {
         "layerOut" => sel_layer.map(|l| l.out_point - comp.frame_duration()).unwrap_or(t),
         "nextKey" | "prevKey" if visible.is_some() => {
             // What the Timeline shows: keys of its revealed properties, layer and comp markers
-            // and the work area (After Effects' "visible items").
+            // and the work area (reference compositor' "visible items").
             let mut times: Vec<Tick> = comp.markers.iter().map(|m| m.time).collect();
             times.extend([comp.work_area.0, comp.work_area.1 - comp.frame_duration()]);
             for l in comp.layers.iter().filter(|l| !(comp.hide_shy && l.switches.shy)) {
@@ -126,7 +126,7 @@ fn go(s: &mut Session, p: &Value) -> Result<Value> {
             if only.is_some() {
                 times.clear();
             } else {
-                // The work area's start and end too, as in After Effects.
+                // The work area's start and end too, as in reference compositor.
                 times.extend([comp.work_area.0, comp.work_area.1 - comp.frame_duration()]);
             }
             for l in layers {

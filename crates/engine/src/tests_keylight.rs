@@ -1,5 +1,5 @@
 //! Key Light end to end: a green-screen plate (uneven screen, a subject with green spill and a
-//! soft edge) keyed through the commands an agent uses: `effect.apply` by its After Effects name,
+//! soft edge) keyed through the commands an agent uses: `effect.apply` by its reference compositor name,
 //! `effect.pickColor` on the screen (the effect's input, as the eyedropper does) and a render.
 
 use std::sync::Arc;
@@ -68,7 +68,7 @@ fn keyed() -> (Session, ItemId) {
     s.execute("comp.new", json!({"name": "Key", "width": W, "height": H, "frameRate": 24, "duration": 1})).unwrap();
     let c = s.active_comp_id().unwrap();
     s.execute("layer.addItem", json!({"item": item})).unwrap();
-    // After Effects' name finds it; MCP's add_effect / list_effects go through the same lookup.
+    // reference compositor' name finds it; MCP's add_effect / list_effects go through the same lookup.
     let r = s.execute_checked("effect.apply", json!({"effect": "Keylight (1.2)"})).unwrap();
     assert_eq!(r["effect"], "ec.keying.keylight");
     (s, c)
@@ -128,7 +128,7 @@ fn pick_color_rejects_bad_targets_and_screen_matte_view_shows_the_key() {
     }
     let img = s.render(c, Tick::ZERO, RenderOpts::default());
     assert!(img.get(2, 2)[0] < 0.03 && img.get(48, 32)[0] > 0.97, "{:?} {:?}", img.get(2, 2), img.get(48, 32));
-    // The Effects & Presets / list_effects search finds it by After Effects' name too.
+    // The Effects & Presets / list_effects search finds it by reference compositor' name too.
     let list = s.execute("effect.list", json!({"filter": "Keylight (1.2)"})).unwrap();
     assert_eq!(list.as_array().map(|a| a.len()), Some(1), "{list}");
     assert_eq!(list[0]["id"], "ec.keying.keylight");

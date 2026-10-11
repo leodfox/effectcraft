@@ -1,8 +1,8 @@
-//! After Effects-compatible match names for our property tree and effects, so common scripts
+//! reference compositor-compatible match names for our property tree and effects, so common scripts
 //! (`layer.property("ADBE Transform Group").property("ADBE Position")`,
 //! `layer.Effects.addProperty("ADBE Gaussian Blur 2")`) work unchanged.
 //!
-//! The names are the stable identifiers After Effects documents for scripting (Scripting Guide
+//! The names are the stable identifiers reference compositor documents for scripting (Scripting Guide
 //! ▸ match names). Properties without a documented equivalent keep our own match id
 //! (`perChar3d`, `ec.blur.bilateral`), which `property()` and `addProperty()` accept too.
 
@@ -379,7 +379,7 @@ const PARAM_NUMBERS: &[(&str, &str, usize)] = &[
 ];
 
 /// Match name of the node at the end of `chain` (layer root's children → … → node). `effect`
-/// params are numbered `<effect match name>-0001…` in parameter order, like After Effects.
+/// params are numbered `<effect match name>-0001…` in parameter order, like reference compositor.
 pub fn node(chain: &[&Node]) -> String {
     let Some(last) = chain.last() else { return String::new() };
     let id = last.match_id();

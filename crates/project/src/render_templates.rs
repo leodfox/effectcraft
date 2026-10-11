@@ -4,7 +4,7 @@
 //!
 //! Built-ins always exist; a saved template with a built-in's name overrides it. Templates
 //! carry their name in [`RenderSettings::name`] / [`OutputModule::name`], which the Render Queue
-//! shows like After Effects does.
+//! shows like reference compositor does.
 
 use serde::{Deserialize, Serialize};
 

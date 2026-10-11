@@ -86,7 +86,7 @@ fn list(s: &mut Session, p: &Value) -> Result<Value> {
 }
 
 /// The nested comp's markers on a precomp layer, at their times in the containing comp `comp`
-/// and within the layer's In–Out range, as After Effects shows them on the precomp layer's bar:
+/// and within the layer's In–Out range, as reference compositor shows them on the precomp layer's bar:
 /// `(comp time, index in the nested comp, marker)`. The layer's start time and stretch map them;
 /// with time remapping, or a stretch over protected regions (Responsive Design), a marker sits at
 /// the first frame the layer shows its time.

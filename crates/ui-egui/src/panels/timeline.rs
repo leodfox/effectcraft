@@ -53,7 +53,7 @@ const WAVE_BIT: u64 = 1 << 60;
 const GEOM_BIT: u64 = 1 << 59;
 
 /// Classic 3D comps don't extrude: a 3D text or shape layer's Geometry Options row offers to
-/// change the renderer instead, as in After Effects.
+/// change the renderer instead, as in reference compositor.
 fn classic_geometry_row(comp: &Comp, l: &Layer) -> bool {
     comp.renderer == effectcraft_engine::project::Renderer::Classic3D && l.is_3d() && matches!(l.source, LayerSource::Text | LayerSource::Shape)
 }
@@ -95,7 +95,7 @@ fn row_height(row: &Row, rh: f32) -> f32 {
     }
 }
 
-/// An inline expression editor grows with its text up to this many lines (After Effects)...
+/// An inline expression editor grows with its text up to this many lines (reference compositor)...
 const EXPR_AUTO_LINES: usize = 8;
 /// ...and its bottom edge drags it up to this many.
 const EXPR_MAX_LINES: usize = 100;
@@ -222,7 +222,7 @@ fn edge_scroll_speed_x(x0: f32, x1: f32, x: f32) -> f32 {
 
 /// The timeline's first visible time (`start`, showing `span` seconds of a `duration` comp)
 /// paged so the CTI at `cti` is in view: unchanged while it is, else the page that starts at
-/// the CTI (as After Effects pages the Timeline during a preview).
+/// the CTI (as reference compositor pages the Timeline during a preview).
 fn page_to_cti(start: f64, span: f64, duration: f64, cti: f64) -> f64 {
     if !(start.is_finite() && span.is_finite() && cti.is_finite()) || (cti >= start && cti <= start + span) {
         return start;
@@ -256,7 +256,7 @@ const LABEL_W: f32 = 20.0;
 const NUM_W: f32 = 26.0;
 const SW: f32 = 19.0;
 
-/// The Timeline's columns in After Effects' order: (id, header label). Right-click a column
+/// The Timeline's columns in reference compositor' order: (id, header label). Right-click a column
 /// header to show or hide them; the name column is always shown.
 pub const COLUMNS: [(&str, &str); 13] = [
     ("av", "A/V Features"),
@@ -631,7 +631,7 @@ fn display_name(app: &EffectcraftApp, l: &Layer) -> String {
     l.name.clone()
 }
 
-/// The timeline search (After Effects' search field): rows for the properties and groups of a
+/// The timeline search (reference compositor' search field): rows for the properties and groups of a
 /// layer whose names contain `q` (lowercase), each with its enclosing groups. A matching group
 /// brings its whole contents.
 fn search_rows(l: &Layer, q: &str) -> Vec<Row> {
@@ -701,7 +701,7 @@ fn reveal_targets(kind: &str) -> Option<(&'static str, &'static [&'static str])>
 }
 
 /// The properties the Timeline shows (revealed rows), as `{layer, prop}`: J / K and Select All
-/// Keyframes act on these, as in After Effects.
+/// Keyframes act on these, as in reference compositor.
 pub(crate) fn visible_props(app: &EffectcraftApp, comp: &Comp) -> Vec<serde_json::Value> {
     build_rows(app, comp)
         .iter()
@@ -927,7 +927,7 @@ fn reveal_rows(app: &EffectcraftApp, l: &Layer, kinds: &[String], rows: &mut Vec
 }
 
 /// Rows for the revealed properties `shown` of `l`, in tree order. Those inside an effect show
-/// under the effect and its groups, as in After Effects (Puppet ▸ Mesh 1 ▸ Deform ▸ Puppet
+/// under the effect and its groups, as in reference compositor (Puppet ▸ Mesh 1 ▸ Deform ▸ Puppet
 /// Pin 1 ▸ Position: every pin's Position is told apart, #273); the others (Transform, masks…)
 /// on their own. Groups in `skip` already show with their contents.
 fn revealed_rows(rows: &mut Vec<Row>, l: &Layer, shown: &std::collections::BTreeSet<u64>, skip: &[u64], open: &std::collections::BTreeSet<u64>) {
@@ -1020,7 +1020,7 @@ pub(crate) fn open_revealed(app: &mut EffectcraftApp, layers: &[u64], kinds: &[S
 
 /// After the viewer edits a property (a puppet pin placed, moved or recorded): when `layer` is
 /// twirled open, its groups open, and a U reveal of the layer takes it in, so its keyframes show
-/// (#273). A collapsed layer stays collapsed, as in After Effects.
+/// (#273). A collapsed layer stays collapsed, as in reference compositor.
 pub fn keep_in_view(app: &mut EffectcraftApp, layer: LayerId, prop: u64) {
     if !app.ui.timeline.open_layers.contains(&layer.0) {
         return;
@@ -1128,7 +1128,7 @@ fn switch_drag_id() -> egui::Id {
 /// The press-and-drag gesture of the Timeline's switches and stopwatches (`switch`, on `row`,
 /// now `on`, pressed through `resp`): the press gives it the opposite state, and dragging on
 /// gives every `switch` the pointer passes that same state, in one undo step, whatever its own
-/// (After Effects). The state to set and the undo step to fold it into, when it changes now.
+/// (reference compositor). The state to set and the undo step to fold it into, when it changes now.
 fn switch_gesture(ui: &egui::Ui, resp: &egui::Response, row: Rect, switch: &'static str, on: bool) -> Option<(bool, String)> {
     if resp.is_pointer_button_down_on() && ui.input(|i| i.pointer.primary_pressed()) {
         let merge = format!("tl-switch-{}", ui.input(|i| i.time));
@@ -1264,7 +1264,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
     if app.ui.timeline.pps.is_none() {
         app.ui.timeline.start = 0.0;
     } else if app.playback.playing {
-        // During playback the view pages to keep the CTI in sight (After Effects).
+        // During playback the view pages to keep the CTI in sight (reference compositor).
         let span = ((graph_x1 - graph_x0 - 6.0) as f64 / pps).max(0.0);
         app.ui.timeline.start = page_to_cti(app.ui.timeline.start, span, comp.duration.seconds(), app.session.time().seconds());
     }
@@ -1392,7 +1392,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
     }
     p.rect_filled(ruler, 0.0, t.tl_ruler_bg);
     app.auto.add("timeline.ruler", ruler, &format!("{},{}", tm.start, tm.pps));
-    // Work area bar: below the ruler, beside the column headers (After Effects' layout), with
+    // Work area bar: below the ruler, beside the column headers (reference compositor' layout), with
     // blue begin / end handles; the cache bar runs under it. Dragging the bar moves the work
     // area, the handles move its ends; Shift snaps (#252).
     let wa_row = Rect::from_min_max(pos2(graph_x0, top + header_h), pos2(rect.max.x, top + header_h + colhdr_h));
@@ -1403,7 +1403,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
     let bar = wa.intersect(wa_row);
     let bresp = ui.interact(bar, egui::Id::new("wa-bar"), Sense::click_and_drag());
     app.auto.add("timeline.workArea.bar", bar, "Work area");
-    // Right-click: the work area's commands (After Effects).
+    // Right-click: the work area's commands (reference compositor).
     bresp.context_menu(|ui| {
         let mut chosen = None;
         for id in ["comp.trimToWorkArea", "edit.liftWorkArea", "edit.extractWorkArea"] {
@@ -1472,7 +1472,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
     if let Some((a, b)) = run {
         draw_run(a, b);
     }
-    // Disk-cached frames not in RAM (blue), like After Effects.
+    // Disk-cached frames not in RAM (blue), like reference compositor.
     if app.session.disk_cache.is_some() || app.frames.remote_disk() {
         let frames = comp.frame_rate.frame_at(comp.duration);
         let opts = app.frame_opts(cid, series.scale as f64 / 1000.0);
@@ -1526,7 +1526,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
         s += secs_per_label;
     }
     // Scrub in the ruler: the current time jumps to the pointer as soon as the button goes down
-    // (After Effects), then follows it.
+    // (reference compositor), then follows it.
     let rresp =
         ui.interact(Rect::from_min_max(pos2(graph_x0, ruler.min.y + 12.0), pos2(bin.min.x, ruler.max.y)), egui::Id::new("tl-ruler"), Sense::click_and_drag());
     if ((rresp.is_pointer_button_down_on() && ui.input(|i| i.pointer.primary_down())) || rresp.clicked())
@@ -1534,7 +1534,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
     {
         let mut x = pt.x;
         // Zoomed in, a scrub held past either end of the ruler scrolls the timeline that way
-        // (faster the further), with the CTI at the edge (After Effects).
+        // (faster the further), with the CTI at the edge (reference compositor).
         let mut tm = tm;
         if rresp.dragged() && app.ui.timeline.pps.is_some() {
             let speed = edge_scroll_speed_x(tm.x0, graph_x1, x);
@@ -1558,7 +1558,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
         let tt = Tick::from_seconds_f64(secs);
         app.session.set_time(tt);
         app.stop();
-        // Ctrl/Cmd-drag scrubs the audio too (After Effects).
+        // Ctrl/Cmd-drag scrubs the audio too (reference compositor).
         if rresp.dragged()
             && ui.input(|i| i.modifiers.command)
             && let Some(cid) = app.session.active_comp_id()
@@ -1705,7 +1705,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
         }
     }
     // A pick whip held near the top or bottom of the layers (or past it) scrolls them, as in
-    // After Effects.
+    // reference compositor.
     if ctx.data(|d| d.get_temp::<PickWhip>(pick_whip_id())).is_some()
         && let Some(ptr) = ctx.input(|i| i.pointer.latest_pos()).filter(|p| rect.x_range().contains(p.x))
     {
@@ -1755,7 +1755,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
         let cy = r.min.y + rh / 2.0;
         match &row.kind {
             RowKind::Layer => {
-                // After Effects draws layer rows as one flat tone separated by dark hairlines
+                // reference compositor draws layer rows as one flat tone separated by dark hairlines
                 // (outline and time graph alike), not as alternating stripes.
                 let _ = ri;
                 lp.rect_filled(left, 0.0, if is_sel { t.row_selected } else { t.row_alt });
@@ -1785,7 +1785,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
                     lp.rect_filled(lr, 2.0, t.label(layer.label));
                     let lresp = ui.interact(lr, egui::Id::new(("label", layer.id.0)), Sense::click());
                     app.auto.add(&format!("timeline.layer.{}.label", layer.id.0), lr, layer.label.name());
-                    // Click (or right-click) the swatch for the label menu (After Effects).
+                    // Click (or right-click) the swatch for the label menu (reference compositor).
                     let pop = egui::Id::new(("label-pop", layer.id.0));
                     if lresp.clicked() || lresp.secondary_clicked() {
                         widgets::open_popup(ui, pop);
@@ -2215,7 +2215,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
                 }
                 if gr.double_clicked() {
                     if fx.is_some() {
-                        // An effect's name: open it in Effect Controls (as in After Effects).
+                        // An effect's name: open it in Effect Controls (as in reference compositor).
                         actions.push(("layer.select".into(), json!({"layers": [layer.id.0]})));
                         actions.push(("prop.select".into(), json!({"layer": layer.id.0, "prop": uid, "selectKeys": false})));
                         actions.push(("window.panel".into(), json!({"panel": "EffectControls"})));
@@ -2357,7 +2357,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
                 let sp = app.session.prefs.scripting.clone();
                 let resp = super::expr_editor::editor(ui, edit_id, &mut buf, er, &sp, if ex.enabled { expr_col } else { t.text_dim }, *lines, &t);
                 app.auto.add(&format!("timeline.prop.{uid}.expression"), er, &prop.name);
-                // Its bottom edge drags to set its height in whole lines, as in After Effects.
+                // Its bottom edge drags to set its height in whole lines, as in reference compositor.
                 let edge = Rect::from_min_max(pos2(er.min.x, r.max.y - 4.0), pos2(er.max.x, r.max.y));
                 let eresp = ui.interact(edge, egui::Id::new(("expr-edge", uid)), Sense::drag());
                 app.auto.add(&format!("timeline.prop.{uid}.expressionHeight"), edge, "Expression field height");
@@ -2560,7 +2560,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
                             actions.push(("keys.select".into(), p));
                         }
                         if kresp.double_clicked() {
-                            // Edit the key's value (numeric properties), as After Effects does.
+                            // Edit the key's value (numeric properties), as reference compositor does.
                             if matches!(k.value, Value::Scalar(_) | Value::Vec2(_) | Value::Vec3(_)) {
                                 actions.push(("keys.set".into(), json!({"layer": layer.id.0, "prop": uid, "time": k.time.seconds()})));
                             } else {
@@ -2777,7 +2777,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
         super::graph::show(app, ui, &gp, &comp, &ectx, tm, Rect::from_min_max(pos2(graph_x0, rows_rect.min.y), rows_rect.max), &mut actions);
     }
     // Empty-area click in the graph: deselect keys (below the last row, the layers too, as in
-    // After Effects); drag: box-select keys.
+    // reference compositor); drag: box-select keys.
     if empty.clicked() {
         actions.push(("keys.select".into(), json!({"keys": []})));
         let below = empty.interact_pointer_pos().is_some_and(|p| hit_rows.iter().all(|(r, _)| p.y > r.max.y));
@@ -2848,7 +2848,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
                     ctx.data_mut(|d| d.insert_temp(key_drag_id(), kd));
                 }
                 ctx.set_cursor_icon(egui::CursorIcon::Grabbing);
-                // Where the grabbed key is and how far the keys moved (After Effects shows this
+                // Where the grabbed key is and how far the keys moved (reference compositor shows this
                 // in the Info panel).
                 let at = Tick::from_seconds_f64(kd.anchor + kd.applied as f64 * fd);
                 let note = format!("{}   {:+} f", super::timecode(&app.session, &comp, at), kd.applied);
@@ -3243,7 +3243,7 @@ fn dash_buttons(
 }
 
 /// The shape items the Contents row's "Add:" menu offers, as `layer.addShapeItem` kinds ("-" is
-/// a separator), in After Effects' order.
+/// a separator), in reference compositor' order.
 const SHAPE_ADD_ITEMS: &[(&str, &str)] = &[
     ("group", "Group (empty)"),
     ("-", ""),
@@ -3300,7 +3300,7 @@ fn shape_add_popup(
         && let Some((kind, _)) = SHAPE_ADD_ITEMS.get(i).filter(|(k, _)| *k != "-")
     {
         let mut params = json!({"layer": layer.id.0, "kind": kind});
-        // Into the selected shape group, as After Effects does.
+        // Into the selected shape group, as reference compositor does.
         let group = app.session.state.selected_props.iter().filter(|(l, _)| *l == layer.id).find_map(|(_, u)| {
             let g = layer.props.find_group(*u)?;
             (g.match_id == "group" && g.sub("contents").is_some()).then_some(g.uid)
@@ -3410,7 +3410,7 @@ pub(crate) fn is_position(layer: &Layer, uid: u64) -> bool {
     layer.transform().is_some_and(|tr| ["position", "positionX", "positionY", "positionZ"].iter().any(|m| tr.get(m).is_some_and(|p| p.uid == uid)))
 }
 
-/// A property's context menu (right-click its name in the Timeline), as in After Effects.
+/// A property's context menu (right-click its name in the Timeline), as in reference compositor.
 fn prop_menu(
     ui: &mut egui::Ui,
     auto: &mut crate::automation::Registry,
@@ -3563,7 +3563,7 @@ fn value_editor(
             let c = value.components();
             let n = if prop.shown_dims > 0 && !(is_3d && c.len() == 3) { prop.shown_dims as usize } else { c.len() };
             let pct = matches!(prop.ui, ParamUi::Percent);
-            // Mask Feather: two linked values, never negative (as in After Effects, #203).
+            // Mask Feather: two linked values, never negative (as in reference compositor, #203).
             let feather = prop.match_id == "feather" && layer.props.parent_of(uid).is_some_and(|g| matches!(g.kind, GroupKind::Mask { .. }));
             let range = if feather { (0.0, 1e9) } else { (-1e9, 1e9) };
             // Scale and Mask Feather: the chain link (Constrain Proportions, on by default).
@@ -3612,7 +3612,7 @@ fn value_editor(
                 widgets::open_popup(ui, pop);
             }
             // The eyedropper after the swatch samples the Composition panel (shape Fill and
-            // Stroke colours, text and effect colours), as in After Effects' Timeline (#633).
+            // Stroke colours, text and effect colours), as in reference compositor' Timeline (#633).
             let er = Rect::from_center_size(pos2(r.max.x + 12.0, at.y), vec2(16.0, 16.0));
             let active = app.ui.fx_pick.as_ref().is_some_and(|k| k.prop == uid && k.kind == "color");
             if super::fx_widgets::eyedropper_button(ui, er, active, egui::Id::new(("tl-eye", uid)), &t)
@@ -3770,7 +3770,7 @@ mod tests {
         assert!(set_column(tl, "bogus", true).is_err());
         let vis = Vis::of(tl);
         let cw = cols(0.0, 1400.0, vis);
-        // Hidden columns take no room; visible ones are in After Effects' order.
+        // Hidden columns take no room; visible ones are in reference compositor' order.
         assert_eq!(cw.keys, cw.label);
         assert_eq!(cw.label, cw.num);
         assert!(cw.name < cw.comment && cw.comment < cw.switches && cw.switches < cw.mode && cw.parent < cw.stretch);
@@ -3893,7 +3893,7 @@ mod tests {
         assert!(c.contains(&comp.duration.seconds()) && c.contains(&0.0));
     }
 
-    /// UI fidelity (M13.5): compact After Effects-like rows and muted label-coloured bars.
+    /// UI fidelity (M13.5): compact reference compositor-like rows and muted label-coloured bars.
     #[test]
     fn rows_and_bars_follow_after_effects_proportions() {
         let t = crate::theme::Tokens::for_kind(crate::theme::ThemeKind::Dark);

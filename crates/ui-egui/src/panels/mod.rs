@@ -111,7 +111,7 @@ pub fn timecode(session: &Session, comp: &Comp, t: Tick) -> String {
 }
 
 /// Ctrl/Cmd-click on a current-time display toggles the project's Time Display Style between
-/// Timecode and Frames, as in After Effects (through Project Settings: one undo step).
+/// Timecode and Frames, as in reference compositor (through Project Settings: one undo step).
 pub(crate) fn toggle_time_display(app: &mut EffectcraftApp, resp: &egui::Response) {
     if !(resp.clicked() && resp.ctx.input(|i| i.modifiers.command)) {
         return;

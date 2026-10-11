@@ -405,7 +405,7 @@ fn cdf(h: &[f64]) -> Vec<f32> {
 }
 
 /// Equalize's lookup tables (`BINS` entries each) for `img`: the R, G and B cumulative
-/// histograms (Style RGB), the luminance one (Brightness) or the combined one (Photoshop Style).
+/// histograms (Style RGB), the luminance one (Brightness) or the combined one (PSD Style).
 pub fn equalize_tables(img: &Image, style: u32) -> Vec<Vec<f32>> {
     let h = histograms(img);
     match style {
@@ -982,7 +982,7 @@ pub fn specs() -> Vec<EffectSpec> {
             "ec.color.equalize",
             "Equalize",
             vec![
-                p("style", "Equalize", Value::Enum(0), popup(&["RGB", "Brightness", "Photoshop Style"])),
+                p("style", "Equalize", Value::Enum(0), popup(&["RGB", "Brightness", "PSD Style"])),
                 p("amount", "Amount to Equalize", num(100.0), slider(0.0, 100.0, 0.0, 100.0, 1)),
             ],
             equalize,

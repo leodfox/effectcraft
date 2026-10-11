@@ -900,7 +900,7 @@ fn timing(s: &mut Session, p: &Value) -> Result<Value> {
 }
 
 /// Slip edit: move a layer's source (footage or precomp) under its fixed in and out points, like
-/// dragging the source-duration bar in After Effects. `delta` in seconds or `frames`; positive
+/// dragging the source-duration bar in reference compositor. `delta` in seconds or `frames`; positive
 /// moves the source later. Clamped so the source still covers the in–out span. Keyframes and
 /// layer markers are in layer time, so they travel with the source.
 fn slip(s: &mut Session, p: &Value) -> Result<Value> {
@@ -1393,7 +1393,7 @@ fn transform_op(s: &mut Session, p: &Value) -> Result<Value> {
 /// Layer ▸ Layer Settings: cameras and lights open their own settings; solids (and adjustment
 /// layers, which are solids) edit their Solid Settings. With `affectAll: false`, a solid other
 /// layers also use is copied into a new solid for this layer instead of being changed for all of
-/// them (After Effects' "Affect all layers that use this solid"). `name` renames the layer and
+/// them (reference compositor' "Affect all layers that use this solid"). `name` renames the layer and
 /// its solid.
 fn layer_settings(s: &mut Session, p: &Value) -> Result<Value> {
     let (cid, lid) = layer_p(s, p, "layer.settings")?;

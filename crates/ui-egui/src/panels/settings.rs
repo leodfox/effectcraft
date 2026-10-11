@@ -1,4 +1,4 @@
-//! The Settings dialog (After Effects' Preferences): the page list on the left, the page on the
+//! The Settings dialog (reference compositor' Preferences): the page list on the left, the page on the
 //! right, OK / Cancel / Previous / Next. Pages are built from the engine's schema
 //! (`effectcraft_engine::prefs::pages`), so the dialog, `prefs.pages` and the docs agree. Edits
 //! apply live; Cancel restores the settings from when the dialog opened, OK saves them.
@@ -101,7 +101,7 @@ fn page_ui(app: &mut EffectcraftApp, ui: &mut egui::Ui, page: &Page, cur: &Value
             Item::Setting { key, label, kind, live } => {
                 let v = get(key);
                 let id = format!("settings.{key}");
-                let tip = (!live).then_some("Stored, but not used by EffectCraft yet");
+                let tip = (!live).then_some("Stored, but not used by Ardoise Motion yet");
                 let mut resp: Option<egui::Response> = None;
                 match kind {
                     Kind::Bool => {
@@ -212,7 +212,7 @@ fn page_ui(app: &mut EffectcraftApp, ui: &mut egui::Ui, page: &Page, cur: &Value
     }
 }
 
-/// A small EffectCraft window painted with theme `kind`'s tokens: the Tools bar, the Project
+/// A small Ardoise Motion window painted with theme `kind`'s tokens: the Tools bar, the Project
 /// panel, the Composition panel, the Preview and Properties column and the Timeline with its
 /// layer bars.
 fn theme_preview(ui: &mut egui::Ui, kind: ThemeKind, width: f32) {
@@ -606,7 +606,7 @@ pub fn show(app: &mut EffectcraftApp, ctx: &egui::Context, t: &Tokens) {
         let body_h = (ctx.content_rect().height() - 170.0).clamp(120.0, 470.0);
         ui.allocate_ui_with_layout(vec2(ui.available_width(), body_h), egui::Layout::left_to_right(egui::Align::Min), |ui| {
             ui.set_height(body_h);
-            // Page list (left, like After Effects).
+            // Page list (left, like reference compositor).
             ui.vertical(|ui| {
                 ui.set_width(180.0);
                 egui::ScrollArea::vertical().id_salt("settings-pages").max_height(body_h).auto_shrink([false, false]).show(ui, |ui| {
@@ -736,7 +736,7 @@ pub fn recovery(app: &mut EffectcraftApp, ctx: &egui::Context, t: &Tokens) {
     };
     let mut choice: Option<&str> = None;
     super::dialogs::modal(ctx, "Recover Project", vec2(560.0, 230.0), t, |ui| {
-        ui.label(tr("EffectCraft didn't quit normally last time."));
+        ui.label(tr("Ardoise Motion didn't quit normally last time."));
         ui.add_space(6.0);
         if let Some(p) = &r.project {
             ui.label(tr_args("Project: {}", &[&p]));

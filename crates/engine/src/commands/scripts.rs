@@ -5,10 +5,10 @@
 //!   settings on the desktop, so dropping `.jsx` files in those folders works too. File ▸ Scripts
 //!   lists them with the bundled sample scripts and extensions ([`BUNDLED`]) and runs them by name; ScriptUI
 //!   panels appear at the bottom of the Window menu and open as dockable panels
-//!   (`window.scriptPanel`), running with `this` = the panel as in After Effects.
+//!   (`window.scriptPanel`), running with `this` = the panel as in reference compositor.
 //! * **ScriptUI windows** (`scriptui.*`): list the open script windows, read their control
 //!   trees, click buttons and set values like a user, close them (see [`crate::scriptui`]).
-//! * **Script settings** (`script.settings.*`): After Effects' `app.settings`, string values by
+//! * **Script settings** (`script.settings.*`): reference compositor' `app.settings`, string values by
 //!   section and key that last between runs ([`SCRIPT_SETTINGS_FILE`]).
 
 use std::collections::BTreeMap;
@@ -22,9 +22,9 @@ use crate::{EngineError, Event, Result, Session, cmd, scriptui};
 /// The settings-store folders of installed scripts.
 pub const SCRIPTS_DIR: &str = "Scripts";
 pub const PANELS_DIR: &str = "Scripts/ScriptUI Panels";
-/// The ScriptUI panels open when EffectCraft last quit (settings store), reopened at launch.
+/// The ScriptUI panels open when Ardoise Motion last quit (settings store), reopened at launch.
 pub const OPEN_PANELS_FILE: &str = "scriptui_panels.json";
-/// Scripts' `app.settings` in the settings store: `{section: {key: value}}`, as After Effects
+/// Scripts' `app.settings` in the settings store: `{section: {key: value}}`, as reference compositor
 /// keeps them in its preferences.
 pub const SCRIPT_SETTINGS_FILE: &str = "script_settings.json";
 /// User presets of the core Ease Presets panel of v0.6.0 (#254) and where the Ease Presets
@@ -96,9 +96,9 @@ fn settings_save(s: &mut Session, p: &Value) -> Result<Value> {
     Ok(Value::Null)
 }
 
-/// Scripts that ship with EffectCraft (original work): (file name, ScriptUI panel, source, code).
-/// `sample`s show how to script EffectCraft; `extension`s (in `extensions/`) are optional tools
-/// built on the public scripting API, outside the core, like third-party scripts in After Effects.
+/// Scripts that ship with Ardoise Motion (original work): (file name, ScriptUI panel, source, code).
+/// `sample`s show how to script Ardoise Motion; `extension`s (in `extensions/`) are optional tools
+/// built on the public scripting API, outside the core, like third-party scripts in reference compositor.
 pub const BUNDLED: &[(&str, bool, &str, &str)] = &[
     ("Create Null at Selected Layers.jsx", false, "sample", include_str!("../../scripts/Create Null at Selected Layers.jsx")),
     ("Rename Layers.jsx", false, "sample", include_str!("../../scripts/Rename Layers.jsx")),
@@ -203,7 +203,7 @@ fn install(s: &mut Session, p: &Value, panel: bool) -> Result<Value> {
     let cfg = s.config.clone().ok_or_else(|| EngineError::Other("this session has no settings folder to install scripts into".into()))?;
     let dir = if panel { PANELS_DIR } else { SCRIPTS_DIR };
     cfg.write(&format!("{dir}/{name}"), &code).map_err(|e| EngineError::Other(format!("cannot install {name}: {e}")))?;
-    // After Effects asks for a restart; our menus pick it up at once.
+    // reference compositor asks for a restart; our menus pick it up at once.
     s.toast(if panel {
         format!("Installed ScriptUI panel {name}: find it at the bottom of the Window menu")
     } else {
@@ -255,7 +255,7 @@ pub(crate) fn open_panel_names(s: &Session) -> Vec<String> {
     s.script_ui.windows.iter().filter(|w| w.kind == scriptui::WindowKind::Panel).map(|w| w.script.clone()).collect()
 }
 
-/// The panels open when EffectCraft last quit (`{"open": [names]}`); a missing or unreadable
+/// The panels open when Ardoise Motion last quit (`{"open": [names]}`); a missing or unreadable
 /// file is none.
 fn remembered_panels(s: &Session) -> Vec<String> {
     let text = s.config.as_ref().and_then(|c| c.read(OPEN_PANELS_FILE)).unwrap_or_default();
@@ -264,7 +264,7 @@ fn remembered_panels(s: &Session) -> Vec<String> {
 }
 
 /// Change the remembered panels with `f` (written only when it changed). The list is kept so
-/// the next launch reopens them, as After Effects reopens the panels of its workspace; quitting
+/// the next launch reopens them, as reference compositor reopens the panels of its workspace; quitting
 /// leaves it as it is.
 fn edit_remembered_panels(s: &Session, f: impl FnOnce(&mut Vec<String>)) {
     let Some(cfg) = &s.config else { return };
@@ -287,7 +287,7 @@ pub(crate) fn forget_closed_panels(s: &Session, before: &[String]) {
     }
 }
 
-/// `window.restoreScriptPanels`: open the ScriptUI panels that were open when EffectCraft last
+/// `window.restoreScriptPanels`: open the ScriptUI panels that were open when Ardoise Motion last
 /// quit (frontends call it once at launch). Panels whose script is gone or fails are reported
 /// and forgotten; the others still open.
 fn restore_panels(s: &mut Session, _: &Value) -> Result<Value> {
@@ -370,7 +370,7 @@ pub fn specs() -> Vec<CommandSpec> {
             "Restore ScriptUI Panels",
             [],
             None,
-            "{} → reopens the ScriptUI panels open when EffectCraft last quit (frontends call it at launch) → {opened: [name], failed: [{name, error}]}",
+            "{} → reopens the ScriptUI panels open when Ardoise Motion last quit (frontends call it at launch) → {opened: [name], failed: [{name, error}]}",
             always,
             restore_panels
         ),

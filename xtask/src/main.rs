@@ -183,7 +183,7 @@ fn assets() -> Result<(), String> {
         n += 1;
         let lower = f.to_ascii_lowercase();
         if lower.contains("adobe") || lower.contains("aftereffects") || lower.contains("after-effects") {
-            errors.push(format!("{f}: asset paths must not reference Adobe/After Effects (AGENTS.md §1)"));
+            errors.push(format!("{f}: asset paths must not reference Adobe/reference compositor (AGENTS.md §1)"));
         }
         let side = format!("{f}.attribution");
         match std::fs::read_to_string(&side) {

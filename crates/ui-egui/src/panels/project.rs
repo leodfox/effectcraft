@@ -18,7 +18,7 @@ use crate::panels::DragPayload;
 use crate::theme::Tokens;
 use crate::{EffectcraftApp, widgets};
 
-/// Item row height (After Effects' Project panel rows are compact, about 19 pt).
+/// Item row height (reference compositor' Project panel rows are compact, about 19 pt).
 const ROW_H: f32 = 19.0;
 
 fn item_icon(it: &Item) -> Icon {
@@ -401,7 +401,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
         lp.rect_filled(
             r,
             0.0,
-            // Flat rows like After Effects' Project panel (no stripes).
+            // Flat rows like reference compositor' Project panel (no stripes).
             if selected { t.row_selected } else { t.row },
         );
         // The row's click / drag area goes first, so the twirl, proxy, label and comment widgets
@@ -553,7 +553,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
                 ctx.data_mut(|d| d.insert_temp(anchor_key, *id));
             }
         }
-        // Double-click opens the item, as in After Effects (a comp gets its own Timeline tab and
+        // Double-click opens the item, as in reference compositor (a comp gets its own Timeline tab and
         // the viewer); Enter or the context menu renames.
         if resp.double_clicked() {
             match &it.kind {
@@ -572,7 +572,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
         if resp.drag_started() {
             egui::DragAndDrop::set_payload(&ctx, DragPayload::Item(id.0));
         }
-        // Right-clicking an item selects it (After Effects): the menu's File commands act on the
+        // Right-clicking an item selects it (reference compositor): the menu's File commands act on the
         // selection.
         if resp.secondary_clicked() && !selected {
             app.session.state.project_selection = vec![*id];
@@ -600,7 +600,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
                 ui.close();
             }
             // File ▸ New Comp from Selection on the selection (the right-clicked row joins it
-            // above): several items ask how in its dialog, as in After Effects (#360).
+            // above): several items ask how in its dialog, as in reference compositor (#360).
             if ui.button(crate::i18n::tr("New Comp from Selection")).clicked() {
                 actions.push(("file.newCompFromSelection".into(), json!({})));
                 ui.close();
@@ -724,7 +724,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
     let dresp = ui.interact(dr, egui::Id::new("bpc"), Sense::click());
     p.text(dr.center(), Align2::CENTER_CENTER, depth, Tokens::ui(11.5), if dresp.hovered() { t.text } else { t.text_dim });
     app.auto.add("project.bitDepth", dr, depth);
-    // Click cycles 8/16/32 bpc; Alt-click opens Project Settings (as in After Effects).
+    // Click cycles 8/16/32 bpc; Alt-click opens Project Settings (as in reference compositor).
     if dresp.clicked() {
         if ui.input(|i| i.modifiers.alt) {
             actions.push(("file.projectSettings".into(), json!({})));
@@ -847,11 +847,11 @@ mod tests {
         let l = effectcraft_engine::color::Label::Yellow;
         p.add_item("Solids", l, None, ItemKind::Folder);
         p.add_item("Precomps", l, None, ItemKind::Folder);
-        p.add_item("EffectCraft Intro", l, None, ItemKind::Folder);
+        p.add_item("Ardoise Motion Intro", l, None, ItemKind::Folder);
         let mut kids = p.children(None);
         sort_items(&mut kids, "name", false);
         let names: Vec<&str> = kids.iter().map(|i| i.name.as_str()).collect();
-        assert_eq!(names, ["EffectCraft Intro", "Precomps", "Solids"]);
+        assert_eq!(names, ["Ardoise Motion Intro", "Precomps", "Solids"]);
         sort_items(&mut kids, "name", true);
         assert_eq!(kids[0].name, "Solids");
     }

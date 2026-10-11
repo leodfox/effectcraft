@@ -1,4 +1,4 @@
-//! Shape-layer path operators (After Effects "Add ▸" path operations).
+//! Shape-layer path operators (reference compositor "Add ▸" path operations).
 //!
 //! Every operator maps a list of paths to a list of paths of the same length (one entry per shape
 //! above the operator), except [`merge`], which combines them into one. Paths are in the space of

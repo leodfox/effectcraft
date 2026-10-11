@@ -404,7 +404,7 @@ pub fn umeyama(src: &[V3], dst: &[V3]) -> Option<Similarity> {
     Some(Similarity { s, r, t })
 }
 
-/// Euler angles (degrees) `[x, y, z]` with `m = Rz(z) Ry(y) Rx(x)` (After Effects' Orientation
+/// Euler angles (degrees) `[x, y, z]` with `m = Rz(z) Ry(y) Rx(x)` (reference compositor' Orientation
 /// order: X, then Y, then Z applied to the vector).
 pub fn euler_xyz(m: &M3) -> V3 {
     let sy = (-m[2][0]).clamp(-1.0, 1.0);

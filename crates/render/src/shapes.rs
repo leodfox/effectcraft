@@ -1,5 +1,5 @@
 //! Shape-layer contents: groups, parametric paths, fills, strokes, gradients and path operators,
-//! with the After Effects stacking semantics:
+//! with the reference compositor stacking semantics:
 //!
 //! - path operators (Trim Paths, Round Corners, Offset Paths, Pucker & Bloat, Twist, Zig Zag,
 //!   Wiggle Paths, Merge Paths, Repeater) act on all paths above them in the same group, including
@@ -43,7 +43,7 @@ enum Paint {
 }
 
 /// A paint item. It references path *slots* rather than copies of the geometry: path operators
-/// further down the stack rewrite the slots in place, so (as in After Effects) a Trim Paths or
+/// further down the stack rewrite the slots in place, so (as in reference compositor) a Trim Paths or
 /// Round Corners placed below a fill or stroke still changes what that paint draws.
 #[derive(Clone, Debug)]
 struct Draw {
@@ -315,7 +315,7 @@ fn collect(ctx: &EvalCtx, layer: &Layer, contents: &PropGroup, arena: &mut Vec<B
                 let input: Vec<BezPath> = live.iter().map(|&i| arena[i].clone()).collect();
                 arena.push(ops::merge(&input, mode));
                 live = vec![arena.len() - 1];
-                // As in After Effects, fills and strokes above a Merge Paths in its group are not
+                // As in reference compositor, fills and strokes above a Merge Paths in its group are not
                 // rendered: the merged path is painted by the paint items below it.
                 draws.clear();
             }
@@ -517,7 +517,7 @@ fn draw_bounds(d: &Draw, paths: &[BezPath]) -> Option<kurbo::Rect> {
     Some(b.inflate(grow, grow))
 }
 
-/// Local-space visual bounds of a draw, as After Effects' layer bounds (`sourceRectAtTime` with
+/// Local-space visual bounds of a draw, as reference compositor' layer bounds (`sourceRectAtTime` with
 /// extents): the path bounds, plus half the stroke width for strokes. No anti-aliasing or miter
 /// padding, so snapping and Align put edges exactly together (#352).
 fn visual_bounds(d: &Draw, paths: &[BezPath]) -> Option<kurbo::Rect> {

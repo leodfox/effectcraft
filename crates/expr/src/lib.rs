@@ -1,4 +1,4 @@
-//! After Effects-compatible expressions on the boa JavaScript engine.
+//! reference compositor-compatible expressions on the boa JavaScript engine.
 //!
 //! [`Expressions`] implements [`ExprHost`] so the renderer can evaluate property expressions:
 //!

@@ -89,7 +89,7 @@ pub fn dropped_files(app: &mut EffectcraftApp, ui: &egui::Ui, bounds: Rect) {
         };
 
         // Dropped files import as stills and folders' numbered stills as sequences; Alt-drag
-        // imports a folder's files one by one (After Effects).
+        // imports a folder's files one by one (reference compositor).
         let alt = ctx.input(|i| i.modifiers.alt);
         let mut params = json!({
             "paths": rest,

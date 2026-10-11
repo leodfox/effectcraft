@@ -27,8 +27,8 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
     let brand = Rect::from_min_size(pos2(x, cy - 12.0), vec2(24.0, 24.0));
     paint_logo(&p, brand);
     let bresp = ui.interact(brand, egui::Id::new("brand"), Sense::click());
-    app.auto.add("header.about", brand, "About EffectCraft");
-    if bresp.on_hover_text(tr("About EffectCraft")).clicked() {
+    app.auto.add("header.about", brand, "About Ardoise Motion");
+    if bresp.on_hover_text(tr("About Ardoise Motion")).clicked() {
         app.dialog = Some(Dialog::About);
     }
     x += 32.0;
@@ -123,7 +123,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
 
     // Tool options.
     x += 10.0;
-    // Selected shape layers: the options show their paint and edit it (as in After Effects).
+    // Selected shape layers: the options show their paint and edit it (as in reference compositor).
     let shape_layers: Vec<u64> = app
         .session
         .active_comp()
@@ -152,7 +152,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
         app.session.history.merge_key = None;
     }
     let drawing = app.ui.tool.is_shape() || app.ui.tool == Tool::Pen;
-    // Tool Creates Shape / Tool Creates Mask, with a shape layer selected (as in After Effects).
+    // Tool Creates Shape / Tool Creates Mask, with a shape layer selected (as in reference compositor).
     if drawing && !shape_layers.is_empty() {
         x = creates_buttons(app, ui, x, cy);
     }
@@ -178,32 +178,8 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
     let label = p.text(pos2(snap.max.x + 4.0, cy), Align2::LEFT_CENTER, tr("Snapping"), Tokens::ui(12.0), t.text_dim);
     snapping_options(app, ui, Rect::from_min_size(pos2(label.max.x + 2.0, cy - 9.0), vec2(18.0, 18.0)));
 
-    // Right side: community buttons, workspaces.
+    // Right side: appearance and workspaces (the upstream community buttons are not part of this fork).
     let mut rx = rect.max.x - 10.0;
-    // The pill fits its label (icon, gap, text) with even padding: it was a fixed 104 px with the
-    // text at its left, which left a wide gap on the right (#581).
-    let label = p.layout_no_wrap(tr("Discord").to_string(), Tokens::semibold(12.0), Color32::WHITE);
-    let discord = Rect::from_min_max(pos2(rx - (10.0 + 14.0 + 6.0 + label.size().x + 12.0), cy - 13.0), pos2(rx, cy + 13.0));
-    let dresp = ui.interact(discord, egui::Id::new("hdr-discord"), Sense::click());
-    let dc = Color32::from_rgb(0x58, 0x65, 0xf2);
-    p.rect_filled(discord, 13.0, if dresp.hovered() { dc.gamma_multiply(1.2) } else { dc });
-    icons::paint(&p, Rect::from_center_size(pos2(discord.min.x + 17.0, cy), vec2(14.0, 14.0)), Icon::Chat, Color32::WHITE);
-    p.galley(pos2(discord.min.x + 30.0, cy - label.size().y / 2.0), label, Color32::WHITE);
-    app.auto.add("header.discord", discord, "Join the ArtCraft Discord");
-    if dresp.on_hover_text(tr("Join the ArtCraft community on Discord")).clicked() {
-        let _ = app.session.execute("help.discord", json!({}));
-    }
-    rx = discord.min.x - 6.0;
-    for (id, icon, tip, cmd) in
-        [("hdr-github", Icon::Code, "EffectCraft on GitHub", "help.github"), ("hdr-web", Icon::Globe, "EffectCraft on getartcraft.com", "help.appPage")]
-    {
-        let r = Rect::from_min_max(pos2(rx - 26.0, cy - 13.0), pos2(rx, cy + 13.0));
-        if widgets::icon_button(ui, r, icon, false, &t, egui::Id::new(id)).on_hover_text(tip).clicked() {
-            let _ = app.session.execute(cmd, json!({}));
-        }
-        app.auto.add(&format!("header.{}", &id[4..]), r, tip);
-        rx = r.min.x - 4.0;
-    }
     // Appearance: Sync with System, Light, Dark (a monitor, sun or moon), one click to the next.
     let (icon, mode) = match app.session.prefs.appearance.appearance_mode.as_str() {
         "auto" => (Icon::Monitor, tr("Sync with System")),
@@ -240,7 +216,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
         app.set_workspace(crate::dock::WORKSPACES[i]);
     }
     rx = more.min.x - 6.0;
-    // After Effects 2026's workspace bar order (right to left here): Default, Review, Learn,
+    // reference compositor 2026's workspace bar order (right to left here): Default, Review, Learn,
     // Small Screen, Standard.
     let shown = ["Standard", "Small Screen", "Learn", "Review", "Default"];
     for name in shown {
@@ -271,7 +247,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
     }
 }
 
-/// The Snapping options menu beside the checkbox: After Effects' Snap Edges Extended and Snap to
+/// The Snapping options menu beside the checkbox: reference compositor' Snap Edges Extended and Snap to
 /// Features in Collapsed Compositions and Text Layers (`view.snappingOptions`).
 fn snapping_options(app: &mut EffectcraftApp, ui: &mut egui::Ui, r: Rect) {
     let t = app.tokens;
@@ -352,7 +328,7 @@ fn fill_stroke_options(app: &mut EffectcraftApp, ui: &mut egui::Ui, p: &egui::Pa
             widgets::open_popup(ui, opts);
         }
         // The swatch picks a Solid Color's colour and opens the options for the other kinds;
-        // Alt-click steps through the kinds (as in After Effects).
+        // Alt-click steps through the kinds (as in reference compositor).
         let sr = Rect::from_min_size(pos2(wr.max.x + 6.0, cy - 8.0), vec2(20.0, 16.0));
         let sresp = ui.interact(sr, egui::Id::new(("tool-paint-swatch", key)), Sense::click()).on_hover_text(format!("{title}: {}", tp.kind.label()));
         paint_swatch(p, sr, &tp, sresp.hovered(), &t);
@@ -388,7 +364,7 @@ fn fill_stroke_options(app: &mut EffectcraftApp, ui: &mut egui::Ui, p: &egui::Pa
 }
 
 /// Fill Options / Stroke Options: None, Solid Color, Linear Gradient or Radial Gradient, and the
-/// blend mode and opacity new shapes get (After Effects' dialogs, applied as they change).
+/// blend mode and opacity new shapes get (reference compositor' dialogs, applied as they change).
 fn paint_options_popup(app: &mut EffectcraftApp, ui: &mut egui::Ui, key: &str, title: &str, pos: egui::Pos2) {
     let id = egui::Id::new(("tool-paint-options", key));
     if !widgets::popup_is_open(ui, id) {
@@ -485,7 +461,7 @@ fn paint_swatch(p: &egui::Painter, r: Rect, paint: &ToolPaint, hovered: bool, t:
 }
 
 /// Roto Brush / Refine Edge tool options: the brush Diameter (⌘/Ctrl-drag in the Layer panel
-/// sets it too, as in After Effects). Returns the next x.
+/// sets it too, as in reference compositor). Returns the next x.
 fn roto_options(app: &mut EffectcraftApp, ui: &mut egui::Ui, p: &egui::Painter, mut x: f32, cy: f32) -> f32 {
     let t = app.tokens;
     let refine = app.ui.tool.roto_kind(false).is_some_and(|k| k.starts_with("refine"));
@@ -575,28 +551,8 @@ fn ws_menu(app: &mut EffectcraftApp, ui: &mut egui::Ui) {
     }
 }
 
-/// The ArtCraft mark as supplied in `docs/brand` (the README's and getartcraft.com's logo; used
-/// unmodified, see `docs/brand/LICENSE-brand.txt`).
-static ARTCRAFT_MARK: &[u8] = include_bytes!("../../../docs/brand/artcraft-mark.png");
-
-/// The ArtCraft mark in `r` (decoded once into a mipmapped texture, so it stays crisp from the
-/// 24 px Tools bar to the About dialog). Nothing is drawn if it can't be decoded.
-pub fn paint_logo(p: &egui::Painter, r: Rect) {
-    let ctx = p.ctx();
-    let id = egui::Id::new("artcraft-mark");
-    let tex = ctx.data(|d| d.get_temp::<Option<egui::TextureHandle>>(id)).unwrap_or_else(|| {
-        let tex = image::load_from_memory_with_format(ARTCRAFT_MARK, image::ImageFormat::Png).ok().map(|img| {
-            let img = img.to_rgba8();
-            let ci = egui::ColorImage::from_rgba_unmultiplied([img.width() as usize, img.height() as usize], img.as_raw());
-            ctx.load_texture("artcraft-mark", ci, egui::TextureOptions::LINEAR.with_mipmap_mode(Some(egui::TextureFilter::Linear)))
-        });
-        ctx.data_mut(|d| d.insert_temp(id, tex.clone()));
-        tex
-    });
-    if let Some(t) = tex {
-        p.image(t.id(), r, Rect::from_min_max(pos2(0.0, 0.0), pos2(1.0, 1.0)), Color32::WHITE);
-    }
-}
+/// No logo in this fork (the upstream mark's brand licence does not allow reuse).
+pub fn paint_logo(_p: &egui::Painter, _r: Rect) {}
 
 #[cfg(test)]
 mod tests {

@@ -1,4 +1,4 @@
-//! Several Composition viewers (View ▸ New Viewer), as in After Effects. Viewer 0 is the
+//! Several Composition viewers (View ▸ New Viewer), as in reference compositor. Viewer 0 is the
 //! Composition panel, the others are `PanelKind::Viewer(n)` panels. One viewer is *active*: it
 //! is the full interactive viewer and shows the active comp. The others show their own comp's
 //! frame at that comp's current time; a click (or their tab) makes them active and their comp
@@ -239,7 +239,7 @@ pub fn on_open_comp(app: &mut EffectcraftApp, comp: ItemId) {
     }
     app.ui.viewers.insert(app.ui.active_viewer, Some(comp.0));
     // The comp's viewer and its Timeline tab come to the front (unless locked), reopened if they
-    // were closed (as in After Effects).
+    // were closed (as in reference compositor).
     for p in [active_panel(app), PanelKind::Timeline] {
         let closed = !app.ui.dock.contains(p) && !app.ui.floating.iter().any(|f| f.panels.contains(&p));
         if closed || !app.ui.locked_tabs.contains(&p.id()) {

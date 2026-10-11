@@ -1,13 +1,13 @@
-//! Photoshop import as a composition (File ▸ Import ▸ File… with Import As: Composition or
+//! PSD import as a composition (File ▸ Import ▸ File… with Import As: Composition or
 //! Composition – Retain Layer Sizes), and Layer ▸ Create ▸ Convert to Editable Text.
 //!
 //! Every pixel layer becomes a footage item that names its layer (`Footage::layer`), placed in
 //! a composition the size of the document. Groups become precomps (pass-through groups collapse
-//! so their blend modes act on the layers below, like Photoshop); type layers become editable
+//! so their blend modes act on the layers below, like PSD); type layers become editable
 //! text layers; layer masks are baked into the layer's alpha and vector masks become masks;
 //! layer effects map to Layer Styles; adjustment layers become adjustment layers with the
 //! matching effect (best effort); clipped layers preserve the transparency underneath. Smart
-//! objects whose file is embedded become footage of that file (an embedded Photoshop document's
+//! objects whose file is embedded become footage of that file (an embedded PSD document's
 //! merged image, or the embedded image) placed with the smart object's transform.
 
 use std::sync::Arc;
@@ -21,7 +21,7 @@ use effectcraft_project::{AlphaMode, Comp, Footage, FootageKind, ItemId, ItemKin
 use effectcraft_psd::{Adjustment, DValue, Descriptor, Node, Psd};
 use effectcraft_time::{FrameRate, Tick};
 
-/// Photoshop blend mode key → compositor mode (`pass` = pass through, handled by collapsing).
+/// PSD blend mode key → compositor mode (`pass` = pass through, handled by collapsing).
 pub fn blend_mode(key: &str) -> BlendMode {
     match key {
         "diss" => BlendMode::Dissolve,
@@ -167,7 +167,7 @@ fn footage_item(proj: &mut Project, cx: &mut Ctx, index: usize, name: &str) -> (
 }
 
 /// Size of an embedded file's image: the smart object's recorded size, else the embedded
-/// document's header (Photoshop, PNG).
+/// document's header (PSD, PNG).
 fn embedded_size(so: &effectcraft_psd::SmartObject, data: &[u8]) -> Option<(u32, u32)> {
     if let Some([w, h]) = so.size.filter(|s| s[0] >= 1.0 && s[1] >= 1.0) {
         return Some((w.round() as u32, h.round() as u32));
@@ -685,7 +685,7 @@ fn apply_effects(proj: &mut Project, layer: &mut Layer, fx: &Descriptor, gl: &st
     }
 }
 
-/// Layer ▸ Create ▸ Convert to Editable Text: a footage layer showing a Photoshop type layer
+/// Layer ▸ Create ▸ Convert to Editable Text: a footage layer showing a PSD type layer
 /// becomes a text layer (`None` when the layer's source has no text data).
 pub fn editable_text(proj: &mut Project, comp: &Comp, layer: &Layer, psd: &Psd, index: usize) -> Option<Layer> {
     let t = psd.layers.get(index)?.text.as_ref()?;

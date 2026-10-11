@@ -94,7 +94,7 @@ fn label_index(l: Label) -> usize {
 }
 
 /// A comp's selected properties as `[layer, uid]`: the selected ones, then those with selected
-/// keyframes (selecting a keyframe selects its property in After Effects, so scripts find
+/// keyframes (selecting a keyframe selects its property in reference compositor, so scripts find
 /// selected keys through `selectedProperties`).
 fn selected_props(s: &Session, c: &effectcraft_project::Comp) -> Vec<J> {
     let mut v: Vec<(u64, u64)> = vec![];
@@ -488,7 +488,7 @@ fn keys(s: &Session, a: &J) -> R {
     let sel: Vec<Tick> = s.state.selected_keys.iter().filter(|k| k.layer == l.id && k.prop == uid).map(|k| k.time).collect();
     let _ = cid;
     let dims = if p.spatial { 1 } else { p.value.dims().max(1) };
-    // Each side's ease as it plays (After Effects reports linear and auto-Bezier sides this way
+    // Each side's ease as it plays (reference compositor reports linear and auto-Bezier sides this way
     // too), else as stored; influence is stored as a fraction, scripts see percent.
     let ease = |i: usize, out: bool| -> J {
         let Some(k) = p.keys.get(i) else { return json!([]) };
@@ -654,7 +654,7 @@ fn resolve_add(s: &Session, a: &J) -> R {
     })
 }
 
-/// A text animator property (`layer.addTextAnimatorProperty` key) from an After Effects match
+/// A text animator property (`layer.addTextAnimatorProperty` key) from an reference compositor match
 /// name or a display name.
 fn text_animator_property(name: &str) -> Option<&'static str> {
     const AE: &[(&str, &str)] = &[

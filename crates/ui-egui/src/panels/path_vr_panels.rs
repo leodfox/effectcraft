@@ -1,4 +1,4 @@
-//! Two built-in panels After Effects ships as scripts, written from scratch as panels:
+//! Two built-in panels reference compositor ships as scripts, written from scratch as panels:
 //!
 //! - **Create Nulls From Paths** (Window ▸ Create Nulls From Paths): with a mask or shape path (or
 //!   a layer that has one) selected, Points Follow Nulls / Nulls Follow Points / Trace Path

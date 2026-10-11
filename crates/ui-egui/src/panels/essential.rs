@@ -374,7 +374,7 @@ fn value_widget(app: &mut EffectcraftApp, ui: &mut egui::Ui, auto: &str, ty: Opt
             });
             r.response.rect
         }
-        // Scale keeps its Constrain Proportions link, on by default, as in After Effects (#338).
+        // Scale keeps its Constrain Proportions link, on by default, as in reference compositor (#338).
         // The link is the property's own, shared with the Timeline's chain link.
         ControlType::Point if p.match_id == "scale" && matches!(p.ui, ParamUi::Percent) => {
             let comps = v.components();

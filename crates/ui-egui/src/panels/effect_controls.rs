@@ -1,4 +1,4 @@
-//! Effect Controls: the selected layer's effects with all parameters, in After Effects'
+//! Effect Controls: the selected layer's effects with all parameters, in reference compositor'
 //! conventions:
 //!
 //! - effect headers with the fx switch, twirl, Reset and About…; click selects the effect
@@ -60,7 +60,7 @@ fn selected_layer(app: &EffectcraftApp) -> Option<Layer> {
 
 /// An effect was just applied (`effect.apply` / `effect.applyLast` with `params`): Effect
 /// Controls comes up (opened if closed, brought to the front, the focus left where it is) on the
-/// layer the effect went to, with the new effect selected, as in After Effects.
+/// layer the effect went to, with the new effect selected, as in reference compositor.
 pub fn reveal_applied(app: &mut EffectcraftApp, params: &serde_json::Value) {
     // `effect.apply` selects the new effect on (the last of) the layers it went to.
     let target = app.session.state.selected_props.last().map(|(l, _)| *l);
@@ -79,7 +79,7 @@ pub fn reveal_applied(app: &mut EffectcraftApp, params: &serde_json::Value) {
     app.raise_panel(crate::dock::PanelKind::EffectControls);
 }
 
-/// After Effects asks for an effect's file as it applies it (Apply Color LUT opens the file
+/// reference compositor asks for an effect's file as it applies it (Apply Color LUT opens the file
 /// dialog for its LUT). For the instances `effect.apply` made (`applied`, its result), open the
 /// file dialog for their first empty file parameter and set the file on each; cancelling
 /// leaves the effect without one. Does nothing without a file dialog (tests, agents).
@@ -462,7 +462,7 @@ fn prop_row(
             super::fx_editors::channel_popup(app, ui, layer, prop, s, dr, actions);
         }
         // A file parameter (Apply Color LUT's LUT, an OCIO config): its file name and Choose…,
-        // as in After Effects.
+        // as in reference compositor.
         Value::Str(s) if matches!(prop.ui, ParamUi::File { .. }) => {
             let bw = 70.0;
             let br = Rect::from_min_size(pos2(vx, cy - 9.0), vec2(bw, 18.0));
@@ -673,7 +673,7 @@ fn group_rows(
                 if visible {
                     app.auto.add(&format!("effectControls.row.{}", pr.uid), r, &pr.name);
                     let dims = prop_row(app, ui, p, layer, g, pr, ectx, r, indent, actions);
-                    // A Timeline pick whip can be dropped here (After Effects).
+                    // A Timeline pick whip can be dropped here (reference compositor).
                     super::timeline::whip_target(ui.ctx(), r.intersect(rect), layer.id.0, pr.uid, dims);
                 }
                 if app.ui.fx_slider_open.contains(&pr.uid) {
@@ -1139,7 +1139,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
             widgets::open_popup(ui, apop);
         }
         if let Some(spec) = effectcraft_engine::effects::find(effect) {
-            let lines = vec![spec.name.to_string(), format!("Category: {}", spec.category), "EffectCraft built-in effect (MIT OR Apache-2.0)".to_string()];
+            let lines = vec![spec.name.to_string(), format!("Category: {}", spec.category), "Ardoise Motion built-in effect (MIT OR Apache-2.0)".to_string()];
             let _ = widgets::popup_menu(ui, apop, about.left_bottom(), &lines, None);
         }
         let hresp = ui.interact(
@@ -1241,7 +1241,7 @@ pub fn show(app: &mut EffectcraftApp, ui: &mut egui::Ui, rect: Rect) {
         }
     }
     // Right-click anywhere a control has no menu of its own: the Effect menu, which applies to
-    // the selected layers (After Effects). Drawn after the rows, whose menus open first.
+    // the selected layers (reference compositor). Drawn after the rows, whose menus open first.
     let menu_id = bg.id.with("effect-menu");
     let open = ui.input(|i| i.pointer.secondary_clicked())
         && ui.rect_contains_pointer(body)

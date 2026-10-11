@@ -1,4 +1,4 @@
-//! Render Queue panel, laid out like After Effects': a Current Render strip (progress bar,
+//! Render Queue panel, laid out like reference compositor': a Current Render strip (progress bar,
 //! elapsed / estimated remaining, Stop and Render buttons), the queue list (twirl, Render
 //! checkbox, label, #, Comp Name, Status, Started, Render Time) with expandable Render Settings,
 //! Output Module and Output To rows, and a status footer.
@@ -396,7 +396,7 @@ fn output_to_menu(it: &RenderQueueItem) -> Vec<(String, Value)> {
     v
 }
 
-/// Output To's save dialog, as After Effects' Output Movie To: it opens at the current output
+/// Output To's save dialog, as reference compositor' Output Movie To: it opens at the current output
 /// (folder and name, which ends in the format's extension) and offers that extension. `None`
 /// when the host has no save dialog; `Some(None)` when the dialog was cancelled.
 fn pick_output(app: &EffectcraftApp, it: &RenderQueueItem) -> Option<Option<String>> {

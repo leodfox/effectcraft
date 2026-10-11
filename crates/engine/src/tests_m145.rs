@@ -1,5 +1,5 @@
 //! M14.5: settings that change behaviour, the keyframe assistants and labels, and the menu
-//! entries added for After Effects parity (History, recent footage / presets, XML copies, VR,
+//! entries added for reference compositor parity (History, recent footage / presets, XML copies, VR,
 //! shortcut slots, logging and the compatibility report).
 
 use std::path::PathBuf;

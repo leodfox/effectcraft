@@ -180,7 +180,7 @@ fn distribute(s: &mut Session, p: &Value) -> Result<Value> {
 }
 
 /// The arrow keys in the Composition panel: move the selected (unlocked) layers by `x`, `y` comp
-/// pixels; After Effects nudges 1 pixel at the panel's magnification, 10 with Shift. Each call
+/// pixels; reference compositor nudges 1 pixel at the panel's magnification, 10 with Shift. Each call
 /// is one undo step.
 fn nudge(s: &mut Session, p: &Value) -> Result<Value> {
     let c = "layer.nudge";

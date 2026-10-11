@@ -15,14 +15,14 @@ use crate::widgets;
 // Angles
 
 /// Split an angle in degrees into whole revolutions and the remainder, both with the sign of
-/// the angle (After Effects: 405° = `1x+45°`, -400° = `-1x-40°`).
+/// the angle (reference compositor: 405° = `1x+45°`, -400° = `-1x-40°`).
 pub fn split_angle(v: f64) -> (i64, f64) {
     let rev = (v / 360.0).trunc();
     let deg = v - rev * 360.0;
     (rev as i64, if deg.abs() < 1e-9 { 0.0 } else { deg })
 }
 
-/// After Effects' angle display: `0x+45.0°`.
+/// reference compositor' angle display: `0x+45.0°`.
 pub fn format_angle(v: f64, decimals: usize) -> String {
     let (rev, deg) = split_angle(v);
     let sign = if deg < 0.0 { "-" } else { "+" };

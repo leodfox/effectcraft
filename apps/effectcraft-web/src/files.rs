@@ -128,6 +128,10 @@ impl Services for WebServices {
         if quiet || crate::is_worker() {
             return Ok(());
         }
+        // Ardoise: a saved project goes to the embedding host instead of a download.
+        if crate::ardoise_bridge::post_saved(file_name(path), data) {
+            return Ok(());
+        }
         download(file_name(path), data).map_err(|e| std::io::Error::other(format!("download failed: {e:?}")))
     }
     fn store_file(&self, path: &str, data: &[u8]) -> std::io::Result<()> {

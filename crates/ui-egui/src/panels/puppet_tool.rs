@@ -86,7 +86,7 @@ pub fn overlay(app: &EffectcraftApp, ctx: &egui::Context, cid: ItemId, layer: &L
 /// Puppet effect (stack order): the one whose mesh, as deformed now, is under it (pins go on the
 /// deformed shape, also where it reaches past the layer's own bounds), else the one whose art is
 /// (a new mesh there). Never a layer without a Puppet effect: the tools stay on the layers being
-/// rigged, as in After Effects (#284).
+/// rigged, as in reference compositor (#284).
 pub fn target(ectx: &EvalCtx, layers: &[(&Layer, Overlay)], cpt: [f64; 2], on_art: impl Fn(&Layer) -> bool) -> Option<LayerId> {
     let on_mesh = |l: &Layer, ov: &Overlay| {
         let Some(inv) = fx2c(ectx, l).inverse() else { return false };

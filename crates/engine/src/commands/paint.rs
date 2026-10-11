@@ -1,7 +1,7 @@
 //! Paint tools (Brush, Clone Stamp, Eraser) and the Paint / Brushes panel options.
 //!
 //! `paint.stroke` records one stroke into the layer's Paint effect (adding the effect when the
-//! last effect in the stack isn't Paint, as After Effects does). Defaults come from the Paint
+//! last effect in the stack isn't Paint, as reference compositor does). Defaults come from the Paint
 //! and Brushes panel options in [`PaintOptions`] (`paint.options`, `paint.brushPreset`).
 
 use effectcraft_effects::paint::{self, BRUSH_PRESETS, CHANNELS, DURATIONS, ERASE_MODES, MODES, StrokeKind, StrokeSpec};

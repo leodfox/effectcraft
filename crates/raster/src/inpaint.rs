@@ -19,7 +19,7 @@
 //!   **Lighting Correction** adds the membrane interpolation of the mismatch along the hole's
 //!   border (Poisson-style seamless blending), scaled by the chosen strength.
 //!
-//! Methods (After Effects' Content-Aware Fill panel):
+//! Methods (reference compositor' Content-Aware Fill panel):
 //! - **Object**: propagation, then PatchMatch synthesis for what no frame shows; each frame's
 //!   synthesis starts from the previous frame's result warped along the flow, so the fill stays
 //!   temporally stable.

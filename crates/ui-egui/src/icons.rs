@@ -676,7 +676,7 @@ pub fn keyframe(
     painter.extend(keyframe_shapes(center, size, left, right, fill));
 }
 
-/// The halves of a [`keyframe`] glyph. Flat, without a dark outline (as in After Effects), so
+/// The halves of a [`keyframe`] glyph. Flat, without a dark outline (as in reference compositor), so
 /// keys that overlap read as one shape instead of a tangle of borders (#284); the hairline in
 /// the fill colour closes the seam between the halves.
 fn keyframe_shapes(

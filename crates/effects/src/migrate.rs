@@ -347,7 +347,7 @@ pub fn upgrade_instance(spec: &EffectSpec, g: &mut PropGroup, ids: &mut Ids, lay
 /// Layers without a source rectangle (shape, text) have comp-sized effect bounds centred on
 /// their origin. Effects used to measure positions from the origin, so the default "layer
 /// centre" sat at the comp's bottom-right corner; they now measure from the bounds' top-left,
-/// as After Effects does. `d` is the bounds' half size: positions the instance holds move by it
+/// as reference compositor does. `d` is the bounds' half size: positions the instance holds move by it
 /// so they keep their place in the comp (point parameters with their keyframes, Paint stroke
 /// paths and clone positions, Puppet mesh seeds and pin rest points, Liquify and Roto Brush
 /// strokes). A point parameter still at its default (`layer_size`) and not animated stays: it

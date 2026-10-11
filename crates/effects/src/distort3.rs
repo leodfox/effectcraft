@@ -1149,7 +1149,7 @@ mod tests {
     }
 
     /// #659: CC Smear and CC Tiler on a text layer reach past the text's box to the layer bounds
-    /// (comp-sized, as in After Effects), not cut off where the glyphs end.
+    /// (comp-sized, as in reference compositor), not cut off where the glyphs end.
     #[test]
     fn effects_on_text_reach_past_its_box() {
         let smear = on_text("ec.distort.ccsmear", &[("from", pt(100.0, 50.0)), ("to", pt(140.0, 50.0)), ("reach", num(100.0)), ("radius", num(30.0))]);

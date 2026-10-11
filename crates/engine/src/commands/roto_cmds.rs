@@ -2,7 +2,7 @@
 //! panel), propagation, the segmentation span, Freeze / Unfreeze, tool options and status.
 //!
 //! `roto.stroke` records a stroke into the layer's Roto Brush & Refine Edge effect (applying the
-//! effect on the first stroke, as After Effects does); the first foreground stroke sets the base
+//! effect on the first stroke, as reference compositor does); the first foreground stroke sets the base
 //! frame and a span of 20 frames each side. Strokes on a frozen effect are refused (Unfreeze
 //! first). Every edit is one undo step.
 

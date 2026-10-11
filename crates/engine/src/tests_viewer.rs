@@ -161,7 +161,7 @@ fn snapping_options_command_sets_and_toggles() {
     assert!(!s.state.snap_features.collapsed_features);
     s.execute("view.snappingOptions", json!({"toggle": "collapsedFeatures"})).unwrap();
     assert!(s.state.snap_features.collapsed_features);
-    // The per-feature toggles are gone, as in After Effects' menu.
+    // The per-feature toggles are gone, as in reference compositor' menu.
     for k in ["nope", "corners", "anchorPoints", "paths"] {
         assert!(s.execute("view.snappingOptions", json!({"toggle": k})).is_err(), "{k}");
     }

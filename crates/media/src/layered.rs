@@ -1,6 +1,6 @@
-//! Layered and vector stills: Photoshop documents (`effectcraft-psd`: the merged image, or one
+//! Layered and vector stills: PSD documents (`effectcraft-psd`: the merged image, or one
 //! layer for footage imported as a composition) and vector files rasterised at any scale: SVG
-//! (`effectcraft-svg`), PDF / Illustrator / EPS (`effectcraft-pdf`; one layer of the file for
+//! (`effectcraft-svg`), PDF / AI / EPS (`effectcraft-pdf`; one layer of the file for
 //! footage imported as a composition).
 
 use effectcraft_project::{AlphaMode, Footage};
@@ -40,7 +40,7 @@ fn is_pdf_like(path: &str, bytes: &[u8]) -> bool {
     effectcraft_pdf::sniff(bytes).is_some() && (effectcraft_pdf::EXTENSIONS.contains(&ext.as_str()) || bytes.starts_with(b"%PDF"))
 }
 
-/// Footage for a Photoshop or vector file (`None` for other formats).
+/// Footage for a PSD or vector file (`None` for other formats).
 pub(crate) fn probe(path: &str, bytes: &[u8]) -> Result<Option<Footage>> {
     if effectcraft_psd::is_psd(bytes) {
         let psd = effectcraft_psd::Psd::parse(bytes.to_vec()).map_err(|e| MediaError::Decode(format!("{path}: {e}")))?;
@@ -68,7 +68,7 @@ pub(crate) fn probe(path: &str, bytes: &[u8]) -> Result<Option<Footage>> {
     Ok(None)
 }
 
-/// Decode a Photoshop or SVG still (`None` for other formats).
+/// Decode a PSD or SVG still (`None` for other formats).
 pub(crate) fn decode(path: &str, bytes: &[u8], footage: &Footage, op: AlphaOp) -> Result<Option<Image>> {
     if effectcraft_psd::is_psd(bytes) {
         let psd = effectcraft_psd::Psd::parse(bytes.to_vec()).map_err(|e| MediaError::Decode(format!("{path}: {e}")))?;

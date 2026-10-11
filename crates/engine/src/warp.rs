@@ -8,7 +8,7 @@
 //! written into the effect's hidden Analysis parameter as one undo step, together with a key of
 //! what it was made from (the layer's source, In/Out, start, stretch and Time Remap). Edits that
 //! change those clear the analysis ([`invalidate`], run after every edit) and queue the effect
-//! for re-analysis, which frontends start with [`Session::poll_warp`] (After Effects re-analyses
+//! for re-analysis, which frontends start with [`Session::poll_warp`] (reference compositor re-analyses
 //! automatically too).
 
 use crate::offload::{JobKind, rate};
@@ -43,7 +43,7 @@ pub struct WarpProgress {
 }
 
 impl WarpProgress {
-    /// The viewer banner text, as After Effects words it.
+    /// The viewer banner text, as reference compositor words it.
     pub fn banner(&self) -> String {
         match self.step {
             2 => "Stabilizing...".into(),
@@ -416,7 +416,7 @@ impl Session {
     }
 
     /// Frontends call this every frame: finishes analyses and (with `auto`) starts queued
-    /// re-analyses in the background, like After Effects.
+    /// re-analyses in the background, like reference compositor.
     pub fn poll_warp(&mut self, auto: bool) -> bool {
         let changed = self.poll_warp_job();
         if auto && self.warp_job.is_none() && self.offloaded(JobKind::Warp).is_none() {

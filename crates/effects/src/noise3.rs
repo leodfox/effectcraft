@@ -108,7 +108,7 @@ fn params(turbulent: bool) -> Vec<ParamSpec> {
     v.extend([
         p("opacity", "Opacity", num(100.0), pct()),
         p("blendingMode", "Blending Mode", Value::Enum(BLEND_NORMAL), popup(&BLEND_MODES)),
-        // Not in After Effects: a mix with the untouched layer (kept for older projects).
+        // Not in reference compositor: a mix with the untouched layer (kept for older projects).
         p("blend", "Blend With Original", num(0.0), pct()),
     ]);
     v

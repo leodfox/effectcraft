@@ -16,7 +16,7 @@
 //! The feed also tracks per-channel peaks for the Audio panel's VU meters ([`Meter`]).
 //!
 //! **Scrubbing:** Ctrl/Cmd-dragging the current-time indicator plays a short snippet of the mix
-//! at each new frame ([`AudioScrub`], `playback.scrubAudio`), as in After Effects.
+//! at each new frame ([`AudioScrub`], `playback.scrubAudio`), as in reference compositor.
 
 use std::collections::VecDeque;
 use std::sync::atomic::{AtomicBool, AtomicU32, AtomicU64, Ordering};

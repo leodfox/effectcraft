@@ -1,7 +1,7 @@
 //! Visual editors for effect parameters stored as hidden or text parameters (Effect Controls):
 //!
 //! - Lumetri Color ▸ Curves ▸ RGB Curves: master / red / green / blue curve graphs (channel
-//!   swatches like After Effects'), and ▸ Hue Saturation Curves: Hue vs Sat, Hue vs Hue, Hue vs
+//!   swatches like reference compositor'), and ▸ Hue Saturation Curves: Hue vs Sat, Hue vs Hue, Hue vs
 //!   Luma, Luma vs Sat and Sat vs Sat graphs over their colour gradients (y = ½ is neutral);
 //! - Colorama ▸ Output Cycle: the palette wheel, with draggable colour stops (click the ring to
 //!   add one, Alt-click or drag one off to remove it, select one to pick its colour); editing a
@@ -830,7 +830,7 @@ fn extractor_layer(vals: &[String; 4]) -> Option<&str> {
 
 /// EXtractoR's Layer popup (above its channels): picking an OpenEXR layer of the footage
 /// (`diffuse`, `ViewLayer.Combined`, …) shows its channels in red, green, blue and alpha in one
-/// undo step, as After Effects' EXtractoR dialog does.
+/// undo step, as reference compositor' EXtractoR dialog does.
 #[allow(clippy::too_many_arguments)]
 fn extractor_layers(
     app: &mut EffectcraftApp,

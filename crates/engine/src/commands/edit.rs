@@ -144,7 +144,7 @@ fn delete(s: &mut Session, p: &Value) -> Result<Value> {
         return s.execute("text.delete", json!({}));
     }
     // Time Remap selected (its name, which selects all its keys) → time remapping off, not the
-    // layer (After Effects).
+    // layer (reference compositor).
     if p.get("layers").is_none() {
         let remapped = super::layer_time::selected_time_remap(s);
         if !remapped.is_empty() {
@@ -179,7 +179,7 @@ fn delete(s: &mut Session, p: &Value) -> Result<Value> {
     }
     let (cid, ids) = layers_p(s, p)?;
     let ids = super::unlocked(s, cid, ids, "edit.clear")?;
-    // Children of deleted layers are unparented where they are (like After Effects).
+    // Children of deleted layers are unparented where they are (like reference compositor).
     let comp = s.project.comp(cid).ok_or(crate::EngineError::NoComp)?;
     let orphans: Vec<LayerId> = comp.layers.iter().filter(|l| !ids.contains(&l.id) && l.parent.is_some_and(|p| ids.contains(&p))).map(|l| l.id).collect();
     let fixes = super::layer::parent_fixes(s, cid, &orphans, None);

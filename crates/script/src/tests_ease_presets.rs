@@ -1,4 +1,4 @@
-//! The scripting API the bundled Ease Presets ScriptUI panel uses (After Effects parity:
+//! The scripting API the bundled Ease Presets ScriptUI panel uses (reference compositor parity:
 //! `app.settings` that last between runs, per-key methods that keep the key selection, eases and
 //! spatial tangents reported as they play, `selectedProperties` with keyed properties,
 //! `isInterpolationTypeValid`), and the panel itself (`extensions/scriptui-panels/Ease
@@ -94,7 +94,7 @@ fn per_key_methods_keep_the_key_selection_and_report_eases_as_they_play() {
         var lin = p.keyInTemporalEase(3)[0];
         p.setTemporalEaseAtKey(2, [new KeyframeEase(0, 50)], [new KeyframeEase(0, 75)]);
         p.setInterpolationTypeAtKey(3, KeyframeInterpolationType.HOLD, KeyframeInterpolationType.HOLD);
-        // Keyed properties are selected properties, as in After Effects.
+        // Keyed properties are selected properties, as in reference compositor.
         var sel = comp.selectedProperties;
         [lin.speed, lin.influence, p.selectedKeys, sel.length, sel.length ? sel[0].name : ""]"#,
     );

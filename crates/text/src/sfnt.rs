@@ -16,7 +16,7 @@ pub struct FaceNames {
     /// The family name in another language than English (CJK, Arabic… fonts), when the font
     /// has one (Settings ▸ Type ▸ Show Font Names in English off shows it).
     pub native_family: Option<String>,
-    /// The PostScript name (name id 6, e.g. `YuGothic-Bold`): what After Effects scripts and
+    /// The PostScript name (name id 6, e.g. `YuGothic-Bold`): what reference compositor scripts and
     /// `.aep`-derived data call a font.
     pub postscript: Option<String>,
 }

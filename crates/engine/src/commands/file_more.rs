@@ -524,7 +524,7 @@ fn run_js(s: &mut Session, code: &str, name: &str, console: bool) -> Result<Valu
     Ok(runner(s, &crate::ScriptRequest { code, name, console }))
 }
 
-/// `script.run`: run JavaScript (the After Effects scripting object model: `app.project`, comps,
+/// `script.run`: run JavaScript (the compositor scripting object model: `app.project`, comps,
 /// layers, properties…) and report `{ok, result, output, error}`; script errors are reported in
 /// `error` (with line and column), not as a command failure.
 fn script_run(s: &mut Session, p: &Value) -> Result<Value> {
@@ -776,7 +776,7 @@ fn interpret(s: &mut Session, p: &Value) -> Result<Value> {
             if new == old {
                 continue;
             }
-            // Layers that ran to the footage's end still do (After Effects re-times them too).
+            // Layers that ran to the footage's end still do (reference compositor re-times them too).
             let ids: Vec<ItemId> = proj.comps().map(|(id, _)| *id).collect();
             for cid in ids {
                 for l in proj.comp_mut(cid).into_iter().flat_map(|c| c.layers.iter_mut()) {
@@ -1001,7 +1001,7 @@ pub fn specs() -> Vec<CommandSpec> {
             "Run Script",
             [],
             None,
-            "{code (JavaScript: app, app.project, CompItem, Layer, Property… like After Effects scripting), name?, console? (Script Console context)} → {ok, result, output, error: {message, line, column} | null}",
+            "{code (JavaScript: app, app.project, CompItem, Layer, Property… like compositor scripting), name?, console? (Script Console context)} → {ok, result, output, error: {message, line, column} | null}",
             always,
             script_run
         ),

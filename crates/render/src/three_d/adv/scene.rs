@@ -909,7 +909,7 @@ pub(crate) fn build_at(r: &Renderer, ctx: &EvalCtx, sub: Option<&EvalCtx>, run: 
         emit_layer(r, ctx, layer, &mut b);
     }
     b.sort_triangles();
-    // Lights, environment, shadows (Draft 3D: unlit, like After Effects). A collapsed
+    // Lights, environment, shadows (Draft 3D: unlit, like reference compositor). A collapsed
     // precomp's layers are lit by the outermost comp's lights.
     let parent = r.collapse3d.map(|c| c.parent);
     let ctx = parent.as_ref().unwrap_or(ctx);

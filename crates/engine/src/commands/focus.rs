@@ -1,5 +1,5 @@
 //! Layer ▸ Camera focus commands: Link Focus Distance to Point of Interest, Link Focus Distance to
-//! Layer (both add an expression to Focus Distance, as After Effects does) and Set Focus Distance
+//! Layer (both add an expression to Focus Distance, as reference compositor does) and Set Focus Distance
 //! to Layer (a one-off value).
 
 use effectcraft_geom::vec3;
