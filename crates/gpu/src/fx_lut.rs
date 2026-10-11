@@ -1,6 +1,6 @@
 //! GPU effects, colour management (kernels in `shaders/fx_lut.wgsl`, every entry point
 //! prefixed `fxl_`): Apply Color LUT, OCIO CDL / Color Space / Display / File / Look Transform
-//! and Color Profile Converter; Lumetri Color's Input LUT and Look also use the LUT helpers.
+//! and Color Profile Converter; Color Grading's Input LUT and Look also use the LUT helpers.
 //!
 //! Each effect compiles to a colour program ([`effectcraft_effects::color_program`]: transfer
 //! functions, matrices, ASC CDLs, tone mapping, gamut compression, LUTs) built next to the CPU

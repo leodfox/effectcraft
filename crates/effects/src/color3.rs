@@ -1,5 +1,5 @@
 //! Color Correction effects, batch 3: Change Color, Video Limiter, CC Color Neutralizer,
-//! PS Arbitrary Map and Lumetri Color (Basic Correction, Creative, Curves, Color Wheels,
+//! PS Arbitrary Map and Color Grading (Basic Correction, Creative, Curves, Color Wheels,
 //! Vignette).
 
 use effectcraft_color::{hsl_to_rgb, luminance, rgb_to_hsl};
@@ -225,7 +225,7 @@ fn arbitrary_map(ctx: &EffectCtx, mut b: Buf) -> Buf {
     b
 }
 
-// ---------------------------------------------------------------- Lumetri Color
+// ---------------------------------------------------------------- Color Grading
 
 /// Smooth tone-curve adjustment: offsets for shadows/midtones/highlights (each -1..1), with the
 /// end points fixed.
@@ -425,7 +425,7 @@ impl HslKey {
     }
 }
 
-/// Lumetri Color: Basic Correction (input LUT, white balance, HDR range, tone, saturation),
+/// Color Grading: Basic Correction (input LUT, white balance, HDR range, tone, saturation),
 /// Creative (look, adjustments), Curves (tone sliders, RGB curves, hue/saturation curves),
 /// Color Wheels, HSL Secondary (key, refine, correction), Vignette, in that order.
 fn lumetri(ctx: &EffectCtx, mut b: Buf) -> Buf {
@@ -849,7 +849,7 @@ pub fn specs() -> Vec<EffectSpec> {
             ],
             arbitrary_map,
         ),
-        spec("ec.color.lumetri", "Lumetri Color", lum, lumetri),
+        spec("ec.color.lumetri", "Color Grading", lum, lumetri),
     ]
 }
 

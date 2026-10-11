@@ -1,4 +1,4 @@
-//! Lumetri Scopes panel (Window ▸ Lumetri Scopes): waveform (RGB / Luma / YC), vectorscope
+//! Video Scopes panel (Window ▸ Video Scopes): waveform (RGB / Luma / YC), vectorscope
 //! (YUV / HLS), histogram and parade (RGB / YUV) of the active composition's frame at the current
 //! time, with the colour standard (Rec. 601 / 709 / 2020), 8-bit or float scale and clamp. The
 //! maths is `effectcraft_raster::scopes`; agents read the same numbers with `scopes.analyze`.

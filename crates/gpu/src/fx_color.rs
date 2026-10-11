@@ -2,7 +2,7 @@
 //! steps with the pixel loops as compute kernels.
 //!
 //! Colour Balance, Vibrance, Black & White, Tritone, Colorama, Channel Mixer, Selective Color
-//! and Linear Color Key are one per-pixel pass (`fxc_point`); Lumetri Color is a per-pixel pass
+//! and Linear Color Key are one per-pixel pass (`fxc_point`); Color Grading is a per-pixel pass
 //! plus, with Sharpen, a luminance plane blurred like `util::gauss_plane`; Key Light runs its
 //! matte pipeline (pre-blur, clip, rollback, despot, shrink / grow, softness, edge band) as
 //! plane passes. Key Light with an Inside / Outside mask, or Hard Colour replacement after

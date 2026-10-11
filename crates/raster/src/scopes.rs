@@ -1,4 +1,4 @@
-//! Video scopes (the Lumetri Scopes panel): waveform (RGB, Luma, YC), vectorscope (YUV, HLS),
+//! Video scopes (the Video Scopes panel): waveform (RGB, Luma, YC), vectorscope (YUV, HLS),
 //! histogram and parade (RGB, YUV), computed from a frame as density plots.
 //!
 //! The maths is the textbook broadcast definition: luma `Y = Kr·R + Kg·G + Kb·B` with the

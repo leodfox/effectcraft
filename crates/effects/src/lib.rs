@@ -619,7 +619,7 @@ pub fn instantiate(spec: &EffectSpec, ids: &mut Ids, instance_name: &str, layer_
 /// effects without their own table.
 pub const PARAM_GROUPS: &[(&str, &str)] = &[
     // Color Correction: Exposure, Levels (Individual Controls), Change to Color, Colorama,
-    // Shadow/Highlight, Lumetri Color.
+    // Shadow/Highlight, Color Grading.
     ("master", "Master"),
     ("rgb", "RGB"),
     ("red", "Red"),

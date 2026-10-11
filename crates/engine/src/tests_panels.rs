@@ -1,5 +1,5 @@
 //! M13.6 panels and tools through the commands: Progress (jobs), Media Browser, Metadata,
-//! Lumetri Scopes, the Footage panel's Overlay / Ripple Insert edits, Content-Aware Fill, Scene
+//! Video Scopes, the Footage panel's Overlay / Ripple Insert edits, Content-Aware Fill, Scene
 //! Edit Detection, Auto-trace and Align Video to Data.
 
 use std::collections::HashMap;
@@ -164,7 +164,7 @@ fn media_browser_and_metadata() {
     std::fs::remove_dir_all(&dir).unwrap();
 }
 
-// ---------------------------------------------------------------- Lumetri Scopes
+// ---------------------------------------------------------------- Video Scopes
 
 #[test]
 fn scopes_read_the_comp_frame() {
